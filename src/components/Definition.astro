@@ -1,0 +1,23 @@
+---
+// Dictionary-style entry for a word. Used for the academy's name story.
+interface Props {
+  word: string;
+  pronunciation?: string;
+  partOfSpeech?: string;
+  meaning: string;
+}
+
+const { word, pronunciation, partOfSpeech, meaning } = Astro.props;
+---
+
+<div class="border-line bg-paper text-ink rounded-card border p-6 md:p-8">
+  <p class="font-display text-5xl font-extrabold md:text-6xl">{word}</p>
+  {pronunciation || partOfSpeech ? (
+    <p class="text-muted mt-2 text-lg">
+      {pronunciation ? <span>{pronunciation}</span> : null}
+      {pronunciation && partOfSpeech ? <span aria-hidden="true"> · </span> : null}
+      {partOfSpeech ? <em>{partOfSpeech}</em> : null}
+    </p>
+  ) : null}
+  <p class="mt-4 text-lg md:text-xl">{meaning}</p>
+</div>
