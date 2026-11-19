@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DAYS, footerLinks, nav, programs, schedule, site } from './site';
+import { footerLinks, nav, programCards, programs, site } from './site';
 
 const allNavHrefs = nav.flatMap((item) => [item.href, ...(item.children ?? []).map((c) => c.href)]);
 
@@ -31,13 +31,24 @@ describe('site data', () => {
     expect(new Set(programs.map((p) => p.slug)).size).toBe(programs.length);
   });
 
-  it('only schedules classes on valid days, with no repeats within a class', () => {
-    for (const cls of schedule) {
-      expect(cls.days.length).toBeGreaterThan(0);
-      expect(new Set(cls.days).size).toBe(cls.days.length);
-      for (const day of cls.days) {
-        expect(DAYS).toContain(day);
-      }
+  it('gives every program three hero facts', () => {
+    for (const program of programs) {
+      expect(program.facts).toHaveLength(3);
+    }
+  });
+
+  it('splits kids into age groups and gives each a card', () => {
+    const kids = programs.find((p) => p.slug === 'kids');
+    expect(kids?.ageGroups?.length).toBeGreaterThan(1);
+    expect(programCards.filter((c) => c.href.startsWith('/programs/kids#'))).toHaveLength(
+      kids?.ageGroups?.length ?? 0,
+    );
+  });
+
+  it('has unique card ids and root-relative card hrefs', () => {
+    expect(new Set(programCards.map((c) => c.id)).size).toBe(programCards.length);
+    for (const card of programCards) {
+      expect(card.href.startsWith('/programs/')).toBe(true);
     }
   });
 });
