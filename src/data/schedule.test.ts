@@ -3,7 +3,9 @@ import { programs } from './site';
 import {
   CATEGORIES,
   DAYS,
+  classesByCategory,
   classesByDay,
+  formatDays,
   endTime,
   formatTime,
   schedule,
@@ -75,5 +77,35 @@ describe('classesByDay', () => {
     const tue = grouped.find((d) => d.day === 'Tue')!.classes;
     expect(tue.map((c) => c.start)).toEqual([...tue.map((c) => c.start)].sort());
     expect(tue.length).toBeGreaterThan(1);
+  });
+});
+
+describe('formatDays', () => {
+  it('collapses 3+ consecutive days into a range', () => {
+    expect(formatDays(['Mon', 'Tue', 'Wed', 'Thu'])).toBe('Mon-Thu');
+    expect(formatDays(['Mon', 'Tue', 'Wed'])).toBe('Mon-Wed');
+  });
+
+  it('lists non-consecutive or short sets', () => {
+    expect(formatDays(['Tue', 'Thu'])).toBe('Tue, Thu');
+    expect(formatDays(['Mon', 'Tue'])).toBe('Mon, Tue');
+    expect(formatDays(['Mon', 'Wed', 'Fri'])).toBe('Mon, Wed, Fri');
+    expect(formatDays(['Sat'])).toBe('Sat');
+  });
+
+  it('puts days in week order regardless of input order', () => {
+    expect(formatDays(['Thu', 'Tue'])).toBe('Tue, Thu');
+    expect(formatDays(['Wed', 'Mon', 'Tue'])).toBe('Mon-Wed');
+  });
+});
+
+describe('classesByCategory', () => {
+  it('returns every category in order, with every class exactly once', () => {
+    const grouped = classesByCategory();
+    expect(grouped.map((g) => g.category)).toEqual([...CATEGORIES]);
+    expect(grouped.flatMap((g) => g.classes)).toHaveLength(schedule.length);
+    for (const g of grouped) {
+      for (const cls of g.classes) expect(cls.category).toBe(g.category);
+    }
   });
 });

@@ -3,12 +3,21 @@ import landscape from '@/assets/placeholders/landscape.jpg';
 import portrait from '@/assets/placeholders/portrait.jpg';
 import square from '@/assets/placeholders/square.jpg';
 import Button from '@/components/Button.astro';
+import CoachSpotlight from '@/components/CoachSpotlight.astro';
 import Definition from '@/components/Definition.astro';
+import FormBand from '@/components/FormBand.astro';
 import Heading from '@/components/Heading.astro';
+import NumberedCards from '@/components/NumberedCards.astro';
+import NumberedSteps from '@/components/NumberedSteps.astro';
+import Photo from '@/components/Photo.astro';
 import ProgramCard from '@/components/ProgramCard.astro';
+import ReviewsBlock from '@/components/ReviewsBlock.astro';
+import ScheduleSummary from '@/components/ScheduleSummary.astro';
 import Section from '@/components/Section.astro';
 import VideoHero from '@/components/VideoHero.astro';
-import { rating } from '@/data/reviews';
+import VisitBlock from '@/components/VisitBlock.astro';
+import { firstClassSteps, values } from '@/data/academy';
+import { featuredReviews, rating } from '@/data/reviews';
 import { programCards, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
@@ -89,4 +98,45 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
       ))}
     </ul>
   </Section>
+
+  <CoachSpotlight tone="surface" />
+
+  <Section id="new-here">
+    <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <Heading text="New here?" accent="New" />
+        <p class="text-muted mt-3 max-w-prose text-lg">
+          Your first class is free and there is nothing to prepare. Here is how it works.
+        </p>
+        <div class="mt-6">
+          <Button href={site.cta.href}>{site.cta.label}</Button>
+        </div>
+      </div>
+      <NumberedSteps items={firstClassSteps} />
+    </div>
+  </Section>
+
+  <Section tone="dark" id="why">
+    <Heading text="Why train with us" accent="us" />
+    <div class="mt-8">
+      <NumberedCards items={values} columns={3} />
+    </div>
+    <div class="rounded-card mt-10 overflow-hidden">
+      <Photo
+        src={landscape}
+        alt="Placeholder photo of the academy mats"
+        sizes="(min-width: 1280px) 1152px, 100vw"
+        widths={[640, 960, 1280, 1600]}
+        class="aspect-[16/9] object-cover md:aspect-[21/9]"
+      />
+    </div>
+  </Section>
+
+  <ReviewsBlock reviews={featuredReviews()} tone="surface" />
+
+  <ScheduleSummary tone="paper" />
+
+  <VisitBlock tone="surface" />
+
+  <FormBand />
 </BaseLayout>

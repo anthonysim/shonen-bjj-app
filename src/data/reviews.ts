@@ -7,6 +7,8 @@ export interface Review {
   quote: string;
   author: string;
   topic: ReviewTopic;
+  /** Shown in the homepage reviews block */
+  featured?: boolean;
 }
 
 export const rating = {
@@ -20,18 +22,21 @@ export const rating = {
 export const reviews: Review[] = [
   {
     id: 'general-1',
+    featured: true,
     quote: 'Friendly, well-run, and nobody makes you feel out of place on day one.',
     author: 'Placeholder reviewer A.',
     topic: 'general',
   },
   {
     id: 'general-2',
+    featured: true,
     quote: 'The coaching is clear and patient. I improve every single week.',
     author: 'Placeholder reviewer B.',
     topic: 'general',
   },
   {
     id: 'kids-1',
+    featured: true,
     quote: 'My son looks forward to class all week. His focus at school has improved.',
     author: 'Placeholder parent C.',
     topic: 'kids',
@@ -50,6 +55,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'adults-1',
+    featured: true,
     quote: 'I had never trained before. The basics class made it easy to start.',
     author: 'Placeholder student F.',
     topic: 'adults',
@@ -74,6 +80,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'coach-1',
+    featured: true,
     quote: 'A world-class competitor who is also an excellent teacher.',
     author: 'Placeholder student J.',
     topic: 'coach',
@@ -90,4 +97,9 @@ export const reviews: Review[] = [
 export function reviewsFor(topic: ReviewTopic = 'general', limit?: number): Review[] {
   const matches = reviews.filter((r) => r.topic === topic);
   return limit === undefined ? matches : matches.slice(0, limit);
+}
+
+/** Reviews picked for the homepage, in file order. */
+export function featuredReviews(): Review[] {
+  return reviews.filter((r) => r.featured);
 }

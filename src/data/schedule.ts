@@ -140,3 +140,30 @@ export function classesByDay(
       .toSorted((a, b) => toMinutes(a.start) - toMinutes(b.start)),
   }));
 }
+
+/**
+ * Compact day label: 3+ consecutive days become a range ("Mon-Thu"), otherwise a list
+ * ("Tue, Thu"). Days are shown in week order.
+ */
+export function formatDays(days: readonly Day[]): string {
+  const sorted = [...days].toSorted((a, b) => DAYS.indexOf(a) - DAYS.indexOf(b));
+  if (sorted.length >= 3) {
+    const first = DAYS.indexOf(sorted[0]);
+    const consecutive = sorted.every((day, i) => DAYS.indexOf(day) === first + i);
+    if (consecutive) return `${sorted[0]}-${sorted[sorted.length - 1]}`;
+  }
+  return sorted.join(', ');
+}
+
+/** Classes grouped by category (in `CATEGORIES` order), each sorted by first day then start time. */
+export function classesByCategory(
+  classes: ScheduleClass[] = schedule,
+): { category: Category; classes: ScheduleClass[] }[] {
+  const firstDay = (cls: ScheduleClass) => Math.min(...cls.days.map((d) => DAYS.indexOf(d)));
+  return CATEGORIES.map((category) => ({
+    category,
+    classes: classes
+      .filter((cls) => cls.category === category)
+      .toSorted((a, b) => firstDay(a) - firstDay(b) || toMinutes(a.start) - toMinutes(b.start)),
+  }));
+}
