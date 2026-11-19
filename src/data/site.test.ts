@@ -22,6 +22,11 @@ describe('site data', () => {
     );
   });
 
+  it('keeps FAQ in the mobile menu only', () => {
+    expect(nav.find((item) => item.href === '/faq')?.mobileOnly).toBe(true);
+    expect(nav.filter((item) => !item.mobileOnly).map((item) => item.label)).not.toContain('FAQ');
+  });
+
   it('has unique program slugs', () => {
     expect(new Set(programs.map((p) => p.slug)).size).toBe(programs.length);
   });

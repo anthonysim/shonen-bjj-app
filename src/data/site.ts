@@ -9,6 +9,8 @@ export interface NavItem {
   label: string;
   href: string;
   children?: NavChild[];
+  /** Shown in the mobile menu only, not the desktop nav. */
+  mobileOnly?: boolean;
 }
 
 export interface Program {
@@ -100,7 +102,7 @@ export const nav: NavItem[] = [
   { label: 'Schedule', href: '/schedule' },
   { label: 'Meet the Coach', href: '/team/professor-lee-rosenfield' },
   { label: 'About', href: '/about' },
-  { label: 'FAQ', href: '/faq' },
+  { label: 'FAQ', href: '/faq', mobileOnly: true },
   { label: 'Contact', href: '/contact' },
 ];
 

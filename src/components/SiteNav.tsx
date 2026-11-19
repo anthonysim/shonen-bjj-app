@@ -97,20 +97,22 @@ export default function SiteNav({ nav, cta, phone, currentPath }: SiteNavProps) 
     <>
       {/* Desktop and iPad landscape (lg+) */}
       <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
-        {nav.map((item) =>
-          item.children ? (
-            <DesktopDropdown key={item.href} item={item} currentPath={currentPath} />
-          ) : (
-            <a
-              key={item.href}
-              href={item.href}
-              className={linkBase}
-              aria-current={isActive(currentPath, item.href) ? 'page' : undefined}
-            >
-              {item.label}
-            </a>
-          ),
-        )}
+        {nav
+          .filter((item) => !item.mobileOnly)
+          .map((item) =>
+            item.children ? (
+              <DesktopDropdown key={item.href} item={item} currentPath={currentPath} />
+            ) : (
+              <a
+                key={item.href}
+                href={item.href}
+                className={linkBase}
+                aria-current={isActive(currentPath, item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            ),
+          )}
       </nav>
 
       <div className="flex items-center gap-2">
