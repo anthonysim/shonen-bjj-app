@@ -4,6 +4,8 @@ interface Props {
   variant?: 'primary' | 'secondary' | 'ghost' | 'inverse';
   size?: 'md' | 'lg';
   href?: string;
+  /** Only applies when rendered as a link. */
+  rel?: string;
   type?: 'button' | 'submit' | 'reset';
   /** Only applies when rendered as a <button>. */
   disabled?: boolean;
@@ -14,6 +16,7 @@ const {
   variant = 'primary',
   size = 'md',
   href,
+  rel,
   type = 'button',
   disabled,
   class: className,
@@ -40,7 +43,7 @@ const classes = [base, variants[variant], sizes[size], className];
 ---
 
 {href ? (
-  <a href={href} class:list={classes} {...rest}>
+  <a href={href} rel={rel} class:list={classes} {...rest}>
     <slot />
   </a>
 ) : (

@@ -1,5 +1,16 @@
 ---
+import landscape from '@/assets/placeholders/landscape.jpg';
 import Button from '@/components/Button.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import FaqList from '@/components/FaqList.astro';
+import Hero from '@/components/Hero.astro';
+import NumberedCards from '@/components/NumberedCards.astro';
+import NumberedSteps from '@/components/NumberedSteps.astro';
+import Photo from '@/components/Photo.astro';
+import ReviewsBlock from '@/components/ReviewsBlock.astro';
+import VisitBlock from '@/components/VisitBlock.astro';
+import { faqsFor } from '@/data/faqs';
+import { reviewsFor } from '@/data/reviews';
 import Eyebrow from '@/components/Eyebrow.astro';
 import Heading from '@/components/Heading.astro';
 import Section from '@/components/Section.astro';
@@ -21,7 +32,7 @@ const swatches = [
 const tones = ['paper', 'surface', 'dark', 'brand'] as const;
 ---
 
-<BaseLayout title="Styleguide" noindex>
+<BaseLayout title="Styleguide" noindex breadcrumbs={[{ label: 'Styleguide' }]}>
   <Section>
     <Eyebrow class="text-brand-600">Internal</Eyebrow>
     <Heading level={1} size="display" text="Styleguide" accent="guide" class="mt-2" />
@@ -89,4 +100,73 @@ const tones = ['paper', 'surface', 'dark', 'brand'] as const;
       </div>
     </Section>
   ))}
+
+  <Hero
+    eyebrow="Hero with media"
+    title="Become the hero of your story"
+    accent="hero"
+    deck="Eyebrow, accent heading, deck, two CTAs, a fact strip, and a photo."
+    primary={{ label: 'Book a free class', href: '#' }}
+    secondary={{ label: 'See class times', href: '#' }}
+    facts={['5.0 stars', 'Ages 4 and up', 'First class free']}
+  >
+    <Photo slot="media" src={landscape} alt="Placeholder photo" priority />
+  </Hero>
+
+  <Hero
+    tone="dark"
+    eyebrow="Hero on dark, no media"
+    title="Text-only hero"
+    accent="Text-only"
+    deck="Buttons switch to the inverse style on dark and brand tones."
+    primary={{ label: 'Book a free class', href: '#' }}
+    secondary={{ label: 'See class times', href: '#' }}
+    facts={['Fact one', 'Fact two', 'Fact three']}
+  />
+
+  <Section tone="surface">
+    <Heading text="Numbered cards" accent="cards" />
+    <div class="mt-8">
+      <NumberedCards
+        items={[
+          { title: 'Confidence', body: 'Kids learn to handle challenges calmly.' },
+          { title: 'Fitness', body: 'A full-body workout that feels like play.' },
+          { title: 'Focus', body: 'Listening and following instructions.' },
+          { title: 'Friends', body: 'A supportive crew on and off the mats.' },
+        ]}
+      />
+    </div>
+  </Section>
+
+  <Section>
+    <Heading text="Numbered steps" accent="steps" />
+    <div class="mt-8 max-w-2xl">
+      <NumberedSteps
+        items={[
+          { title: 'Pick a class', body: 'Choose a time that works and we will confirm by text.' },
+          { title: 'Arrive early', body: 'Come 15 minutes before class to get settled.' },
+          { title: 'Train at your pace', body: 'Coaches guide you through everything.' },
+        ]}
+      />
+    </div>
+  </Section>
+
+  <ReviewsBlock reviews={reviewsFor('kids', 3)} />
+
+  <Section>
+    <Heading text="FAQ list" accent="FAQ" />
+    <div class="mt-8 max-w-3xl">
+      <FaqList items={faqsFor('kids')} />
+    </div>
+  </Section>
+
+  <VisitBlock tone="surface" />
+
+  <CtaBand
+    heading="Ready to start?"
+    accent="start"
+    body="Your first class is free. No sign-up fees."
+    primary={{ label: 'Book a free class', href: '#' }}
+    secondary={{ label: 'Call us', href: '#' }}
+  />
 </BaseLayout>

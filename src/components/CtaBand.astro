@@ -1,0 +1,36 @@
+---
+import Button from '@/components/Button.astro';
+import Heading from '@/components/Heading.astro';
+import Section from '@/components/Section.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  heading: string;
+  accent?: string;
+  body?: string;
+  primary: Cta;
+  secondary?: Cta;
+  tone?: 'dark' | 'brand';
+}
+
+const { heading, accent, body, primary, secondary, tone = 'brand' } = Astro.props;
+---
+
+<Section tone={tone} size="md" class="text-center">
+  <Heading text={heading} accent={accent} />
+  {body ? <p class="mx-auto mt-4 max-w-prose text-lg">{body}</p> : null}
+  <div class="mt-7 flex flex-wrap justify-center gap-3">
+    <Button href={primary.href} size="lg" variant="inverse">
+      {primary.label}
+    </Button>
+    {secondary ? (
+      <Button href={secondary.href} size="lg" variant="secondary">
+        {secondary.label}
+      </Button>
+    ) : null}
+  </div>
+</Section>

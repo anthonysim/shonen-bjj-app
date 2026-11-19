@@ -1,0 +1,29 @@
+---
+interface Item {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  items: readonly Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<ol class="space-y-6">
+  {items.map((item, index) => (
+    <li class="flex gap-4">
+      <span
+        aria-hidden="true"
+        class="bg-brand-600 font-display flex size-11 shrink-0 items-center justify-center rounded-full text-xl font-bold text-white"
+      >
+        {index + 1}
+      </span>
+      <div>
+        <h3 class="font-display text-2xl font-bold">{item.title}</h3>
+        <p class="mt-1 opacity-80">{item.body}</p>
+      </div>
+    </li>
+  ))}
+</ol>
