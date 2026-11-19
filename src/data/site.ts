@@ -13,22 +13,34 @@ export interface NavItem {
   mobileOnly?: boolean;
 }
 
+export interface AgeGroup {
+  id: string;
+  name: string;
+  ages: string;
+  classLength: string;
+  format: string;
+  blurb: string;
+}
+
 export interface Program {
   slug: string;
   name: string;
   ages: string;
   blurb: string;
+  /** Three short facts for the hero fact strip */
+  facts: [string, string, string];
+  /** Kids is split into age groups, each with its own card */
+  ageGroups?: AgeGroup[];
 }
 
-export interface ScheduleClass {
-  program: string;
-  /** Short day names, e.g. "Mon" */
-  days: Day[];
-  time: string;
+/** A card on the homepage and programs index. Kids appears once per age group. */
+export interface ProgramCard {
+  id: string;
+  name: string;
+  ages: string;
+  blurb: string;
+  href: string;
 }
-
-export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const;
-export type Day = (typeof DAYS)[number];
 
 export const site = {
   name: 'Shonen BJJ',
@@ -62,36 +74,69 @@ export const programs: Program[] = [
     name: 'Kids',
     ages: 'Ages 4-13',
     blurb: 'Confidence, focus and fitness through play-based jiu-jitsu.',
+    facts: ['Ages 4-13', 'Two age groups', 'First class free'],
+    ageGroups: [
+      {
+        id: 'kids-4-7',
+        name: 'Kids 4-7',
+        ages: 'Ages 4-7',
+        classLength: '45 min',
+        format: 'Games, drills and gentle partner work',
+        blurb: 'Short, playful classes that build listening skills, balance and coordination.',
+      },
+      {
+        id: 'kids-8-13',
+        name: 'Kids 8-13',
+        ages: 'Ages 8-13',
+        classLength: '60 min',
+        format: 'Technique, drilling and supervised live rounds',
+        blurb: 'Real jiu-jitsu progression with a focus on respect, resilience and fitness.',
+      },
+    ],
   },
   {
     slug: 'bjj',
     name: 'Adults',
     ages: 'Ages 14+',
     blurb: 'Gi classes for every level, from first day to competition.',
+    facts: ['Ages 14+', 'Gi classes', 'First class free'],
   },
   {
     slug: 'no-gi',
     name: 'No-Gi',
     ages: 'Ages 14+',
     blurb: 'Fast, athletic grappling without the kimono.',
+    facts: ['Tue & Thu evenings', 'Ages 14+', 'First class free'],
   },
   {
     slug: 'birthday-parties',
     name: 'Birthday parties',
     ages: 'All ages',
     blurb: 'A high-energy party your kid will talk about for weeks.',
+    facts: ['We run the party', 'Gear provided', 'Easy to book'],
   },
 ];
 
-export const schedule: ScheduleClass[] = [
-  { program: 'Kids', days: ['Tue', 'Thu'], time: '5:00 PM' },
-  { program: 'Kids', days: ['Sat'], time: '9:00 AM' },
-  { program: 'Adults Basics', days: ['Mon', 'Tue', 'Wed', 'Thu'], time: '7:00 PM' },
-  { program: 'Adults All-Levels', days: ['Mon', 'Wed'], time: '6:00 PM' },
-  { program: 'Adults All-Levels', days: ['Fri'], time: '12:00 PM' },
-  { program: 'Adults All-Levels', days: ['Sat'], time: '10:00 AM' },
-  { program: 'No-Gi', days: ['Tue', 'Thu'], time: '6:00 PM' },
-];
+/** Cards for the homepage and programs index: kids split by age group. */
+export const programCards: ProgramCard[] = programs.flatMap((program) =>
+  program.ageGroups
+    ? program.ageGroups.map((group) => ({
+        id: group.id,
+        name: group.name,
+        ages: group.ages,
+        blurb: group.blurb,
+        href: `/programs/${program.slug}#${group.id}`,
+      }))
+    : [
+        {
+          id: program.slug,
+          name: program.name,
+          ages: program.ages,
+          blurb: program.blurb,
+          href: `/programs/${program.slug}`,
+        },
+      ],
+);
 
 export const nav: NavItem[] = [
   {
@@ -100,7 +145,7 @@ export const nav: NavItem[] = [
     children: programs.map((p) => ({ label: p.name, href: `/programs/${p.slug}` })),
   },
   { label: 'Schedule', href: '/schedule' },
-  { label: 'Meet the Coach', href: '/team/professor-lee-rosenfield' },
+  { label: 'Meet the Coach', href: '/team/head-coach' },
   { label: 'About', href: '/about' },
   { label: 'FAQ', href: '/faq', mobileOnly: true },
   { label: 'Contact', href: '/contact' },
