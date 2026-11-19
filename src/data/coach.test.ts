@@ -14,6 +14,7 @@ describe('coach', () => {
       expect(c.title.trim()).not.toBe('');
       expect(c.tag.trim()).not.toBe('');
     }
-    expect(coach.competitionRecord.length).toBeGreaterThan(0);
+    // The homepage spotlight lists the first four
+    expect(coach.competitionRecord.length).toBeGreaterThanOrEqual(4);
   });
 });

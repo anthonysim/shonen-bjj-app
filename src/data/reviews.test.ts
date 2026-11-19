@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { rating, reviews, reviewsFor } from './reviews';
+import { featuredReviews, rating, reviews, reviewsFor } from './reviews';
 
 describe('reviews', () => {
   it('has unique ids and non-empty quotes', () => {
@@ -25,5 +25,11 @@ describe('reviews', () => {
   it('defaults to general and respects the limit', () => {
     expect(reviewsFor().every((r) => r.topic === 'general')).toBe(true);
     expect(reviewsFor('kids', 2)).toHaveLength(2);
+  });
+
+  it('features five reviews across topics for the homepage', () => {
+    const featured = featuredReviews();
+    expect(featured).toHaveLength(5);
+    expect(new Set(featured.map((r) => r.topic)).size).toBeGreaterThan(2);
   });
 });

@@ -1,0 +1,53 @@
+---
+import portrait from '@/assets/placeholders/portrait.jpg';
+import Button from '@/components/Button.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import Heading from '@/components/Heading.astro';
+import Photo from '@/components/Photo.astro';
+import Section from '@/components/Section.astro';
+import { coach } from '@/data/coach';
+
+interface Props {
+  tone?: 'paper' | 'surface';
+}
+
+const { tone = 'surface' } = Astro.props;
+const highlights = coach.competitionRecord.slice(0, 4);
+---
+
+<Section tone={tone} id="coach">
+  <div class="grid items-center gap-8 md:grid-cols-[2fr_3fr] lg:gap-14">
+    <div class="rounded-card overflow-hidden">
+      <Photo
+        src={portrait}
+        alt={`Placeholder portrait of ${coach.name}`}
+        sizes="(min-width: 768px) 40vw, 100vw"
+        widths={[480, 720, 1000]}
+        class="aspect-[4/5] object-cover"
+      />
+    </div>
+    <div>
+      <Eyebrow class="text-brand-600">Meet the coach</Eyebrow>
+      <Heading text={coach.name} accent={coach.name.split(' ')[0]} class="mt-2" />
+      <p class="mt-2 text-lg font-semibold">{coach.title}</p>
+      <p class="text-muted mt-3 max-w-prose text-lg">{coach.summary}</p>
+      <ol class="mt-6 space-y-3">
+        {highlights.map((item, index) => (
+          <li class="border-line flex items-baseline gap-4 border-b pb-3">
+            <span
+              aria-hidden="true"
+              class="font-display text-brand-600 w-9 shrink-0 text-2xl font-extrabold"
+            >
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <span class="flex-1">{item.title}</span>
+            <span class="text-muted text-sm font-semibold">{item.tag}</span>
+          </li>
+        ))}
+      </ol>
+      <div class="mt-6">
+        <Button href={`/team/${coach.slug}`}>Meet {coach.name.split(' ')[0]}</Button>
+      </div>
+    </div>
+  </div>
+</Section>
