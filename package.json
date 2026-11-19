@@ -16,7 +16,10 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "^0.4.10",
+    "@astrojs/mdx": "^8.1.6",
     "@astrojs/react": "^7.1.9",
+    "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

@@ -103,6 +103,7 @@ export const nav: NavItem[] = [
 ];
 
 export const footerLinks = [
+  { label: 'Blog', href: '/blog' },
   { label: 'Privacy policy', href: '/privacy-policy' },
   { label: 'Terms and conditions', href: '/terms-and-conditions' },
   { label: 'Waiver', href: '/waiver' },
