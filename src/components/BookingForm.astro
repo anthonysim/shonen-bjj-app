@@ -1,0 +1,313 @@
+---
+import Button from '@/components/Button.astro';
+import { PROGRAM_CHOICES, WHEN_CHOICES, type ProgramChoice } from '@/lib/booking-schema';
+
+interface Props {
+  submitLabel?: string;
+  defaultProgram?: ProgramChoice;
+  /** Prefix for element ids so more than one form can exist on a page. */
+  idPrefix?: string;
+  action?: string;
+}
+
+const {
+  submitLabel = 'Book my free class',
+  defaultProgram,
+  idPrefix = 'booking',
+  action = '/api/book',
+} = Astro.props;
+
+const id = (name: string) => `${idPrefix}-${name}`;
+
+const input =
+  'border-line focus-visible:outline-brand-600 min-h-12 w-full rounded-md border bg-white px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-1 aria-[invalid=true]:border-brand-600';
+const chip =
+  'border-line bg-white text-ink peer-checked:border-brand-600 peer-checked:bg-brand-600 peer-focus-visible:outline-brand-600 flex min-h-11 cursor-pointer items-center rounded-full border px-4 text-base font-semibold transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-checked:text-white';
+---
+
+<div data-booking-root>
+  <form
+    method="post"
+    action={action}
+    novalidate
+    data-booking-form
+    class="space-y-5"
+    aria-describedby={id('status')}
+  >
+    <fieldset>
+      <legend class="mb-2 text-sm font-semibold">I'm interested in</legend>
+      <div class="flex flex-wrap gap-2">
+        {PROGRAM_CHOICES.map((choice) => (
+          <label>
+            <input
+              type="radio"
+              name="program"
+              value={choice.value}
+              checked={choice.value === defaultProgram}
+              required
+              class="peer sr-only"
+              aria-describedby={id('program-error')}
+            />
+            <span class={chip}>{choice.label}</span>
+          </label>
+        ))}
+      </div>
+      <p
+        id={id('program-error')}
+        data-error-for="program"
+        class="text-brand-700 mt-1 text-sm"
+        hidden
+      ></p>
+    </fieldset>
+
+    <fieldset>
+      <legend class="mb-2 text-sm font-semibold">When would you like to come?</legend>
+      <div class="flex flex-wrap gap-2">
+        {WHEN_CHOICES.map((choice) => (
+          <label>
+            <input
+              type="radio"
+              name="when"
+              value={choice.value}
+              checked={choice.value === 'flexible'}
+              required
+              class="peer sr-only"
+              aria-describedby={id('when-error')}
+            />
+            <span class={chip}>{choice.label}</span>
+          </label>
+        ))}
+      </div>
+      <p id={id('when-error')} data-error-for="when" class="text-brand-700 mt-1 text-sm" hidden></p>
+    </fieldset>
+
+    <div>
+      <label for={id('name')} class="mb-1 block text-sm font-semibold">
+        Name
+      </label>
+      <input
+        id={id('name')}
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+        minlength="2"
+        maxlength="100"
+        class={input}
+        aria-describedby={id('name-error')}
+      />
+      <p id={id('name-error')} data-error-for="name" class="text-brand-700 mt-1 text-sm" hidden></p>
+    </div>
+
+    <div>
+      <label for={id('phone')} class="mb-1 block text-sm font-semibold">
+        Phone
+      </label>
+      <input
+        id={id('phone')}
+        name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        required
+        class={input}
+        aria-describedby={id('phone-error')}
+      />
+      <p
+        id={id('phone-error')}
+        data-error-for="phone"
+        class="text-brand-700 mt-1 text-sm"
+        hidden
+      ></p>
+    </div>
+
+    <div>
+      <label for={id('email')} class="mb-1 block text-sm font-semibold">
+        Email
+      </label>
+      <input
+        id={id('email')}
+        name="email"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        required
+        class={input}
+        aria-describedby={id('email-error')}
+      />
+      <p
+        id={id('email-error')}
+        data-error-for="email"
+        class="text-brand-700 mt-1 text-sm"
+        hidden
+      ></p>
+    </div>
+
+    <!-- Honeypot: invisible to people and assistive tech, bots fill it. -->
+    <div aria-hidden="true" class="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+      <label>
+        Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
+    </div>
+
+    <div>
+      <label class="flex min-h-11 cursor-pointer items-start gap-3 text-sm">
+        <input
+          id={id('waiver')}
+          type="checkbox"
+          name="waiver"
+          required
+          class="accent-brand-600 mt-0.5 size-5 shrink-0"
+          aria-describedby={id('waiver-error')}
+        />
+        <span>
+          I have read and agree to the{' '}
+          <a href="/waiver" class="underline">
+            waiver
+          </a>
+          .
+        </span>
+      </label>
+      <p
+        id={id('waiver-error')}
+        data-error-for="waiver"
+        class="text-brand-700 mt-1 text-sm"
+        hidden
+      ></p>
+    </div>
+
+    <Button type="submit" size="lg" class="w-full sm:w-auto" data-submit>
+      {submitLabel}
+    </Button>
+
+    <p
+      id={id('status')}
+      role="status"
+      aria-live="polite"
+      data-status
+      class="text-brand-700 text-sm"
+      hidden
+    ></p>
+
+    <p class="text-muted text-xs">
+      By submitting you agree to receive text messages about your class (about one a week at most;
+      message and data rates may apply). Reply STOP to opt out. See our{' '}
+      <a href="/privacy-policy" class="underline">
+        privacy policy
+      </a>
+      .
+    </p>
+  </form>
+
+  <div data-success tabindex="-1" class="py-6 text-center" hidden>
+    <p class="font-display text-3xl font-extrabold">You're in!</p>
+    <p class="text-muted mt-2">Thanks. We will text you shortly to confirm your class time.</p>
+  </div>
+</div>
+
+<script>
+  const MESSAGES: Record<string, string> = {
+    program: 'Choose a program.',
+    when: 'Choose when you would like to come.',
+    name: 'Please enter your name.',
+    phone: 'Enter a 10-digit phone number.',
+    email: 'Enter a valid email address.',
+    waiver: 'Please agree to the waiver to continue.',
+  };
+
+  function validatePhone(field: HTMLInputElement) {
+    const digits = field.value.replace(/\D/g, '');
+    const national = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
+    field.setCustomValidity(national.length === 10 ? '' : MESSAGES.phone);
+  }
+
+  function setError(form: HTMLFormElement, name: string, message: string) {
+    const slot = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+    if (slot) {
+      slot.textContent = message;
+      slot.hidden = message === '';
+    }
+    for (const el of form.querySelectorAll<HTMLElement>(`[name="${name}"]`)) {
+      if (message) el.setAttribute('aria-invalid', 'true');
+      else el.removeAttribute('aria-invalid');
+    }
+  }
+
+  function showStatus(form: HTMLFormElement, message: string) {
+    const status = form.querySelector<HTMLElement>('[data-status]');
+    if (status) {
+      status.textContent = message;
+      status.hidden = message === '';
+    }
+  }
+
+  function setup(form: HTMLFormElement) {
+    const root = form.closest<HTMLElement>('[data-booking-root]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const submitLabel = submit.textContent;
+    const phone = form.elements.namedItem('phone') as HTMLInputElement;
+
+    // Clear a field's error as soon as the person fixes it.
+    form.addEventListener('input', (event) => {
+      const target = event.target as HTMLInputElement;
+      if (!target.name) return;
+      if (target.name === 'phone') validatePhone(target);
+      if (target.checkValidity()) setError(form, target.name, '');
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      showStatus(form, '');
+      validatePhone(phone);
+
+      // Native constraint validation drives the inline messages.
+      const invalid = [...form.elements].filter(
+        (el): el is HTMLInputElement => el instanceof HTMLInputElement && !el.checkValidity(),
+      );
+      for (const name of Object.keys(MESSAGES)) setError(form, name, '');
+      if (invalid.length > 0) {
+        for (const el of invalid)
+          setError(form, el.name, MESSAGES[el.name] ?? el.validationMessage);
+        invalid[0].focus();
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = 'Sending...';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        const data = await response.json().catch(() => null);
+        if (response.ok && data?.ok) {
+          form.hidden = true;
+          const success = root.querySelector<HTMLElement>('[data-success]')!;
+          success.hidden = false;
+          success.focus();
+          return;
+        }
+        if (data?.errors) {
+          let first: HTMLElement | null = null;
+          for (const [name, message] of Object.entries<string>(data.errors)) {
+            setError(form, name, message);
+            first ??= form.querySelector<HTMLElement>(`[name="${name}"]`);
+          }
+          first?.focus();
+        } else {
+          showStatus(form, 'Something went wrong. Please try again or call us.');
+        }
+      } catch {
+        showStatus(form, 'Could not send. Check your connection and try again.');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = submitLabel;
+      }
+    });
+  }
+
+  for (const form of document.querySelectorAll<HTMLFormElement>('form[data-booking-form]')) {
+    setup(form);
+  }
+</script>

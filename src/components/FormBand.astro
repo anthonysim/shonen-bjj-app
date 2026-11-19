@@ -1,0 +1,50 @@
+---
+import BookingForm from '@/components/BookingForm.astro';
+import Heading from '@/components/Heading.astro';
+import Section from '@/components/Section.astro';
+import type { ProgramChoice } from '@/lib/booking-schema';
+
+interface Props {
+  heading?: string;
+  accent?: string;
+  body?: string;
+  /** Short selling points shown beside the form. */
+  bullets?: readonly string[];
+  submitLabel?: string;
+  defaultProgram?: ProgramChoice;
+  /** Section id, so "Book a free class" buttons can link to #book. */
+  id?: string;
+}
+
+const {
+  heading = 'Book your free class',
+  accent = 'free',
+  body = 'Tell us a little about you and we will text you to set a time.',
+  bullets = ['First class is free', 'No sign-up fees', 'Gear provided for your first class'],
+  submitLabel,
+  defaultProgram,
+  id = 'book',
+} = Astro.props;
+---
+
+<Section tone="dark" id={id}>
+  <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+    <div>
+      <Heading text={heading} accent={accent} size="xl" />
+      <p class="mt-4 max-w-prose text-lg">{body}</p>
+      {bullets.length > 0 ? (
+        <ul class="mt-6 space-y-2">
+          {bullets.map((bullet) => (
+            <li class="flex items-center gap-3">
+              <span aria-hidden="true" class="bg-brand-500 size-2 rounded-full" />
+              {bullet}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+    <div class="bg-paper text-ink rounded-card relative p-5 md:p-8">
+      <BookingForm submitLabel={submitLabel} defaultProgram={defaultProgram} idPrefix={id} />
+    </div>
+  </div>
+</Section>
