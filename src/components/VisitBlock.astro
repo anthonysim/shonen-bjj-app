@@ -1,0 +1,60 @@
+---
+import Button from '@/components/Button.astro';
+import Heading from '@/components/Heading.astro';
+import Section from '@/components/Section.astro';
+import { site } from '@/data/site';
+import { mapsUrl } from '@/lib/maps';
+
+interface Props {
+  tone?: 'paper' | 'surface';
+}
+
+const { tone = 'paper' } = Astro.props;
+const { address, hours, phone, email } = site;
+const cityLine = `${address.city}, ${address.region} ${address.postalCode}`;
+---
+
+<Section tone={tone}>
+  <Heading text="Visit us" accent="Visit" />
+  <div class="mt-8 grid gap-8 md:grid-cols-2">
+    <div>
+      <h3 class="text-sm font-semibold tracking-[0.14em] uppercase">Find us</h3>
+      <address class="mt-3 text-lg not-italic">
+        {address.street}
+        <br />
+        {cityLine}
+      </address>
+      <p class="mt-3 flex flex-col">
+        <a href={phone.href} class="inline-flex min-h-11 items-center underline">
+          {phone.display}
+        </a>
+        <a href={`mailto:${email}`} class="inline-flex min-h-11 items-center underline">
+          {email}
+        </a>
+      </p>
+    </div>
+    <div>
+      <h3 class="text-sm font-semibold tracking-[0.14em] uppercase">Hours</h3>
+      <dl class="mt-3 max-w-xs space-y-2 text-lg">
+        {hours.map((h) => (
+          <div class="border-line flex justify-between gap-4 border-b pb-2">
+            <dt>{h.days}</dt>
+            <dd>{h.time}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="text-muted mt-3 text-sm">New? Arrive 15 minutes early for your first class.</p>
+    </div>
+  </div>
+  <div class="mt-8 flex flex-wrap gap-3">
+    <Button href={mapsUrl(address)} rel="noopener">
+      Get directions
+    </Button>
+    <Button href={phone.href} variant="secondary">
+      Call us
+    </Button>
+    <Button href={`mailto:${email}`} variant="secondary">
+      Email us
+    </Button>
+  </div>
+</Section>

@@ -1,0 +1,32 @@
+---
+interface Item {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  items: readonly Item[];
+  /** Columns at lg. Always 1 on phones and 2 from md. */
+  columns?: 2 | 3 | 4;
+}
+
+const { items, columns = 4 } = Astro.props;
+
+const cols = {
+  2: 'lg:grid-cols-2',
+  3: 'lg:grid-cols-3',
+  4: 'lg:grid-cols-4',
+} as const;
+---
+
+<ol class:list={['grid gap-4 md:grid-cols-2 md:gap-6', cols[columns]]}>
+  {items.map((item, index) => (
+    <li class="border-line bg-paper text-ink rounded-card border p-6">
+      <span aria-hidden="true" class="font-display text-brand-600 text-4xl font-extrabold">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <h3 class="font-display mt-3 text-2xl font-bold">{item.title}</h3>
+      <p class="text-muted mt-2">{item.body}</p>
+    </li>
+  ))}
+</ol>

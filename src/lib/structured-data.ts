@@ -28,3 +28,26 @@ export function localBusinessJsonLd(url: string) {
 export function serializeJsonLd(data: unknown) {
   return JSON.stringify(data).replace(/</g, '\\u003c');
 }
+
+export interface BreadcrumbItem {
+  label: string;
+  /** Root-relative or absolute. Omit on the current page. */
+  href?: string;
+}
+
+/**
+ * schema.org BreadcrumbList. `origin` resolves root-relative hrefs; a crumb with no href
+ * (the current page) uses `currentUrl`.
+ */
+export function breadcrumbListJsonLd(items: BreadcrumbItem[], origin: string, currentUrl: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.label,
+      item: item.href ? new URL(item.href, origin).href : currentUrl,
+    })),
+  };
+}

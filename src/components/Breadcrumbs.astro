@@ -1,0 +1,36 @@
+---
+import type { BreadcrumbItem } from '@/lib/structured-data';
+
+interface Props {
+  /** Full trail including Home. The last item is the current page. */
+  crumbs: BreadcrumbItem[];
+}
+
+const { crumbs } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="text-muted text-sm">
+  <ol class="flex flex-wrap items-center">
+    {crumbs.map((crumb, index) => {
+      const isLast = index === crumbs.length - 1;
+      return (
+        <li class="flex items-center">
+          {index > 0 ? (
+            <span aria-hidden="true" class="px-2">
+              /
+            </span>
+          ) : null}
+          {crumb.href && !isLast ? (
+            <a href={crumb.href} class="inline-flex min-h-11 items-center underline">
+              {crumb.label}
+            </a>
+          ) : (
+            <span aria-current={isLast ? 'page' : undefined} class="text-ink font-medium">
+              {crumb.label}
+            </span>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>

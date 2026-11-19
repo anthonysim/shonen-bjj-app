@@ -1,0 +1,58 @@
+---
+import Button from '@/components/Button.astro';
+import FactStrip from '@/components/FactStrip.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import Heading from '@/components/Heading.astro';
+import Section from '@/components/Section.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  accent?: string;
+  deck?: string;
+  primary?: Cta;
+  secondary?: Cta;
+  facts?: readonly string[];
+  tone?: 'paper' | 'surface' | 'dark' | 'brand';
+}
+
+const { eyebrow, title, accent, deck, primary, secondary, facts, tone = 'paper' } = Astro.props;
+
+const onColor = tone === 'dark' || tone === 'brand';
+const hasMedia = Astro.slots.has('media');
+---
+
+<Section tone={tone} class="py-10 md:py-16 lg:py-20">
+  <div class:list={['grid items-center gap-8 lg:gap-12', hasMedia && 'lg:grid-cols-2']}>
+    <div>
+      {eyebrow ? <Eyebrow class={onColor ? '' : 'text-brand-600'}>{eyebrow}</Eyebrow> : null}
+      <Heading level={1} size="display" text={title} accent={accent} class="mt-3" />
+      {deck ? <p class="mt-5 max-w-prose text-lg md:text-xl">{deck}</p> : null}
+      {primary || secondary ? (
+        <div class="mt-7 flex flex-wrap gap-3">
+          {primary ? (
+            <Button href={primary.href} size="lg" variant={onColor ? 'inverse' : 'primary'}>
+              {primary.label}
+            </Button>
+          ) : null}
+          {secondary ? (
+            <Button href={secondary.href} size="lg" variant="secondary">
+              {secondary.label}
+            </Button>
+          ) : null}
+        </div>
+      ) : null}
+      {facts?.length ? <FactStrip items={facts} class="mt-7" /> : null}
+    </div>
+    {hasMedia ? (
+      <div class="overflow-hidden rounded-card">
+        <slot name="media" />
+      </div>
+    ) : null}
+  </div>
+</Section>

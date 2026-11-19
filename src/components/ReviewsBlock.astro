@@ -1,0 +1,52 @@
+---
+import Heading from '@/components/Heading.astro';
+import Section from '@/components/Section.astro';
+import { rating, type Review } from '@/data/reviews';
+
+interface Props {
+  reviews: readonly Review[];
+  heading?: string;
+  accent?: string;
+  tone?: 'paper' | 'surface';
+}
+
+const { reviews, heading = 'What students say', accent = 'say', tone = 'surface' } = Astro.props;
+
+const cols = ['', '', 'md:grid-cols-2', 'md:grid-cols-2 lg:grid-cols-3'] as const;
+const gridCols = cols[Math.min(reviews.length, 3)];
+// One string so formatters can't split the expressions and drop the space between them
+const reviewCount = `${rating.count} ${rating.source}`;
+---
+
+<Section tone={tone}>
+  <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <Heading text={heading} accent={accent} />
+    <p class="flex items-center gap-2 text-sm font-semibold">
+      <span aria-hidden="true" class="text-brand-600 text-lg tracking-wider">
+        ★★★★★
+      </span>
+      <span>
+        {rating.score.toFixed(1)} stars from {reviewCount} reviews
+      </span>
+    </p>
+  </div>
+
+  <div class:list={['mt-8 grid gap-4 md:gap-6', gridCols]}>
+    {reviews.map((review) => (
+      <figure class="border-line bg-paper text-ink rounded-card border p-6">
+        <blockquote class="text-lg">
+          <p>&ldquo;{review.quote}&rdquo;</p>
+        </blockquote>
+        <figcaption class="text-muted mt-4 text-sm font-semibold">{review.author}</figcaption>
+      </figure>
+    ))}
+  </div>
+
+  <a
+    href={rating.url}
+    rel="noopener"
+    class="mt-6 inline-flex min-h-11 items-center text-sm font-semibold underline underline-offset-4"
+  >
+    Read all {reviewCount} reviews
+  </a>
+</Section>

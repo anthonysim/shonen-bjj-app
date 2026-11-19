@@ -1,19 +1,30 @@
 ---
 import '@/styles/global.css';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Footer from '@/components/Footer.astro';
 import Header from '@/components/Header.astro';
 import { site } from '@/data/site';
-import { localBusinessJsonLd, serializeJsonLd } from '@/lib/structured-data';
+import {
+  breadcrumbListJsonLd,
+  localBusinessJsonLd,
+  serializeJsonLd,
+  type BreadcrumbItem,
+} from '@/lib/structured-data';
 
 interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  /** Trail after Home, ending with the current page (no href). Omit on the homepage. */
+  breadcrumbs?: BreadcrumbItem[];
 }
 
-const { title, description = site.tagline, noindex = false } = Astro.props;
+const { title, description = site.tagline, noindex = false, breadcrumbs } = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : site.name;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const crumbs: BreadcrumbItem[] | null = breadcrumbs
+  ? [{ label: 'Home', href: '/' }, ...breadcrumbs]
+  : null;
 ---
 
 <!doctype html>
@@ -38,6 +49,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
       type="application/ld+json"
       set:html={serializeJsonLd(localBusinessJsonLd(new URL('/', Astro.site).href))}
     />
+    {crumbs ? (
+      <script
+        type="application/ld+json"
+        set:html={serializeJsonLd(breadcrumbListJsonLd(crumbs, Astro.site!.origin, canonical))}
+      />
+    ) : null}
     <title>{fullTitle}</title>
   </head>
   <body>
@@ -49,6 +66,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     </a>
     <Header />
     <main id="main">
+      {crumbs ? (
+        <div class="mx-auto max-w-6xl px-4 pt-2 md:px-8">
+          <Breadcrumbs crumbs={crumbs} />
+        </div>
+      ) : null}
       <slot />
     </main>
     <Footer />
