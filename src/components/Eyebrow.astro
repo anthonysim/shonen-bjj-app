@@ -1,0 +1,12 @@
+---
+// Small label above a heading.
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<p class:list={['text-sm font-semibold tracking-[0.14em] uppercase', className]}>
+  <slot />
+</p>

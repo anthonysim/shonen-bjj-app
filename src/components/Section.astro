@@ -1,0 +1,28 @@
+---
+import Container from '@/components/Container.astro';
+
+interface Props {
+  tone?: 'paper' | 'surface' | 'dark' | 'brand';
+  size?: 'sm' | 'md' | 'lg';
+  id?: string;
+  class?: string;
+  /** Extra classes for the inner Container. */
+  containerClass?: string;
+}
+
+const { tone = 'paper', size = 'lg', id, class: className, containerClass } = Astro.props;
+
+const tones = {
+  // --accent is read by Heading's accent word so it stays legible on every tone
+  paper: 'bg-paper text-ink [--accent:var(--color-brand-600)]',
+  surface: 'bg-surface text-ink [--accent:var(--color-brand-600)]',
+  dark: 'bg-brand-900 text-white [--accent:var(--color-brand-500)]',
+  brand: 'bg-brand-600 text-white [--accent:var(--color-brand-100)]',
+} as const;
+---
+
+<section id={id} class:list={[tones[tone], 'scroll-mt-20 py-12 md:py-20 lg:py-24', className]}>
+  <Container size={size} class={containerClass}>
+    <slot />
+  </Container>
+</section>

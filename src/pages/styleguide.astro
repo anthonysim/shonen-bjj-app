@@ -1,0 +1,92 @@
+---
+import Button from '@/components/Button.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import Heading from '@/components/Heading.astro';
+import Section from '@/components/Section.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const swatches = [
+  ['brand-50', 'bg-brand-50'],
+  ['brand-100', 'bg-brand-100'],
+  ['brand-500', 'bg-brand-500'],
+  ['brand-600', 'bg-brand-600'],
+  ['brand-700', 'bg-brand-700'],
+  ['brand-900', 'bg-brand-900'],
+  ['ink', 'bg-ink'],
+  ['muted', 'bg-muted'],
+  ['surface', 'bg-surface'],
+  ['line', 'bg-line'],
+] as const;
+
+const tones = ['paper', 'surface', 'dark', 'brand'] as const;
+---
+
+<BaseLayout title="Styleguide" noindex>
+  <Section>
+    <Eyebrow class="text-brand-600">Internal</Eyebrow>
+    <Heading level={1} size="display" text="Styleguide" accent="guide" class="mt-2" />
+    <p class="text-muted mt-4 max-w-prose">
+      Every primitive at every width. Not indexed, not in the sitemap.
+    </p>
+  </Section>
+
+  <Section tone="surface">
+    <Heading text="Color tokens" accent="Color" />
+    <ul class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      {swatches.map(([name, cls]) => (
+        <li>
+          <div class:list={['border-line h-16 rounded-md border', cls]} />
+          <p class="mt-2 text-sm">{name}</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section>
+    <Heading text="Headings" accent="Headings" />
+    <div class="mt-8 space-y-6">
+      <Heading level={3} size="display" text="Display heading" accent="Display" />
+      <Heading level={3} size="xl" text="Extra large heading" accent="large" />
+      <Heading level={3} size="lg" text="Large heading" accent="Large" />
+      <Heading level={3} size="md" text="Medium heading, no accent" />
+    </div>
+    <p class="mt-8 max-w-prose text-base md:text-lg">
+      Body copy in Inter at 16px on phones and 18px from <code>md</code>. Inputs stay 16px or larger
+      so iOS doesn't zoom on focus.
+    </p>
+  </Section>
+
+  <Section tone="surface">
+    <Heading text="Buttons" accent="Buttons" />
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="#">Primary</Button>
+      <Button href="#" variant="secondary">
+        Secondary
+      </Button>
+      <Button href="#" variant="ghost">
+        Ghost
+      </Button>
+      <Button size="lg" href="#">
+        Large primary
+      </Button>
+      <Button type="button" disabled>
+        Disabled
+      </Button>
+    </div>
+  </Section>
+
+  {tones.map((tone) => (
+    <Section tone={tone}>
+      <Eyebrow>Section tone</Eyebrow>
+      <Heading text={`Tone: ${tone}`} accent={tone} class="mt-2" />
+      <div class="mt-6 flex flex-wrap gap-3">
+        <Button href="#" variant={tone === 'dark' || tone === 'brand' ? 'inverse' : 'primary'}>
+          Book a free class
+        </Button>
+        <Button href="#" variant="secondary">
+          See class times
+        </Button>
+      </div>
+    </Section>
+  ))}
+</BaseLayout>

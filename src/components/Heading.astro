@@ -1,0 +1,36 @@
+---
+import { splitAccent } from '@/lib/text';
+
+interface Props {
+  text: string;
+  /** Word or phrase inside `text` to style as the accent. */
+  accent?: string;
+  /** Semantic level (document outline). Independent of visual `size`. */
+  level?: 1 | 2 | 3 | 4;
+  size?: 'display' | 'xl' | 'lg' | 'md';
+  class?: string;
+}
+
+const { text, accent, level = 2, size = 'lg', class: className } = Astro.props;
+const Tag = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4';
+const parts = splitAccent(text, accent);
+
+const sizes = {
+  display: 'text-5xl leading-[0.95] md:text-7xl lg:text-8xl',
+  xl: 'text-4xl leading-[1] md:text-6xl',
+  lg: 'text-3xl leading-[1.05] md:text-5xl',
+  md: 'text-2xl leading-[1.1] md:text-3xl',
+} as const;
+---
+
+<Tag class:list={['font-extrabold tracking-tight', sizes[size], className]}>
+  {parts ? (
+    <>
+      {parts.before}
+      <em class="text-[var(--accent,var(--color-brand-600))] italic">{parts.accent}</em>
+      {parts.after}
+    </>
+  ) : (
+    text
+  )}
+</Tag>
