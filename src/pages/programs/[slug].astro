@@ -1,0 +1,15 @@
+---
+import PageStub from '@/components/PageStub.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { programs } from '@/data/site';
+
+export function getStaticPaths() {
+  return programs.map((program) => ({ params: { slug: program.slug }, props: { program } }));
+}
+
+const { program } = Astro.props;
+---
+
+<BaseLayout title={program.name} description={program.blurb}>
+  <PageStub title={`${program.name} (${program.ages})`} intro={program.blurb} />
+</BaseLayout>
