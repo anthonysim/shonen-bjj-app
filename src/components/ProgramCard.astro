@@ -1,0 +1,47 @@
+---
+import type { ImageMetadata } from 'astro';
+import Photo from '@/components/Photo.astro';
+import type { ProgramCard } from '@/data/site';
+
+interface Props {
+  card: ProgramCard;
+  /** Zero-based position, shown as "Vol. 01" */
+  index: number;
+  image: ImageMetadata;
+  class?: string;
+}
+
+const { card, index, image, class: className } = Astro.props;
+const volume = `Vol. ${String(index + 1).padStart(2, '0')}`;
+---
+
+<article
+  class:list={[
+    'group border-line bg-paper text-ink rounded-card relative flex h-full flex-col overflow-hidden border focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-brand-600',
+    className,
+  ]}
+>
+  <div class="overflow-hidden">
+    <Photo
+      src={image}
+      alt=""
+      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+      widths={[480, 720, 960]}
+      class="aspect-[4/3] object-cover transition-transform duration-500 motion-reduce:transition-none group-hover:scale-105"
+    />
+  </div>
+  <div class="flex flex-1 flex-col p-6">
+    <p class="text-brand-600 text-xs font-semibold tracking-[0.14em] uppercase">
+      {volume} · {card.ages}
+    </p>
+    <h3 class="font-display mt-2 text-3xl font-extrabold">{card.name}</h3>
+    <p class="text-muted mt-2 flex-1">{card.blurb}</p>
+    <a
+      href={card.href}
+      class="mt-4 inline-flex min-h-11 items-center gap-1 font-semibold after:absolute after:inset-0 focus-visible:outline-none"
+    >
+      Learn more<span class="sr-only"> about {card.name}</span>
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </div>
+</article>
