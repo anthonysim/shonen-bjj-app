@@ -3,6 +3,7 @@ import '@/styles/global.css';
 import Footer from '@/components/Footer.astro';
 import Header from '@/components/Header.astro';
 import { site } from '@/data/site';
+import { localBusinessJsonLd, serializeJsonLd } from '@/lib/structured-data';
 
 interface Props {
   title?: string;
@@ -11,6 +12,7 @@ interface Props {
 
 const { title, description = site.tagline } = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : site.name;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
@@ -23,6 +25,17 @@ const fullTitle = title ? `${title} | ${site.name}` : site.name;
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(localBusinessJsonLd(new URL('/', Astro.site).href))}
+    />
     <title>{fullTitle}</title>
   </head>
   <body>

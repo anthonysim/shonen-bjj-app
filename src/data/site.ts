@@ -44,6 +44,8 @@ export const site = {
     { days: 'Sat', time: '9am-12pm' },
     { days: 'Sun', time: 'Closed' },
   ],
+  /** schema.org openingHours format, kept in sync with `hours` */
+  openingHours: ['Mo-Fr 09:00-21:00', 'Sa 09:00-12:00'],
   serviceArea: ['Anytown', 'Springfield', 'Riverside', 'Fairview'],
   social: [
     { label: 'Instagram', href: 'https://instagram.com/' },
