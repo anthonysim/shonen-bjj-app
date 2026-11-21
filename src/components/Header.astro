@@ -1,18 +1,89 @@
 ---
-import SiteNav from '@/components/SiteNav';
+// Site header, laid out like the original: wordmark left, nav centered, phone and CTA right.
+// The 1fr auto 1fr grid keeps the nav centered no matter how wide the sides are, so nothing in
+// the header moves between pages. Below lg the nav collapses into MobileMenu.
+//
+// `overlay` (homepage) floats the header over the dark hero: transparent with white text until the
+// page scrolls, then the usual paper bar. States live in global.css under `.site-header`.
+import MobileMenu from '@/components/MobileMenu';
 import { nav, site } from '@/data/site';
 
+interface Props {
+  overlay?: boolean;
+}
+
+const { overlay = false } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => currentPath === href || currentPath.startsWith(`${href}/`);
+const desktopNav = nav.filter((item) => !item.mobileOnly);
 ---
 
-<header class="sticky top-0 z-30 border-b border-line bg-paper/95 backdrop-blur">
-  <div class="relative mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-2 px-[clamp(1.25rem,4vw,3rem)]">
+<header id="site-header" class="site-header" data-header data-overlay={overlay ? '' : undefined}>
+  <div class="mx-auto grid h-full w-full max-w-[1280px] grid-cols-[1fr_auto] items-center gap-6 px-[clamp(1.25rem,4vw,3rem)] lg:grid-cols-[1fr_auto_1fr]">
     <a
       href="/"
-      class="focus-visible:outline-ink inline-flex min-h-11 items-center font-display text-xl font-light whitespace-nowrap italic tracking-tight sm:text-2xl focus-visible:outline-2 focus-visible:outline-offset-2"
+      class="inline-flex items-center justify-self-start py-2 font-display text-2xl font-light whitespace-nowrap italic tracking-tight lg:text-[1.75rem]"
     >
       {site.name}
     </a>
-    <SiteNav client:load nav={nav} cta={site.cta} phone={site.phone} currentPath={currentPath} />
+
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-[clamp(20px,2.2vw,36px)]">
+        {desktopNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="site-nav__link"
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-6 justify-self-end">
+      <a
+        href={site.phone.href}
+        class="hidden text-nav font-medium tracking-[0.06em] whitespace-nowrap opacity-85 transition-opacity duration-300 hover:underline hover:underline-offset-4 hover:opacity-100 min-[1100px]:inline"
+      >
+        {site.phone.display}
+      </a>
+      <a href={site.cta.href} class="site-header__cta hidden lg:inline-flex">
+        {site.cta.label}
+      </a>
+      <MobileMenu
+        client:load
+        nav={nav}
+        cta={site.cta}
+        phone={site.phone}
+        currentPath={currentPath}
+      />
+    </div>
   </div>
 </header>
+
+{overlay ? (
+  /* Inline so a page reloaded mid-scroll gets the solid bar before first paint */
+  <script is:inline>
+    (() => {
+      const header = document.getElementById('site-header');
+      let ticking = false;
+      const update = () => {
+        ticking = false;
+        header.toggleAttribute('data-scrolled', window.scrollY > 24);
+      };
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(update);
+        },
+        { passive: true },
+      );
+      update();
+    })();
+  </script>
+) : null}

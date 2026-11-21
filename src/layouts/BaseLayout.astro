@@ -1,5 +1,10 @@
 ---
 import '@/styles/global.css';
+// Preload the latin font files so they arrive with the HTML instead of after the CSS is parsed.
+// These must be the exact files global.css's @font-face rules use, or the browser downloads twice.
+import dmSans from '@fontsource-variable/dm-sans/files/dm-sans-latin-opsz-normal.woff2?url';
+import frauncesItalic from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-italic.woff2?url';
+import frauncesNormal from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Footer from '@/components/Footer.astro';
 import Header from '@/components/Header.astro';
@@ -17,9 +22,17 @@ interface Props {
   noindex?: boolean;
   /** Trail after Home, ending with the current page (no href). Omit on the homepage. */
   breadcrumbs?: BreadcrumbItem[];
+  /** Float a transparent header over a dark full-bleed hero (homepage). */
+  overlayHeader?: boolean;
 }
 
-const { title, description = site.tagline, noindex = false, breadcrumbs } = Astro.props;
+const {
+  title,
+  description = site.tagline,
+  noindex = false,
+  breadcrumbs,
+  overlayHeader = false,
+} = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : site.name;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const crumbs: BreadcrumbItem[] | null = breadcrumbs
@@ -36,6 +49,9 @@ const crumbs: BreadcrumbItem[] | null = breadcrumbs
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : null}
     <meta name="theme-color" content="#f5f2eb" />
+    {[dmSans, frauncesNormal, frauncesItalic].map((href) => (
+      <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />
+    ))}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="canonical" href={canonical} />
@@ -60,11 +76,11 @@ const crumbs: BreadcrumbItem[] | null = breadcrumbs
   <body>
     <a
       href="#main"
-      class="bg-ink sr-only z-50 rounded-card px-4 py-2 text-white focus:not-sr-only focus:absolute focus:top-2 focus:left-2"
+      class="bg-ink sr-only z-70 rounded-card px-4 py-2 text-white focus:not-sr-only focus:absolute focus:top-2 focus:left-2"
     >
       Skip to content
     </a>
-    <Header />
+    <Header overlay={overlayHeader} />
     <main id="main">
       {crumbs ? (
         <div class="mx-auto max-w-[1280px] px-[clamp(1.25rem,4vw,3rem)] pt-2">

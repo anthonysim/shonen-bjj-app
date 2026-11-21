@@ -5,6 +5,46 @@
 @plugin '@tailwindcss/typography';
 
 /*
+ * Fallback faces sized to the web fonts. While Fraunces or DM Sans is still loading, text renders
+ * in Georgia or Arial scaled to the same width and baseline, so the swap barely moves anything.
+ * Numbers were measured in Chrome (text widths per font, ascent and descent from the font boxes):
+ *   DM Sans vs Arial:   width 0.87-0.96 depending on case, ascent .992, descent .310
+ *   Fraunces vs Georgia: width 0.82 (italic 0.75),            ascent .978, descent .255
+ * Overrides are the web metric divided by size-adjust. Re-measure if the fonts change.
+ */
+@font-face {
+  font-family: 'DM Sans Fallback';
+  src: local('Arial');
+  font-weight: 100 900;
+  size-adjust: 91%;
+  ascent-override: 109%;
+  descent-override: 34.1%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Fraunces Fallback';
+  src: local('Georgia');
+  font-weight: 100 900;
+  font-style: normal;
+  size-adjust: 82%;
+  ascent-override: 119.3%;
+  descent-override: 31.1%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Fraunces Fallback';
+  src: local('Georgia Italic'), local('Georgia-Italic');
+  font-weight: 100 900;
+  font-style: italic;
+  size-adjust: 75%;
+  ascent-override: 130.4%;
+  descent-override: 34%;
+  line-gap-override: 0%;
+}
+
+/*
  * Mobile-first. Tailwind defaults map to our targets:
  *   base  = phones (375+)
  *   md    = 768px  (iPad portrait)
@@ -15,8 +55,9 @@
  * italic tail phrase, uppercase tracked labels, hairline rules, near-square corners.
  */
 @theme {
-  --font-sans: 'DM Sans Variable', 'Helvetica Neue', Arial, system-ui, sans-serif;
-  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-sans:
+    'DM Sans Variable', 'DM Sans Fallback', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', 'Fraunces Fallback', Georgia, 'Times New Roman', serif;
 
   --color-ink: #000000;
   --color-ink-soft: #111111;
@@ -30,6 +71,10 @@
   --color-error: #8a1c1c;
 
   --radius-card: 2px;
+
+  /* Header bar height (h-header, pt-header) and the original's easing */
+  --spacing-header: 4.75rem;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Fluid type scale, from the original's scale */
   --text-display: clamp(2.75rem, 1.55rem + 5.4vw, 6.75rem);
@@ -52,6 +97,11 @@
 
 @layer base {
   html {
+    /* Always reserve the scrollbar's space. Otherwise a page that starts shorter than the window
+       and then grows (images, streamed HTML) gains a scrollbar and everything shifts sideways. */
+    scrollbar-gutter: stable;
+    /* In-page anchors land below the sticky header */
+    scroll-padding-top: calc(var(--spacing-header) + 1rem);
     /* Stop iOS from inflating text on rotate; keep tap flash subtle */
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
@@ -104,6 +154,241 @@
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
+    }
+  }
+}
+
+/*
+ * Header and mobile menu (Header.astro, MobileMenu.tsx). Kept as CSS rather than utilities because
+ * the bar has three states that restyle its children: default (paper bar), overlay (transparent
+ * over the homepage hero until data-scrolled), and menu open (solid paper behind the menu).
+ */
+@layer components {
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    height: var(--spacing-header);
+    background: rgb(245 242 235 / 0.96);
+    backdrop-filter: blur(10px) saturate(1.2);
+    box-shadow: 0 1px 0 var(--color-line);
+    color: var(--color-ink);
+    transition:
+      background-color 320ms var(--ease-out-expo),
+      color 320ms var(--ease-out-expo),
+      box-shadow 320ms var(--ease-out-expo);
+  }
+
+  .site-header[data-overlay] {
+    position: fixed;
+    inset-inline: 0;
+  }
+
+  /* Darkens the top of the hero so white nav text stays readable over bright frames */
+  .site-header[data-overlay]::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 -40px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(0 0 0 / 0.45), rgb(0 0 0 / 0));
+    transition: opacity 320ms var(--ease-out-expo);
+  }
+
+  :root:not(.menu-open) .site-header[data-overlay]:not([data-scrolled]) {
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    color: #fff;
+
+    & .site-header__cta {
+      border-color: #fff;
+      background: #fff;
+      color: var(--color-ink);
+
+      &:hover {
+        border-color: var(--color-paper);
+        background: var(--color-paper);
+      }
+    }
+  }
+
+  .site-header[data-scrolled]::before,
+  .menu-open .site-header::before {
+    opacity: 0;
+  }
+
+  .menu-open {
+    overflow: hidden;
+  }
+
+  .menu-open .site-header {
+    background: var(--color-paper);
+    box-shadow: none;
+  }
+
+  /* Uppercase tracked link with a hairline that draws in on hover and marks the current page */
+  .site-nav__link {
+    position: relative;
+    display: inline-block;
+    padding-block: 10px;
+    font: 500 var(--text-nav) / 1 var(--font-sans);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      bottom: 4px;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform 320ms var(--ease-out-expo);
+    }
+
+    &:hover::after,
+    &[aria-current='page']::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+  }
+
+  /* Small primary button; also the full-width one at the bottom of the mobile menu */
+  .site-header__cta {
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding-inline: 20px;
+    border: 1px solid var(--color-ink);
+    border-radius: var(--radius-card);
+    background: var(--color-ink);
+    color: #fff;
+    font: 500 var(--text-nav) / 1 var(--font-sans);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition:
+      background-color 320ms var(--ease-out-expo),
+      color 320ms var(--ease-out-expo),
+      border-color 320ms var(--ease-out-expo),
+      box-shadow 320ms var(--ease-out-expo);
+
+    &:hover {
+      border-color: var(--color-ink-soft);
+      background: var(--color-ink-soft);
+      box-shadow: 0 10px 28px -14px rgb(0 0 0 / 0.55);
+    }
+  }
+
+  .mobile-menu .site-header__cta {
+    display: inline-flex;
+  }
+
+  /* Two hairlines that cross into an X */
+  .menu-toggle {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    color: inherit;
+  }
+
+  .menu-toggle__bars,
+  .menu-toggle__bars::before,
+  .menu-toggle__bars::after {
+    position: absolute;
+    left: 50%;
+    width: 24px;
+    margin-left: -12px;
+  }
+
+  .menu-toggle__bars {
+    top: 50%;
+  }
+
+  .menu-toggle__bars::before,
+  .menu-toggle__bars::after {
+    content: '';
+    height: 1px;
+    background: currentColor;
+    transition:
+      transform 320ms var(--ease-out-expo),
+      top 320ms var(--ease-out-expo);
+  }
+
+  .menu-toggle__bars::before {
+    top: -4px;
+  }
+
+  .menu-toggle__bars::after {
+    top: 4px;
+  }
+
+  .menu-toggle[aria-expanded='true'] .menu-toggle__bars::before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded='true'] .menu-toggle__bars::after {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+
+  /* Full-screen panel under the header bar; fades down, then its rows rise in one after another */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--spacing-header);
+    background: var(--color-paper);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity 320ms var(--ease-out-expo),
+      transform 320ms var(--ease-out-expo),
+      visibility 0s linear 320ms;
+  }
+
+  .menu-open .mobile-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 320ms var(--ease-out-expo),
+      transform 320ms var(--ease-out-expo),
+      visibility 0s linear 0s;
+  }
+
+  .mobile-menu__item {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 320ms var(--ease-out-expo),
+      transform 320ms var(--ease-out-expo);
+  }
+
+  .menu-open .mobile-menu__item {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(60ms + var(--i, 0) * 40ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .site-nav__link::after,
+    .menu-toggle__bars::before,
+    .menu-toggle__bars::after,
+    .mobile-menu,
+    .mobile-menu__item {
+      transition: none !important;
     }
   }
 }

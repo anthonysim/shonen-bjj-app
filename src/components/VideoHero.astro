@@ -13,6 +13,8 @@ interface Cta {
 
 interface Props {
   eyebrow?: string;
+  /** Small line pinned top right on desktop, e.g. the neighborhood. */
+  meta?: string;
   title: string;
   accent?: string;
   deck?: string;
@@ -24,13 +26,26 @@ interface Props {
   videoSources?: { src: string; type: string }[];
 }
 
-const { eyebrow, title, accent, deck, primary, secondary, poster, videoSources = [] } = Astro.props;
+const {
+  eyebrow,
+  meta,
+  title,
+  accent,
+  deck,
+  primary,
+  secondary,
+  poster,
+  videoSources = [],
+} = Astro.props;
 const hasVideo = videoSources.length > 0;
+// Lines up with the content column's edge at every width (Container's gutter and 1280px cap)
+const gutter = 'clamp(1.25rem, 4vw, 3rem)';
+const edge = `max(${gutter}, calc((100% - 1280px) / 2 + ${gutter}))`;
 ---
 
 <section
   data-video-hero
-  class="relative isolate flex min-h-[34rem] items-end overflow-hidden bg-ink text-white [--heading:#fff] md:min-h-[38rem] lg:min-h-[44rem]"
+  class="group/hero relative isolate flex min-h-[max(640px,min(100svh,940px))] flex-col justify-end overflow-hidden bg-ink pt-[calc(var(--spacing-header)+48px)] pb-[clamp(40px,8vh,96px)] text-white [--heading:#fff]"
 >
   <Photo
     src={poster}
@@ -39,7 +54,7 @@ const hasVideo = videoSources.length > 0;
     grade="hero"
     sizes="100vw"
     widths={[640, 1024, 1600]}
-    class="absolute inset-0 -z-20 h-full object-cover"
+    class="absolute inset-0 -z-20 h-full object-cover object-[50%_40%] opacity-45 transition-opacity duration-1000 group-has-[video[data-playing]]/hero:opacity-0"
   />
   {hasVideo ? (
     <video
@@ -49,7 +64,7 @@ const hasVideo = videoSources.length > 0;
       preload="none"
       aria-hidden="true"
       tabindex="-1"
-      class="grade-hero absolute inset-0 -z-10 h-full w-full object-cover opacity-0 transition-opacity duration-700 data-[playing]:opacity-100"
+      class="grade-hero absolute inset-0 -z-10 h-full w-full object-cover object-[50%_40%] opacity-0 transition-opacity duration-1000 data-[playing]:opacity-45"
     >
       {/* No src until the script decides to play, so nothing downloads on phones */}
       {videoSources.map((source) => (
@@ -57,17 +72,35 @@ const hasVideo = videoSources.length > 0;
       ))}
     </video>
   ) : null}
+  {/* Dark at the top (header) and bottom (copy), lighter in the middle, darker on the copy side */}
   <div
     aria-hidden="true"
-    class="absolute inset-0 -z-[5] bg-linear-to-t from-black via-black/55 to-black/35"
+    class="absolute inset-0 -z-[5] bg-[linear-gradient(180deg,rgb(0_0_0/0.55)_0%,rgb(0_0_0/0.15)_30%,rgb(0_0_0/0.2)_55%,rgb(0_0_0/0.92)_100%),linear-gradient(90deg,rgb(0_0_0/0.6)_0%,rgb(0_0_0/0)_60%)]"
   ></div>
 
-  <Container class="relative pt-28 pb-14 md:pt-36 md:pb-20 lg:pb-24">
-    {eyebrow ? <Eyebrow class="text-white/70">{eyebrow}</Eyebrow> : null}
-    <Heading level={1} size="display" text={title} accent={accent} class="mt-5 max-w-5xl" />
-    {deck ? <p class="mt-6 max-w-2xl text-lede text-white/80">{deck}</p> : null}
+  {meta ? (
+    <p
+      style={{ right: edge }}
+      class="absolute top-[calc(var(--spacing-header)+40px)] hidden items-center gap-3.5 text-label font-medium tracking-[0.14em] text-white/55 uppercase before:h-px before:w-10 before:bg-white/35 lg:flex"
+    >
+      {meta}
+    </p>
+  ) : null}
+
+  <Container class="relative">
+    {eyebrow ? <Eyebrow class="text-white/55">{eyebrow}</Eyebrow> : null}
+    <Heading
+      level={1}
+      size="display"
+      text={title}
+      accent={accent}
+      class="mt-[clamp(20px,2.4vw,32px)] max-w-[1040px]"
+    />
+    {deck ? (
+      <p class="mt-[clamp(20px,2.2vw,32px)] max-w-[46ch] text-lede text-white/72">{deck}</p>
+    ) : null}
     {primary || secondary ? (
-      <div class="mt-8 flex flex-wrap gap-3">
+      <div class="mt-[clamp(28px,3vw,44px)] flex flex-wrap gap-x-6 gap-y-4">
         {primary ? (
           <Button href={primary.href} size="lg" variant="inverse" arrow>
             {primary.label}
@@ -80,7 +113,7 @@ const hasVideo = videoSources.length > 0;
         ) : null}
       </div>
     ) : null}
-    <div class="mt-8">
+    <div class="mt-[clamp(36px,5vw,72px)]">
       <slot />
     </div>
   </Container>
@@ -91,13 +124,14 @@ const hasVideo = videoSources.length > 0;
       data-video-toggle
       hidden
       aria-label="Pause background video"
-      class="absolute right-5 bottom-5 inline-flex size-11 items-center justify-center rounded-full border border-white/40 bg-black/30 text-white backdrop-blur hover:border-white md:right-12 md:bottom-8"
+      style={{ right: edge }}
+      class="absolute top-[calc(var(--spacing-header)+16px)] z-[2] inline-flex size-11 items-center justify-center rounded-full border border-white/35 bg-black/20 text-white transition-colors duration-300 hover:border-white hover:bg-black/40 lg:top-auto lg:bottom-[clamp(40px,8vh,96px)]"
     >
       <svg
         data-icon="pause"
         aria-hidden="true"
         viewBox="0 0 24 24"
-        class="size-5"
+        class="size-4"
         fill="currentColor"
       >
         <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
@@ -106,7 +140,7 @@ const hasVideo = videoSources.length > 0;
         data-icon="play"
         aria-hidden="true"
         viewBox="0 0 24 24"
-        class="hidden size-5"
+        class="hidden size-4"
         fill="currentColor"
       >
         <path d="M8 5v14l11-7z" />

@@ -26,11 +26,15 @@ const cardImages = [landscape, portrait, square, landscape, square];
 const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${rating.source} reviews`;
 ---
 
-<BaseLayout description={`${site.tagline}. Your first class is free, with no sign-up fees.`}>
+<BaseLayout
+  overlayHeader
+  description={`${site.tagline}. Your first class is free, with no sign-up fees.`}
+>
   <VideoHero
     title="Become the hero of your own story"
     accent="your own story"
     eyebrow={`Brazilian jiu-jitsu · ${site.address.city}, ${site.address.region}`}
+    meta={`${site.address.city} · ${site.serviceArea.length} nearby towns`}
     deck="Brazilian jiu-jitsu for kids and adults, taught by coaches who care about every student."
     primary={site.cta}
     secondary={{ label: 'See class times', href: '/schedule' }}
