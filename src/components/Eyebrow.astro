@@ -1,12 +1,13 @@
 ---
-// Small uppercase label above a heading.
+// Small uppercase label above a heading (or inline, as a span).
 interface Props {
+  as?: 'p' | 'span';
   class?: string;
 }
 
-const { class: className } = Astro.props;
+const { as: Tag = 'p', class: className } = Astro.props;
 ---
 
-<p class:list={['text-label font-medium tracking-[0.14em] text-muted uppercase', className]}>
+<Tag class:list={['text-label font-medium tracking-[0.14em] text-muted uppercase', className]}>
   <slot />
-</p>
+</Tag>

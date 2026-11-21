@@ -134,7 +134,7 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
     </div>
   </Section>
 
-  <ReviewsBlock reviews={featuredReviews()} tone="paper" />
+  <ReviewsBlock reviews={featuredReviews().slice(0, 4)} tone="paper" />
 
   <ScheduleSummary tone="surface" />
 
