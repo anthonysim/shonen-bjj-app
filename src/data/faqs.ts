@@ -178,6 +178,30 @@ export const etiquette: string[] = [
   'Be kind. Everyone was a beginner once.',
 ];
 
+/** The free-trial page's "First-class questions", from the original site. */
+export const firstClassFaqs: Faq[] = [
+  {
+    question: 'Do I need experience or to be in shape to start?',
+    answer:
+      'No. Most of our students walked in with zero grappling experience. Adults can start in our Gi Basics class, which runs Monday through Thursday at 7:00 PM and focuses on fundamentals, and your conditioning will build naturally as you train.',
+  },
+  {
+    question: 'What should I wear to my first class?',
+    answer:
+      'A clean gi is provided for your free class, so wear an athletic top and pants or shorts to go under it. Please remove jewelry, trim your nails and bring flip-flops or sandals for walking off the mat, plus a water bottle. For no-gi classes, wear a rashguard and shorts without zippers or pockets.',
+  },
+  {
+    question: 'When should I arrive for my first class?',
+    answer:
+      'Please try to arrive fifteen minutes early so you can meet the staff and instructor, sign a waiver, and take a tour of the facility.',
+  },
+  {
+    question: 'Can parents watch?',
+    answer:
+      "Yes. Parents are welcome to watch from the lounge. Per our code of conduct, please don't coach from the sideline; our coaches have it covered.",
+  },
+];
+
 /** Groups shown on the full /faq page, with etiquette as the last group. */
 export const faqPageGroups: FaqGroup[] = [
   ...faqGroups.filter((group) => group.onFaqPage !== false),

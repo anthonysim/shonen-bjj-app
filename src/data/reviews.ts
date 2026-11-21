@@ -77,6 +77,20 @@ export const reviews: Review[] = [
     topic: 'adults',
   },
   {
+    id: 'adults-charlotte',
+    quote:
+      'Completely new to Ju Jitsu and am so lucky to have landed at Shonen! After checking out a few gyms in the area, none could beat the fantastic instruction\u2026',
+    author: 'Charlotte C.',
+    topic: 'adults',
+  },
+  {
+    id: 'adults-rob',
+    quote:
+      'I am 53 with zero experience and have been going for 3 months. The teaching and training has been extremely phenomenal and the students are extremely helpful and caring.',
+    author: 'Rob S.',
+    topic: 'adults',
+  },
+  {
     id: 'adults-2',
     quote: 'Great training partners and an honest, no-ego room.',
     author: 'Placeholder student G.',
@@ -122,6 +136,11 @@ export const reviews: Review[] = [
 export function reviewsFor(topic: ReviewTopic = 'general', limit?: number): Review[] {
   const matches = reviews.filter((r) => r.topic === topic);
   return limit === undefined ? matches : matches.slice(0, limit);
+}
+
+/** Reviews by id, in the order given (unknown ids are skipped). */
+export function reviewsById(ids: readonly string[]): Review[] {
+  return ids.flatMap((id) => reviews.find((r) => r.id === id) ?? []);
 }
 
 /** Reviews picked for the homepage, in their `featured` order. */
