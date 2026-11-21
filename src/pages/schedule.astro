@@ -69,7 +69,11 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
   </Hero>
 
   {/* Tighter top padding than other sections: the header card already adds height here */}
-  <Section tone="surface" id="timetable" class="pt-[clamp(56px,3rem+4vw,104px)]!">
+  <Section
+    tone="surface"
+    id="timetable"
+    class="pt-(--section-pt)! [--section-pt:clamp(56px,3rem+4vw,104px)]"
+  >
     {/*
       Header: title and intro on the left, a "next class" card on the right. The card ships a
       static week summary and the script swaps in the live next class (static HTML can't know
