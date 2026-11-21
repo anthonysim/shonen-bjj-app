@@ -78,12 +78,12 @@ export interface Feature {
   title: string;
 }
 
-/** What the building has. About page, as compact rows. Placeholder text. */
+/** What the building has. About page, as compact rows (original copy). */
 export const academyFeatures: Feature[] = [
-  { tag: 'Mats', title: 'Padded mats, cleaned and sanitized every day' },
-  { tag: 'Changing', title: 'Private changing rooms and restrooms' },
+  { tag: 'Mats', title: 'Raised-floor mats, cleaned and sterilized daily' },
+  { tag: 'Changing', title: 'Private changing rooms and multiple restrooms' },
   { tag: 'Lockers', title: 'Lockers for your bag and valuables' },
-  { tag: 'Lounge', title: 'A seating area where parents can watch class' },
+  { tag: 'Lounge', title: 'A lounge where parents can watch class' },
   { tag: 'Day one', title: 'A clean loaner gi for your first class' },
 ];
 

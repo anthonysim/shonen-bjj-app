@@ -46,9 +46,9 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
 >
   <Hero
     eyebrow={`About ${site.name}`}
-    title="A jiu-jitsu academy that sweats the details"
-    accent="sweats the details"
-    deck="Built on a simple idea: specialist jiu-jitsu instruction in a clean, organized academy where every student is looked after."
+    title="A jiu jitsu academy that sweats the details."
+    accent="sweats the details."
+    deck="Shonen was built on a simple vision: world-class instruction that specializes in jiu jitsu, in a clean, organized academy where everyone is welcome."
     primary={bookOnPage}
     secondary={{ label: 'See class times', href: '/schedule' }}
     facts={facts}
@@ -86,19 +86,23 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
     <div class:list={['grid items-center gap-12 lg:grid-cols-12', gutterX]}>
       <div class="lg:col-start-7 lg:col-end-13 lg:row-start-1">
         <Eyebrow>Our story</Eyebrow>
-        <Heading text="From one mat to a home academy" accent="a home academy" class="mt-4" />
+        <Heading text="From Costa Mesa to Glen Burnie." accent="Glen Burnie." class="mt-4" />
         <div class="mt-6 max-w-[60ch] space-y-4">
           <p>
-            {coach.shortName} trained for years under a respected lineage of black belts, then
-            started teaching kids and adults with the same curriculum and the same standard.
+            {coach.displayName} earned his black belt under the legendary Mendes Brothers and taught
+            kids and adults at their Art of Jiu Jitsu Academy in Costa Mesa, California, one of the
+            most respected academies in the sport. As a coach there, he was part of five IBJJF Kids
+            Pan American team titles.
           </p>
           <p>
-            That approach became {site.name}: a place in {site.address.city} where beginners and
-            competitors learn detailed, modern jiu-jitsu side by side.
+            He brought that same curriculum, and the same standard, to Maryland. Shonen was built to
+            offer world-class instruction that specializes in jiu jitsu, instead of following the
+            trend of being a sub-par MMA school. Every class is organized, supervised and taught
+            with the same attention to detail, whether it’s your first day or your hundredth.
           </p>
         </div>
         <LinkArrow href={`/team/${coach.slug}`} class="mt-6 text-ink">
-          Meet the coach
+          Meet the Coach
         </LinkArrow>
       </div>
       <figure class="md:max-w-[520px] lg:col-start-1 lg:col-end-6 lg:row-start-1 lg:max-w-none">
@@ -120,9 +124,9 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
   <Section id="values">
     <SectionHead
       eyebrow="What we believe"
-      heading="What we stand for"
-      accent="stand for"
-      lede="Three words have guided the academy since day one, and they still decide how every class is run."
+      heading="What we stand for."
+      accent="stand for."
+      lede="Three words have guided Shonen since the day the doors opened, and they still decide how every class is run."
     />
     <NumberedRows items={values} />
   </Section>
@@ -131,23 +135,22 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
     <div class:list={['mb-24 grid gap-12 lg:grid-cols-12', gutterX]}>
       <header class="lg:col-start-1 lg:col-end-6">
         <Eyebrow>The academy</Eyebrow>
-        <Heading text="Built for training, kept immaculate" accent="kept immaculate" class="mt-4" />
+        <Heading
+          text="Built for training, kept immaculate."
+          accent="kept immaculate."
+          class="mt-4"
+        />
         <p class="mt-6 max-w-[56ch] text-lede">
-          A clean academy is the first thing members mention, and it is the first thing we check
-          every morning.
+          Members mention it in review after review: the academy is spotless. It’s the first detail
+          you’ll notice when you walk in.
         </p>
       </header>
       <CredentialList items={academyFeatures} class="lg:col-start-7 lg:col-end-13" />
     </div>
-    {/* Swipeable row on phones; three photos bottom-aligned from lg, the last one wider */}
-    <div class="-mx-(--spacing-gutter) grid snap-x snap-mandatory auto-cols-[78%] grid-flow-col gap-3 overflow-x-auto scroll-px-(--spacing-gutter) px-(--spacing-gutter) pb-3 lg:mx-0 lg:grid-flow-row lg:grid-cols-3 lg:items-end lg:gap-[clamp(16px,2vw,32px)] lg:overflow-visible lg:p-0">
-      {[portrait, square, landscape].map((image, index) => (
-        <div
-          class:list={[
-            'aspect-4/5 snap-start overflow-hidden bg-paper-2',
-            index === 2 && 'lg:aspect-3/2',
-          ]}
-        >
+    {/* Swipeable row on phones; three equal photos side by side from lg */}
+    <div class="-mx-(--spacing-gutter) grid snap-x snap-mandatory auto-cols-[78%] grid-flow-col gap-3 overflow-x-auto scroll-px-(--spacing-gutter) px-(--spacing-gutter) pb-3 lg:mx-0 lg:grid-flow-row lg:grid-cols-3 lg:gap-[clamp(16px,2vw,32px)] lg:overflow-visible lg:p-0">
+      {[portrait, square, landscape].map((image) => (
+        <div class="aspect-4/5 snap-start overflow-hidden bg-paper-2">
           <Photo
             src={image}
             alt="Placeholder photo of the academy"
@@ -164,9 +167,9 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
   <Section id="community">
     <SectionHead
       eyebrow="Community"
-      heading="Beginners and competitors, one team"
-      accent="one team"
-      lede="From four-year-olds on their first day to competitors getting ready for a tournament, everyone trains on the same mats and cheers for each other."
+      heading="Beginners and competitors, one team."
+      accent="one team."
+      lede="From four-year-olds on their first day to competitors preparing for IBJJF events, everyone in Glen Burnie trains in the same room, with the same respect."
     />
     <figure>
       <div class="aspect-3/2 overflow-hidden bg-paper-2">
@@ -179,12 +182,13 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
           class="h-full object-cover"
         />
       </div>
-      <figcaption class:list={[label, 'mt-2']}>The {site.name} team</figcaption>
+      <figcaption class:list={[label, 'mt-2']}>The Shonen kids team</figcaption>
     </figure>
     {communityQuote ? (
       <PullQuote
         quote={communityQuote.quote}
         author={communityQuote.author}
+        label="Google review"
         class="mt-16 ml-auto max-w-[760px]"
       />
     ) : null}
@@ -194,8 +198,8 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
     <Eyebrow>Our promise</Eyebrow>
     <Heading text="No sign-up fees. Ever." accent="Ever." class="mt-4" />
     <p class="mx-auto mt-6 max-w-[56ch] text-lede">
-      Sign-up fees and hidden extras are common in martial arts schools. We do not charge them. You
-      pay for classes, and that is it.
+      Sign-up fees and other hidden fees are a common practice in martial arts schools. There are no
+      sign-up fees at Shonen, and no belt-promotion fees either.
     </p>
     <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
       <Button href="#book" arrow>
@@ -211,8 +215,8 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
     <ReviewsBlock
       reviews={[featured]}
       eyebrow="Reviews"
-      heading="Details matter"
-      accent="matter"
+      heading="Details matter."
+      accent="matter."
       tone="paper"
     />
   ) : null}
