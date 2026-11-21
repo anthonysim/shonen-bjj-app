@@ -2,6 +2,7 @@
 import type { ImageMetadata } from 'astro';
 import Button from '@/components/Button.astro';
 import Container from '@/components/Container.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
 import Heading from '@/components/Heading.astro';
 import Photo from '@/components/Photo.astro';
 
@@ -11,6 +12,7 @@ interface Cta {
 }
 
 interface Props {
+  eyebrow?: string;
   title: string;
   accent?: string;
   deck?: string;
@@ -22,18 +24,19 @@ interface Props {
   videoSources?: { src: string; type: string }[];
 }
 
-const { title, accent, deck, primary, secondary, poster, videoSources = [] } = Astro.props;
+const { eyebrow, title, accent, deck, primary, secondary, poster, videoSources = [] } = Astro.props;
 const hasVideo = videoSources.length > 0;
 ---
 
 <section
   data-video-hero
-  class="relative isolate flex min-h-[34rem] items-end overflow-hidden bg-brand-900 text-white [--accent:var(--color-brand-500)] md:min-h-[38rem] lg:min-h-[42rem]"
+  class="relative isolate flex min-h-[34rem] items-end overflow-hidden bg-ink text-white [--heading:#fff] md:min-h-[38rem] lg:min-h-[44rem]"
 >
   <Photo
     src={poster}
     alt=""
     priority
+    grade="hero"
     sizes="100vw"
     widths={[640, 1024, 1600]}
     class="absolute inset-0 -z-20 h-full object-cover"
@@ -46,7 +49,7 @@ const hasVideo = videoSources.length > 0;
       preload="none"
       aria-hidden="true"
       tabindex="-1"
-      class="absolute inset-0 -z-10 h-full w-full object-cover opacity-0 transition-opacity duration-700 data-[playing]:opacity-100"
+      class="grade-hero absolute inset-0 -z-10 h-full w-full object-cover opacity-0 transition-opacity duration-700 data-[playing]:opacity-100"
     >
       {/* No src until the script decides to play, so nothing downloads on phones */}
       {videoSources.map((source) => (
@@ -56,27 +59,28 @@ const hasVideo = videoSources.length > 0;
   ) : null}
   <div
     aria-hidden="true"
-    class="absolute inset-0 -z-[5] bg-linear-to-t from-black/80 via-black/50 to-black/30"
+    class="absolute inset-0 -z-[5] bg-linear-to-t from-black via-black/55 to-black/35"
   ></div>
 
-  <Container class="relative py-14 md:py-20 lg:py-24">
-    <Heading level={1} size="display" text={title} accent={accent} class="max-w-4xl" />
-    {deck ? <p class="mt-5 max-w-prose text-lg md:text-xl">{deck}</p> : null}
+  <Container class="relative pt-28 pb-14 md:pt-36 md:pb-20 lg:pb-24">
+    {eyebrow ? <Eyebrow class="text-white/70">{eyebrow}</Eyebrow> : null}
+    <Heading level={1} size="display" text={title} accent={accent} class="mt-5 max-w-5xl" />
+    {deck ? <p class="mt-6 max-w-2xl text-lede text-white/80">{deck}</p> : null}
     {primary || secondary ? (
-      <div class="mt-7 flex flex-wrap gap-3">
+      <div class="mt-8 flex flex-wrap gap-3">
         {primary ? (
-          <Button href={primary.href} size="lg" variant="inverse">
+          <Button href={primary.href} size="lg" variant="inverse" arrow>
             {primary.label}
           </Button>
         ) : null}
         {secondary ? (
-          <Button href={secondary.href} size="lg" variant="secondary">
+          <Button href={secondary.href} size="lg" variant="secondary" class="text-white">
             {secondary.label}
           </Button>
         ) : null}
       </div>
     ) : null}
-    <div class="mt-7">
+    <div class="mt-8">
       <slot />
     </div>
   </Container>
@@ -87,7 +91,7 @@ const hasVideo = videoSources.length > 0;
       data-video-toggle
       hidden
       aria-label="Pause background video"
-      class="absolute right-4 bottom-4 inline-flex size-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur hover:bg-black/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white md:right-8 md:bottom-6"
+      class="absolute right-5 bottom-5 inline-flex size-11 items-center justify-center rounded-full border border-white/40 bg-black/30 text-white backdrop-blur hover:border-white md:right-12 md:bottom-8"
     >
       <svg
         data-icon="pause"

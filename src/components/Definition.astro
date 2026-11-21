@@ -10,14 +10,24 @@ interface Props {
 const { word, pronunciation, partOfSpeech, meaning } = Astro.props;
 ---
 
-<div class="border-line bg-paper text-ink rounded-card border p-6 md:p-8">
-  <p class="font-display text-5xl font-extrabold md:text-6xl">{word}</p>
-  {pronunciation || partOfSpeech ? (
-    <p class="text-muted mt-2 text-lg">
-      {pronunciation ? <span>{pronunciation}</span> : null}
-      {pronunciation && partOfSpeech ? <span aria-hidden="true"> · </span> : null}
-      {partOfSpeech ? <em>{partOfSpeech}</em> : null}
+<div>
+  <Fragment>
+    <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">Definition</p>
+    <div class="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 border-b border-line-strong pb-5">
+      <p class="font-display text-h1 font-light text-ink">{word}</p>
+      {pronunciation || partOfSpeech ? (
+        <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">
+          {pronunciation ? <span>/ {pronunciation} /</span> : null}
+          {pronunciation && partOfSpeech ? <span aria-hidden="true"> · </span> : null}
+          {partOfSpeech ? <span>{partOfSpeech}</span> : null}
+        </p>
+      ) : null}
+    </div>
+    <p class="mt-5 text-lede text-ink">
+      <span aria-hidden="true" class="font-display mr-2 font-light italic text-muted">
+        1.
+      </span>
+      {meaning}
     </p>
-  ) : null}
-  <p class="mt-4 text-lg md:text-xl">{meaning}</p>
+  </Fragment>
 </div>

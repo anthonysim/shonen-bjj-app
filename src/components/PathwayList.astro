@@ -13,17 +13,17 @@ const { stages } = Astro.props;
     <li class="relative flex items-start gap-4 py-6 md:items-center md:gap-8">
       <span
         aria-hidden="true"
-        class="font-display text-brand-600 w-12 shrink-0 text-4xl font-extrabold md:w-16 md:text-5xl"
+        class="font-display w-12 shrink-0 text-3xl font-light italic opacity-60 md:w-16 md:text-4xl"
       >
         {String(index + 1).padStart(2, '0')}
       </span>
       <div class="flex-1">
-        <h3 class="font-display text-2xl font-bold md:text-3xl">{stage.title}</h3>
+        <h3 class="text-h3">{stage.title}</h3>
         <p class="text-muted mt-1 max-w-prose">{stage.body}</p>
       </div>
       <a
         href={stage.href}
-        class="inline-flex min-h-11 shrink-0 items-center gap-1 self-center font-semibold after:absolute after:inset-0"
+        class="inline-flex min-h-11 shrink-0 items-center gap-1 self-center text-nav font-medium tracking-[0.12em] uppercase after:absolute after:inset-0"
       >
         <span class="max-md:sr-only">Explore</span>
         <span class="sr-only md:hidden"> {stage.title}</span>

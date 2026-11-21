@@ -29,28 +29,26 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
 <BaseLayout description={`${site.tagline}. Your first class is free, with no sign-up fees.`}>
   <VideoHero
     title="Become the hero of your own story"
-    accent="hero"
+    accent="your own story"
+    eyebrow={`Brazilian jiu-jitsu · ${site.address.city}, ${site.address.region}`}
     deck="Brazilian jiu-jitsu for kids and adults, taught by coaches who care about every student."
     primary={site.cta}
     secondary={{ label: 'See class times', href: '/schedule' }}
     poster={landscape}
     videoSources={[{ src: '/videos/placeholder-hero.webm', type: 'video/webm' }]}
   >
-    <p class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-semibold">
-      <span class="flex items-center gap-2">
-        <span aria-hidden="true" class="text-brand-500 text-lg tracking-wider">
-          ★★★★★
+    <ul class="flex flex-wrap items-center gap-y-2 text-label font-medium tracking-[0.14em] uppercase">
+      <li class="pr-4">
+        <span aria-hidden="true" class="mr-1">
+          ★
         </span>
         {reviewSummary}
-      </span>
-      <span class="flex items-center gap-2">
-        <span aria-hidden="true" class="bg-brand-500 size-1.5 rounded-full"></span>
-        No sign-up fees
-      </span>
-    </p>
+      </li>
+      <li class="border-l border-white/30 px-4">No sign-up fees</li>
+    </ul>
   </VideoHero>
 
-  <Section tone="surface">
+  <Section tone="paper">
     <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
       <Definition
         word="Shonen"
@@ -59,7 +57,7 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
         meaning="A young person full of determination; someone who keeps showing up and keeps getting better."
       />
       <div>
-        <Heading text="Not your average martial arts school" accent="average" />
+        <Heading text="Not your average martial arts school" accent="martial arts school" />
         <p class="mt-4 text-lg">
           Plenty of schools teach kicks and forms. We teach jiu-jitsu: real technique, real
           sparring, and a room where beginners and black belts train side by side.
@@ -77,7 +75,7 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
     </div>
   </Section>
 
-  <Section id="programs">
+  <Section tone="surface" id="programs">
     <div class="max-w-2xl">
       <Heading text="Find your class" accent="class" />
       <p class="text-muted mt-3 text-lg">
@@ -99,12 +97,12 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
     </ul>
   </Section>
 
-  <CoachSpotlight tone="surface" />
+  <CoachSpotlight tone="paper" />
 
-  <Section id="new-here">
+  <Section tone="surface" id="new-here">
     <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
       <div>
-        <Heading text="New here?" accent="New" />
+        <Heading text="New here?" accent="here?" />
         <p class="text-muted mt-3 max-w-prose text-lg">
           Your first class is free and there is nothing to prepare. Here is how it works.
         </p>
@@ -132,11 +130,11 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
     </div>
   </Section>
 
-  <ReviewsBlock reviews={featuredReviews()} tone="surface" />
+  <ReviewsBlock reviews={featuredReviews()} tone="paper" />
 
-  <ScheduleSummary tone="paper" />
+  <ScheduleSummary tone="surface" />
 
-  <VisitBlock tone="surface" />
+  <VisitBlock tone="paper" />
 
   <FormBand />
 </BaseLayout>

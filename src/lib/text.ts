@@ -18,3 +18,15 @@ export function splitAccent(text: string, accent?: string): AccentParts | null {
     after: text.slice(index + accent.length),
   };
 }
+
+/**
+ * Like `splitAccent`, but the accent runs from its first occurrence to the END of the text, so a
+ * heading can italicize its tail ("Training for *every stage.*"). If the accent is at the very
+ * start there is no tail to speak of, so only the accent itself is returned.
+ */
+export function accentTail(text: string, accent?: string): AccentParts | null {
+  const parts = splitAccent(text, accent);
+  if (!parts) return null;
+  if (parts.before === '') return parts;
+  return { before: parts.before, accent: text.slice(parts.before.length), after: '' };
+}

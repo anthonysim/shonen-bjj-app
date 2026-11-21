@@ -20,9 +20,9 @@ const {
 const id = (name: string) => `${idPrefix}-${name}`;
 
 const input =
-  'border-line focus-visible:outline-brand-600 min-h-12 w-full rounded-md border bg-white px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-1 aria-[invalid=true]:border-brand-600';
+  'border-line min-h-12 w-full rounded-card border bg-white px-3 text-ink aria-[invalid=true]:border-error';
 const chip =
-  'border-line bg-white text-ink peer-checked:border-brand-600 peer-checked:bg-brand-600 peer-focus-visible:outline-brand-600 flex min-h-11 cursor-pointer items-center rounded-full border px-4 text-base font-semibold transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-checked:text-white';
+  'border-line bg-white text-ink peer-checked:border-ink peer-checked:bg-ink peer-focus-visible:outline-ink flex min-h-11 cursor-pointer items-center rounded-card border px-4 text-nav font-medium tracking-[0.1em] uppercase transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-checked:text-white';
 ---
 
 <div data-booking-root>
@@ -35,7 +35,9 @@ const chip =
     aria-describedby={id('status')}
   >
     <fieldset>
-      <legend class="mb-2 text-sm font-semibold">I'm interested in</legend>
+      <legend class="mb-2 text-label font-medium tracking-[0.14em] text-muted uppercase">
+        I'm interested in
+      </legend>
       <div class="flex flex-wrap gap-2">
         {PROGRAM_CHOICES.map((choice) => (
           <label>
@@ -55,13 +57,15 @@ const chip =
       <p
         id={id('program-error')}
         data-error-for="program"
-        class="text-brand-700 mt-1 text-sm"
+        class="text-error mt-1 text-sm"
         hidden
       ></p>
     </fieldset>
 
     <fieldset>
-      <legend class="mb-2 text-sm font-semibold">When would you like to come?</legend>
+      <legend class="mb-2 text-label font-medium tracking-[0.14em] text-muted uppercase">
+        When would you like to come?
+      </legend>
       <div class="flex flex-wrap gap-2">
         {WHEN_CHOICES.map((choice) => (
           <label>
@@ -78,11 +82,14 @@ const chip =
           </label>
         ))}
       </div>
-      <p id={id('when-error')} data-error-for="when" class="text-brand-700 mt-1 text-sm" hidden></p>
+      <p id={id('when-error')} data-error-for="when" class="text-error mt-1 text-sm" hidden></p>
     </fieldset>
 
     <div>
-      <label for={id('name')} class="mb-1 block text-sm font-semibold">
+      <label
+        for={id('name')}
+        class="mb-1 block text-label font-medium tracking-[0.14em] text-muted uppercase"
+      >
         Name
       </label>
       <input
@@ -96,11 +103,14 @@ const chip =
         class={input}
         aria-describedby={id('name-error')}
       />
-      <p id={id('name-error')} data-error-for="name" class="text-brand-700 mt-1 text-sm" hidden></p>
+      <p id={id('name-error')} data-error-for="name" class="text-error mt-1 text-sm" hidden></p>
     </div>
 
     <div>
-      <label for={id('phone')} class="mb-1 block text-sm font-semibold">
+      <label
+        for={id('phone')}
+        class="mb-1 block text-label font-medium tracking-[0.14em] text-muted uppercase"
+      >
         Phone
       </label>
       <input
@@ -113,16 +123,14 @@ const chip =
         class={input}
         aria-describedby={id('phone-error')}
       />
-      <p
-        id={id('phone-error')}
-        data-error-for="phone"
-        class="text-brand-700 mt-1 text-sm"
-        hidden
-      ></p>
+      <p id={id('phone-error')} data-error-for="phone" class="text-error mt-1 text-sm" hidden></p>
     </div>
 
     <div>
-      <label for={id('email')} class="mb-1 block text-sm font-semibold">
+      <label
+        for={id('email')}
+        class="mb-1 block text-label font-medium tracking-[0.14em] text-muted uppercase"
+      >
         Email
       </label>
       <input
@@ -135,12 +143,7 @@ const chip =
         class={input}
         aria-describedby={id('email-error')}
       />
-      <p
-        id={id('email-error')}
-        data-error-for="email"
-        class="text-brand-700 mt-1 text-sm"
-        hidden
-      ></p>
+      <p id={id('email-error')} data-error-for="email" class="text-error mt-1 text-sm" hidden></p>
     </div>
 
     <!-- Honeypot: invisible to people and assistive tech, bots fill it. -->
@@ -157,7 +160,7 @@ const chip =
           type="checkbox"
           name="waiver"
           required
-          class="accent-brand-600 mt-0.5 size-5 shrink-0"
+          class="accent-black mt-0.5 size-5 shrink-0"
           aria-describedby={id('waiver-error')}
         />
         <span>
@@ -168,12 +171,7 @@ const chip =
           .
         </span>
       </label>
-      <p
-        id={id('waiver-error')}
-        data-error-for="waiver"
-        class="text-brand-700 mt-1 text-sm"
-        hidden
-      ></p>
+      <p id={id('waiver-error')} data-error-for="waiver" class="text-error mt-1 text-sm" hidden></p>
     </div>
 
     <Button type="submit" size="lg" class="w-full sm:w-auto" data-submit>
@@ -185,7 +183,7 @@ const chip =
       role="status"
       aria-live="polite"
       data-status
-      class="text-brand-700 text-sm"
+      class="text-error text-sm"
       hidden
     ></p>
 
@@ -200,7 +198,7 @@ const chip =
   </form>
 
   <div data-success tabindex="-1" class="py-6 text-center" hidden>
-    <p class="font-display text-3xl font-extrabold">You're in!</p>
+    <p class="font-display text-3xl">You're in!</p>
     <p class="text-muted mt-2">Thanks. We will text you shortly to confirm your class time.</p>
   </div>
 </div>

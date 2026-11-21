@@ -7,11 +7,13 @@ interface Props {
 const { items, class: className } = Astro.props;
 ---
 
-<ul class:list={['flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold', className]}>
+<ul
+  class:list={[
+    'flex flex-wrap items-center gap-y-2 text-label font-medium tracking-[0.14em] uppercase',
+    className,
+  ]}
+>
   {items.map((item) => (
-    <li class="flex items-center gap-2">
-      <span aria-hidden="true" class="bg-brand-500 size-1.5 rounded-full" />
-      {item}
-    </li>
+    <li class="border-l border-current/30 px-4 first:border-l-0 first:pl-0">{item}</li>
   ))}
 </ul>

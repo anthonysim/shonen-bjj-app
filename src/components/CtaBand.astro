@@ -14,10 +14,10 @@ interface Props {
   body?: string;
   primary: Cta;
   secondary?: Cta;
-  tone?: 'dark' | 'brand';
+  tone?: 'dark' | 'paper';
 }
 
-const { heading, accent, body, primary, secondary, tone = 'brand' } = Astro.props;
+const { heading, accent, body, primary, secondary, tone = 'dark' } = Astro.props;
 ---
 
 <Section tone={tone} size="md" class="text-center">

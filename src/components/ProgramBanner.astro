@@ -11,7 +11,7 @@ interface Props {
 const { card, image } = Astro.props;
 ---
 
-<article class="group border-line bg-paper text-ink rounded-card relative flex flex-col overflow-hidden border focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-brand-600 md:flex-row">
+<article class="group border-line bg-surface text-body rounded-card relative flex flex-col overflow-hidden border focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ink md:flex-row">
   <div class="overflow-hidden md:w-2/5">
     <Photo
       src={image}
@@ -22,12 +22,12 @@ const { card, image } = Astro.props;
     />
   </div>
   <div class="flex flex-1 flex-col justify-center p-6 md:p-10">
-    <p class="text-brand-600 text-xs font-semibold tracking-[0.14em] uppercase">{card.ages}</p>
-    <h3 class="font-display mt-2 text-3xl font-extrabold md:text-4xl">{card.name}</h3>
-    <p class="text-muted mt-2 max-w-prose text-lg">{card.blurb}</p>
+    <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">{card.ages}</p>
+    <h3 class="mt-2 text-h2">{card.name}</h3>
+    <p class="mt-3 max-w-prose text-lede">{card.blurb}</p>
     <a
       href={card.href}
-      class="mt-4 inline-flex min-h-11 items-center gap-1 font-semibold after:absolute after:inset-0 focus-visible:outline-none"
+      class="mt-5 inline-flex min-h-11 items-center gap-2 self-start border-b border-current text-nav font-medium tracking-[0.12em] text-ink uppercase after:absolute after:inset-0 focus-visible:outline-none"
     >
       Plan a party<span class="sr-only"> ({card.name})</span>
       <span aria-hidden="true">&rarr;</span>

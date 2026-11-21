@@ -9,7 +9,10 @@ interface SiteNavProps {
 }
 
 const linkBase =
-  'inline-flex min-h-11 items-center rounded-md px-3 text-base font-medium hover:bg-brand-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600';
+  'inline-flex min-h-11 items-center rounded-card px-3 text-nav font-medium tracking-[0.12em] uppercase hover:bg-black/5';
+
+const mobileLink =
+  'flex min-h-12 w-full items-center rounded-card px-3 font-display text-3xl font-light hover:bg-black/5';
 
 function isActive(currentPath: string, href: string) {
   return currentPath === href || currentPath.startsWith(`${href}/`);
@@ -59,7 +62,7 @@ function DesktopDropdown({ item, currentPath }: { item: NavItem; currentPath: st
       <div
         id={panelId}
         hidden={!open}
-        className="absolute top-full left-0 z-20 mt-1 w-56 rounded-lg border border-black/10 bg-white p-1 shadow-lg"
+        className="absolute top-full left-0 z-20 mt-1 w-56 rounded-lg border border-line bg-paper p-1 shadow-lg"
       >
         <a href={item.href} className={`${linkBase} w-full`} onClick={() => setOpen(false)}>
           All programs
@@ -118,13 +121,13 @@ export default function SiteNav({ nav, cta, phone, currentPath }: SiteNavProps) 
       <div className="flex items-center gap-2">
         <a
           href={phone.href}
-          className="hidden min-h-11 items-center px-3 text-base font-medium xl:inline-flex"
+          className="hidden min-h-11 items-center px-3 text-nav font-medium tracking-[0.12em] uppercase xl:inline-flex"
         >
           {phone.display}
         </a>
         <a
           href={cta.href}
-          className="inline-flex min-h-11 items-center rounded-md bg-brand-600 px-4 text-base font-semibold text-white hover:bg-brand-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+          className="hidden min-h-12 items-center rounded-card bg-ink px-5 text-nav font-medium tracking-[0.12em] whitespace-nowrap text-white uppercase hover:bg-body sm:inline-flex"
         >
           {cta.label}
         </a>
@@ -132,7 +135,7 @@ export default function SiteNav({ nav, cta, phone, currentPath }: SiteNavProps) 
         {/* Phones and iPad portrait (below lg) */}
         <button
           type="button"
-          className="inline-flex size-11 items-center justify-center rounded-md hover:bg-brand-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 lg:hidden"
+          className="inline-flex size-11 items-center justify-center rounded-card hover:bg-black/5 lg:hidden"
           aria-expanded={menuOpen}
           aria-controls={menuId}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -155,7 +158,7 @@ export default function SiteNav({ nav, cta, phone, currentPath }: SiteNavProps) 
       <div
         id={menuId}
         hidden={!menuOpen}
-        className="absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-black/10 bg-white px-4 pt-2 pb-6 shadow-lg lg:hidden"
+        className="absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line bg-paper px-4 pt-2 pb-6 shadow-lg lg:hidden"
       >
         <nav aria-label="Mobile">
           <ul className="flex flex-col">
@@ -163,7 +166,7 @@ export default function SiteNav({ nav, cta, phone, currentPath }: SiteNavProps) 
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className={`${linkBase} w-full text-lg`}
+                  className={mobileLink}
                   aria-current={isActive(currentPath, item.href) ? 'page' : undefined}
                   onClick={() => setMenuOpen(false)}
                 >
@@ -189,6 +192,13 @@ export default function SiteNav({ nav, cta, phone, currentPath }: SiteNavProps) 
             ))}
           </ul>
         </nav>
+        <a
+          href={cta.href}
+          onClick={() => setMenuOpen(false)}
+          className="mt-4 flex min-h-12 w-full items-center justify-center rounded-card bg-ink px-5 text-nav font-medium tracking-[0.12em] text-white uppercase"
+        >
+          {cta.label}
+        </a>
         <a href={phone.href} className={`${linkBase} mt-2 w-full`}>
           Call {phone.display}
         </a>

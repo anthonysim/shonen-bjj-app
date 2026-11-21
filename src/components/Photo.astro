@@ -11,6 +11,8 @@ interface Props {
   widths?: number[];
   /** Above-the-fold image: loads eagerly with high fetch priority. Default is lazy. */
   priority?: boolean;
+  /** Black-and-white treatment, like the original's photography. */
+  grade?: 'soft' | 'mono' | 'hero' | 'none';
   class?: string;
 }
 
@@ -20,6 +22,7 @@ const {
   sizes = '(min-width: 1024px) 50vw, 100vw',
   widths = [480, 800, 1200, 1600],
   priority = false,
+  grade = 'soft',
   class: className,
 } = Astro.props;
 ---
@@ -32,5 +35,5 @@ const {
   loading={priority ? 'eager' : 'lazy'}
   fetchpriority={priority ? 'high' : 'auto'}
   decoding={priority ? 'sync' : 'async'}
-  class:list={['w-full', className]}
+  class:list={['w-full', grade !== 'none' && `grade-${grade}`, className]}
 />

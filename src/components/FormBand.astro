@@ -36,14 +36,14 @@ const {
         <ul class="mt-6 space-y-2">
           {bullets.map((bullet) => (
             <li class="flex items-center gap-3">
-              <span aria-hidden="true" class="bg-brand-500 size-2 rounded-full" />
+              <span aria-hidden="true" class="bg-current size-2 rounded-full" />
               {bullet}
             </li>
           ))}
         </ul>
       ) : null}
     </div>
-    <div class="bg-paper text-ink rounded-card relative p-5 md:p-8">
+    <div class="bg-paper text-body [--heading:var(--color-ink)] rounded-card relative p-5 md:p-8">
       <BookingForm submitLabel={submitLabel} defaultProgram={defaultProgram} idPrefix={id} />
     </div>
   </div>

@@ -18,24 +18,23 @@ import Section from '@/components/Section.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const swatches = [
-  ['brand-50', 'bg-brand-50'],
-  ['brand-100', 'bg-brand-100'],
-  ['brand-500', 'bg-brand-500'],
-  ['brand-600', 'bg-brand-600'],
-  ['brand-700', 'bg-brand-700'],
-  ['brand-900', 'bg-brand-900'],
   ['ink', 'bg-ink'],
+  ['ink-soft', 'bg-ink-soft'],
+  ['body', 'bg-body'],
   ['muted', 'bg-muted'],
+  ['paper', 'bg-paper'],
+  ['paper-2', 'bg-paper-2'],
   ['surface', 'bg-surface'],
-  ['line', 'bg-line'],
+  ['line-strong', 'bg-line-strong'],
+  ['error', 'bg-error'],
 ] as const;
 
-const tones = ['paper', 'surface', 'dark', 'brand'] as const;
+const tones = ['paper', 'surface', 'dark'] as const;
 ---
 
 <BaseLayout title="Styleguide" noindex breadcrumbs={[{ label: 'Styleguide' }]}>
   <Section>
-    <Eyebrow class="text-brand-600">Internal</Eyebrow>
+    <Eyebrow>Internal</Eyebrow>
     <Heading level={1} size="display" text="Styleguide" accent="guide" class="mt-2" />
     <p class="text-muted mt-4 max-w-prose">
       Every primitive at every width. Not indexed, not in the sitemap.
@@ -47,7 +46,7 @@ const tones = ['paper', 'surface', 'dark', 'brand'] as const;
     <ul class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
       {swatches.map(([name, cls]) => (
         <li>
-          <div class:list={['border-line h-16 rounded-md border', cls]} />
+          <div class:list={['border-line h-16 rounded-card border', cls]} />
           <p class="mt-2 text-sm">{name}</p>
         </li>
       ))}
@@ -92,7 +91,7 @@ const tones = ['paper', 'surface', 'dark', 'brand'] as const;
       <Eyebrow>Section tone</Eyebrow>
       <Heading text={`Tone: ${tone}`} accent={tone} class="mt-2" />
       <div class="mt-6 flex flex-wrap gap-3">
-        <Button href="#" variant={tone === 'dark' || tone === 'brand' ? 'inverse' : 'primary'}>
+        <Button href="#" variant={tone === 'dark' ? 'inverse' : 'primary'}>
           Book a free class
         </Button>
         <Button href="#" variant="secondary">
