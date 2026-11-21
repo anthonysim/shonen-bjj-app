@@ -117,8 +117,9 @@
     /* Always reserve the scrollbar's space. Otherwise a page that starts shorter than the window
        and then grows (images, streamed HTML) gains a scrollbar and everything shifts sideways. */
     scrollbar-gutter: stable;
-    /* In-page anchors land below the sticky header */
-    scroll-padding-top: calc(var(--spacing-header) + 1rem);
+    /* In-page anchors (#book etc.) land flush under the sticky header. Elements add their own
+       breathing room with scroll-mt if they need it; never add the header height again. */
+    scroll-padding-top: var(--spacing-header);
     /* Stop iOS from inflating text on rotate; keep tap flash subtle */
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
