@@ -76,11 +76,7 @@ import { faqPageJsonLd } from '@/lib/structured-data';
 
       <div class="space-y-24">
         {faqPageGroups.map((group) => (
-          <section
-            id={group.id}
-            aria-labelledby={`${group.id}-title`}
-            class="scroll-mt-[calc(var(--spacing-header)+24px)]"
-          >
+          <section id={group.id} aria-labelledby={`${group.id}-title`} class="scroll-mt-6">
             <h2 id={`${group.id}-title`} class="mb-4 text-h3">
               {group.title}
             </h2>

@@ -20,10 +20,7 @@ const tones = {
 } as const;
 ---
 
-<section
-  id={id}
-  class:list={[tones[tone], 'scroll-mt-20 py-[clamp(4.5rem,4rem+6vw,9.5rem)]', className]}
->
+<section id={id} class:list={[tones[tone], 'py-[clamp(4.5rem,4rem+6vw,9.5rem)]', className]}>
   <Container size={size} class={containerClass}>
     <slot />
   </Container>

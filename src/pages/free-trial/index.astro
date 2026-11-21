@@ -42,7 +42,7 @@ const faqJsonLd = faqPageJsonLd([
   breadcrumbs={breadcrumbs}
   structuredData={[faqJsonLd]}
 >
-  <section id="book" class="scroll-mt-(--spacing-header) bg-paper text-body">
+  <section id="book" class="bg-paper text-body">
     <div class="page-container grid items-start gap-10 py-[clamp(28px,5vw,72px)] lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
       <div class="lg:col-start-1 lg:col-end-6 lg:pt-6">
         <Breadcrumbs crumbs={withHome(breadcrumbs)} />
@@ -109,14 +109,15 @@ const faqJsonLd = faqPageJsonLd([
 
   <VisitBlock tone="paper" />
 
-  <Section tone="dark" id="ready" class="py-[clamp(56px,3rem+4vw,104px)]">
-    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+  {/* Slim closing row on the visit section's paper, between hairlines, like the original */}
+  <Section tone="paper" id="ready" class="pt-0!">
+    <div class="flex flex-col gap-6 border-y border-line py-8 lg:flex-row lg:items-center lg:justify-between">
       <div>
-        <Eyebrow class="text-white/55">{`${site.address.city} · ${site.county}`}</Eyebrow>
-        <Heading text="Ready? Book your class." accent="Book your class." class="mt-4" />
+        <Eyebrow>{`${site.address.city} · ${site.county}`}</Eyebrow>
+        <Heading text="Ready? Book your class." accent="Book your class." size="md" class="mt-2" />
       </div>
-      <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
-        <Button href="#book" variant="inverse" arrow>
+      <div class="flex flex-wrap items-center gap-3">
+        <Button href="#book" arrow>
           Book a free class
         </Button>
         <Button href={site.phone.href} variant="secondary">
