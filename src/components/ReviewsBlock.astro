@@ -1,5 +1,6 @@
 ---
 import Heading from '@/components/Heading.astro';
+import PullQuote from '@/components/PullQuote.astro';
 import Section from '@/components/Section.astro';
 import { rating, type Review } from '@/data/reviews';
 
@@ -33,14 +34,7 @@ const reviewCount = `${rating.count} ${rating.source}`;
 
   <div class:list={['mt-8 grid gap-4 md:gap-6', gridCols]}>
     {reviews.map((review) => (
-      <figure class="border-t border-line-strong pt-6">
-        <blockquote class="font-display text-xl leading-snug font-light italic text-ink md:text-2xl">
-          <p>&ldquo;{review.quote}&rdquo;</p>
-        </blockquote>
-        <figcaption class="mt-4 text-label font-medium tracking-[0.14em] text-muted uppercase">
-          {review.author}
-        </figcaption>
-      </figure>
+      <PullQuote quote={review.quote} author={review.author} />
     ))}
   </div>
 

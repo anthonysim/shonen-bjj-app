@@ -1,0 +1,174 @@
+---
+import landscape from '@/assets/placeholders/landscape.jpg';
+import portrait from '@/assets/placeholders/portrait.jpg';
+import square from '@/assets/placeholders/square.jpg';
+import Button from '@/components/Button.astro';
+import CoachSpotlight from '@/components/CoachSpotlight.astro';
+import FaqList from '@/components/FaqList.astro';
+import FormBand from '@/components/FormBand.astro';
+import Heading from '@/components/Heading.astro';
+import Hero from '@/components/Hero.astro';
+import NumberedSteps from '@/components/NumberedSteps.astro';
+import Photo from '@/components/Photo.astro';
+import ProgramBanner from '@/components/ProgramBanner.astro';
+import PullQuote from '@/components/PullQuote.astro';
+import Section from '@/components/Section.astro';
+import TrackCard from '@/components/TrackCard.astro';
+import { adultClassSteps, neverTrained, tracks, womens } from '@/data/adults';
+import { faqsFor } from '@/data/faqs';
+import { reviewsFor } from '@/data/reviews';
+import { programCards, programs, site } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const adults = programs.find((program) => program.slug === 'bjj')!;
+const noGiCard = programCards.find((card) => card.id === 'no-gi')!;
+const [firstQuote, secondQuote] = reviewsFor('adults', 2);
+const [womensQuote] = reviewsFor('general', 2).slice(1);
+---
+
+<BaseLayout
+  title="Adult jiu-jitsu (ages 14+)"
+  description="Gi classes for adults and teens 14 and up, from your very first day to competition. Your first class is free."
+  breadcrumbs={[{ label: 'Programs', href: '/programs' }, { label: 'Adults' }]}
+>
+  <Hero
+    eyebrow={`Adults · Ages 14+ · ${site.address.city}, ${site.address.region}`}
+    title="Jiu-jitsu for every adult, from day one"
+    accent="from day one"
+    deck="Learn real technique in a room where beginners and black belts train side by side, with coaches who look after everyone."
+    primary={{ label: 'Book a free class', href: '#book' }}
+    secondary={{ label: 'Class times', href: '#tracks' }}
+    facts={adults.facts}
+  >
+    <Photo
+      slot="media"
+      src={landscape}
+      alt="Placeholder photo of adults training"
+      priority
+      sizes="(min-width: 1024px) 50vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section tone="surface" id="tracks">
+    <div class="max-w-2xl">
+      <Heading text="Two ways to train" accent="to train" />
+      <p class="mt-3 text-lede text-muted">
+        Start in Basics if you are new, or join All-Levels whenever you are ready. Switch any time.
+      </p>
+    </div>
+    <div class="mt-10 grid gap-6 lg:grid-cols-2">
+      {tracks.map((track, index) => (
+        <TrackCard track={track} index={index} />
+      ))}
+    </div>
+    <div class="mt-6">
+      <ProgramBanner card={noGiCard} image={square} ctaLabel="Explore no-gi" />
+    </div>
+  </Section>
+
+  <Section id="never-trained">
+    <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <Heading text={neverTrained.heading} accent={neverTrained.accent} />
+        <div class="mt-5 max-w-prose space-y-4 text-lede">
+          {neverTrained.body.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+        <div class="mt-6">
+          <Button href="#book" arrow>
+            Book a free class
+          </Button>
+        </div>
+      </div>
+      <div class="space-y-8">
+        {firstQuote ? <PullQuote quote={firstQuote.quote} author={firstQuote.author} /> : null}
+        {secondQuote ? <PullQuote quote={secondQuote.quote} author={secondQuote.author} /> : null}
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="surface" id="women">
+    <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <div class="overflow-hidden rounded-card">
+        <Photo
+          src={portrait}
+          alt="Placeholder photo of a women's class"
+          sizes="(min-width: 1024px) 40vw, 100vw"
+          widths={[480, 720, 1000]}
+          class="aspect-[4/5] object-cover"
+        />
+      </div>
+      <div>
+        <Heading text={womens.heading} accent={womens.accent} />
+        <div class="mt-5 max-w-prose space-y-4 text-lede">
+          {womens.body.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+        {womensQuote ? (
+          <PullQuote class="mt-8" quote={womensQuote.quote} author={womensQuote.author} />
+        ) : null}
+      </div>
+    </div>
+  </Section>
+
+  <Section id="inside-a-class">
+    <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <Heading text="Inside a class" accent="a class" />
+        <p class="mt-3 max-w-prose text-lede text-muted">
+          Every class follows the same simple shape, so you always know what is coming.
+        </p>
+        <div class="mt-8">
+          <NumberedSteps items={adultClassSteps} />
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="overflow-hidden rounded-card">
+          <Photo
+            src={square}
+            alt=""
+            sizes="(min-width: 1024px) 20vw, 50vw"
+            widths={[320, 480, 640]}
+            class="aspect-square object-cover"
+          />
+        </div>
+        <div class="mt-10 overflow-hidden rounded-card">
+          <Photo
+            src={portrait}
+            alt=""
+            sizes="(min-width: 1024px) 20vw, 50vw"
+            widths={[320, 480, 640]}
+            class="aspect-[4/5] object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <CoachSpotlight tone="surface" fullBio />
+
+  <Section id="faq">
+    <div class="grid gap-8 lg:grid-cols-[2fr_3fr] lg:gap-14">
+      <div>
+        <Heading text="Common questions" accent="questions" />
+        <div class="mt-6">
+          <Button href="/faq" variant="secondary">
+            All questions
+          </Button>
+        </div>
+      </div>
+      <FaqList items={faqsFor('bjj')} />
+    </div>
+  </Section>
+
+  <FormBand
+    heading="Book your free class"
+    accent="free class"
+    body="Tell us a little about you and we will text you to set a time. No experience needed."
+    bullets={['First class is free', 'No sign-up fees', 'We lend you a gi for your first class']}
+    defaultProgram="adults"
+  />
+</BaseLayout>
