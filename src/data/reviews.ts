@@ -1,5 +1,5 @@
-// Reviews. The real Google reviews come from shonenjiujitsu.com (used with the client's
-// permission); entries still authored "Placeholder ..." need real quotes.
+// Google reviews as shown on shonenjiujitsu.com (used with the client's permission).
+// Every entry is a real quote; a test fails if a placeholder is added.
 
 export type ReviewTopic = 'general' | 'kids' | 'adults' | 'no-gi' | 'birthday' | 'coach';
 
@@ -42,9 +42,19 @@ export const reviews: Review[] = [
     topic: 'general',
   },
   {
-    id: 'general-2',
-    quote: 'The coaching is clear and patient. I improve every single week.',
-    author: 'Placeholder reviewer B.',
+    id: 'general-madison',
+    quote:
+      '…the community at Shonen is characterized by remarkable kindness and a warm welcome including an amazing girls group, alongside a clean and well kept environment.',
+    author: 'Madison W.',
+    role: 'Student',
+    topic: 'general',
+  },
+  {
+    id: 'general-brent',
+    quote:
+      'Whether you’re an active competitor or looking for a casual introduction to martial arts, Professor Lee’s style of breaking down jujitsu technique will help you improve your ability tremendously.',
+    author: 'Brent L.',
+    role: 'Student',
     topic: 'general',
   },
   {
@@ -57,15 +67,19 @@ export const reviews: Review[] = [
     topic: 'kids',
   },
   {
-    id: 'kids-2',
-    quote: 'Safe, structured, and fun. The coaches know every kid by name.',
-    author: 'Placeholder parent D.',
+    id: 'kids-lia',
+    quote:
+      'It’s not easy working with a 6 year old but you keep her motivated, I love everything she’s learning, and loves to see you!',
+    author: 'Lia R.',
+    role: 'Parent',
     topic: 'kids',
   },
   {
-    id: 'kids-3',
-    quote: 'My daughter gained confidence faster than we expected.',
-    author: 'Placeholder parent E.',
+    id: 'kids-anna',
+    quote:
+      'The kids classes are absolutely amazing. The coaches are very patient and kind. My husband joined the adult classes and is having a great time.',
+    author: 'Anna M.',
+    role: 'Parent',
     topic: 'kids',
   },
   {
@@ -77,13 +91,6 @@ export const reviews: Review[] = [
     topic: 'adults',
   },
   {
-    id: 'adults-charlotte',
-    quote:
-      'Completely new to Ju Jitsu and am so lucky to have landed at Shonen! After checking out a few gyms in the area, none could beat the fantastic instruction\u2026',
-    author: 'Charlotte C.',
-    topic: 'adults',
-  },
-  {
     id: 'adults-rob',
     quote:
       'I am 53 with zero experience and have been going for 3 months. The teaching and training has been extremely phenomenal and the students are extremely helpful and caring.',
@@ -91,21 +98,26 @@ export const reviews: Review[] = [
     topic: 'adults',
   },
   {
-    id: 'adults-2',
-    quote: 'Great training partners and an honest, no-ego room.',
-    author: 'Placeholder student G.',
+    id: 'adults-charlotte',
+    quote:
+      'Completely new to Ju Jitsu and am so lucky to have landed at Shonen! After checking out a few gyms in the area, none could beat the fantastic instruction\u2026',
+    author: 'Charlotte C.',
     topic: 'adults',
   },
   {
-    id: 'no-gi-1',
-    quote: 'No-gi nights are fast and fun. A great workout and a great crowd.',
-    author: 'Placeholder student H.',
+    id: 'no-gi-kevin',
+    quote:
+      'His teachings are detailed and specific, which significantly helps in retaining and applying the techniques. I learned a new guard pass on my first day…',
+    author: 'Kevin S.',
+    role: 'Student',
     topic: 'no-gi',
   },
   {
-    id: 'birthday-1',
-    quote: 'The party ran itself. The kids were exhausted and thrilled.',
-    author: 'Placeholder parent I.',
+    id: 'birthday-anna',
+    quote:
+      'The kids classes are absolutely amazing. The coaches are very patient and kind. My husband joined the adult classes and is having a great time.',
+    author: 'Anna M.',
+    role: 'Parent',
     topic: 'birthday',
   },
   {
