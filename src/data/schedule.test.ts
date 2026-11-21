@@ -10,6 +10,7 @@ import {
   classesByDay,
   formatDays,
   formatDaysFriendly,
+  nextClass,
   endTime,
   formatTime,
   schedule,
@@ -156,5 +157,32 @@ describe('formatDaysFriendly', () => {
     expect(formatDaysFriendly(['Sat'])).toBe('Saturday');
     expect(formatDaysFriendly(['Fri'], { short: true })).toBe('Fri');
     expect(formatDaysFriendly(['Mon', 'Wed', 'Fri'])).toBe('Mon, Wed, Fri');
+  });
+});
+
+describe('nextClass', () => {
+  // 2026-11-21 is a Saturday (local time)
+  const at = (iso: string) => new Date(iso);
+
+  it('finds the next class later today', () => {
+    const next = nextClass(at('2026-11-21T08:00:00'));
+    expect(next?.cls.id).toBe('kids-saturday');
+    expect(next?.when).toBe('today at 9:00 AM');
+  });
+
+  it('skips classes that already started and rolls over to later days', () => {
+    expect(nextClass(at('2026-11-21T09:30:00'))?.cls.id).toBe('adults-all-levels-saturday');
+    // Saturday evening: nothing Sunday, so Monday's first class
+    const monday = nextClass(at('2026-11-21T20:00:00'));
+    expect(monday?.day).toBe('Mon');
+    expect(monday?.when).toBe('Monday at 6:00 PM');
+  });
+
+  it('says tomorrow for the next day', () => {
+    expect(nextClass(at('2026-11-23T21:00:00'))?.when).toBe('tomorrow at 5:00 PM');
+  });
+
+  it('returns null with no classes', () => {
+    expect(nextClass(at('2026-11-21T08:00:00'), [])).toBeNull();
   });
 });
