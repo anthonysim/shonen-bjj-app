@@ -1,5 +1,5 @@
 import { coach } from '@/data/coach';
-import type { FaqGroup } from '@/data/faqs';
+import { answerText, type FaqGroup } from '@/data/faqs';
 import { site } from '@/data/site';
 
 /** Stable @id for the academy, so other entities (the coach) can point at it. */
@@ -114,7 +114,7 @@ export function faqPageJsonLd(groups: readonly FaqGroup[]) {
         name: item.question,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: item.list?.length ? `${item.answer} ${item.list.join(' ')}` : item.answer,
+          text: answerText(item),
         },
       })),
     ),
