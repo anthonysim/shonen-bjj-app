@@ -8,14 +8,13 @@ const lead: BookingData = {
   name: 'Sam <Rivera>',
   phone: '4433048884',
   email: 'sam@example.com',
-  waiver: true,
 };
 const config = { apiKey: 'key_123', to: 'info@example.com', from: 'Leads <leads@example.com>' };
 
 describe('buildLeadEmail', () => {
   it('names the person and program and lists every field', () => {
     const email = buildLeadEmail(lead);
-    expect(email.subject).toBe('New free class request: Sam <Rivera> (Kids 4-13)');
+    expect(email.subject).toBe('New free class request: Sam <Rivera> (Kids (4\u201313))');
     expect(email.text).toContain('Phone: (443) 304-8884');
     expect(email.text).toContain('When: This week');
   });

@@ -7,7 +7,6 @@ const fields = {
   name: 'Sam Rivera',
   phone: '4433048884',
   email: 'sam@example.com',
-  waiver: 'on',
 };
 
 const deps = (over: Partial<EndpointDeps> = {}): EndpointDeps => ({
