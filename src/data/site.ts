@@ -46,6 +46,7 @@ export interface ProgramCard {
 
 export const site = {
   name: 'Shonen Jiu Jitsu',
+  legalName: 'Shonen Jiu Jitsu LLC',
   tagline: 'Brazilian Jiu Jitsu for kids and adults in Glen Burnie, Maryland',
   phone: { display: '(443) 304-8884', href: 'tel:+14433048884' },
   email: 'info@shonenjiujitsu.com',

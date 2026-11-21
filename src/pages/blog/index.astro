@@ -11,8 +11,9 @@ import Section from '@/components/Section.astro';
 import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { formatDate, getPublishedPosts } from '@/lib/blog';
-import { blogJsonLd } from '@/lib/structured-data';
+import { blogJsonLd, withHome } from '@/lib/structured-data';
 
+const breadcrumbs = [{ label: 'Blog' }];
 const posts = await getPublishedPosts();
 const blogUrl = new URL('/blog', Astro.site).href;
 const summaries = posts.map((post) => ({
@@ -27,12 +28,12 @@ const summaries = posts.map((post) => ({
 <BaseLayout
   title="Blog"
   description={`Training advice, beginner guides and tips for parents from ${site.name} in ${site.address.city}.`}
-  breadcrumbs={[{ label: 'Blog' }]}
+  breadcrumbs={breadcrumbs}
   structuredData={[blogJsonLd(blogUrl, Astro.site!.origin, summaries)]}
 >
   <section class="bg-paper py-[clamp(56px,3rem+4vw,104px)]">
     <div class="page-container">
-      {Astro.locals.breadcrumbs ? <Breadcrumbs crumbs={Astro.locals.breadcrumbs} /> : null}
+      <Breadcrumbs crumbs={withHome(breadcrumbs)} />
       <Eyebrow class="mt-[clamp(28px,4vw,56px)] mb-[clamp(16px,2vw,24px)]">The Shonen blog</Eyebrow>
       <Heading level={1} size="xl" text="Notes from the mat." accent="from the mat." />
       <p class="mt-6 max-w-[56ch] text-lede">

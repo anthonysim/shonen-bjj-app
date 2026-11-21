@@ -21,8 +21,9 @@ import { firstClassFaqs } from '@/data/faqs';
 import { rating, reviewsById } from '@/data/reviews';
 import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { faqPageJsonLd } from '@/lib/structured-data';
+import { faqPageJsonLd, withHome } from '@/lib/structured-data';
 
+const breadcrumbs = [{ label: 'Free class' }];
 const reassurance = [
   'A real class, not a sales pitch',
   `Meet ${coach.shortName} and tour the academy`,
@@ -38,13 +39,13 @@ const faqJsonLd = faqPageJsonLd([
 <BaseLayout
   title="Book a free class"
   description={`Your first class at ${site.name} is free. Kids and adults, beginners and experienced grapplers: pick a program and a time.`}
-  breadcrumbs={[{ label: 'Free class' }]}
+  breadcrumbs={breadcrumbs}
   structuredData={[faqJsonLd]}
 >
   <section id="book" class="scroll-mt-(--spacing-header) bg-paper text-body">
     <div class="page-container grid items-start gap-10 py-[clamp(28px,5vw,72px)] lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
       <div class="lg:col-start-1 lg:col-end-6 lg:pt-6">
-        {Astro.locals.breadcrumbs ? <Breadcrumbs crumbs={Astro.locals.breadcrumbs} /> : null}
+        <Breadcrumbs crumbs={withHome(breadcrumbs)} />
         <Eyebrow class="mt-[clamp(28px,4vw,56px)] mb-[clamp(16px,2vw,24px)]">
           {`Free Brazilian Jiu Jitsu class · ${site.address.city}, ${site.address.region}`}
         </Eyebrow>

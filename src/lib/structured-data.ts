@@ -43,6 +43,11 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
+/** A page's trail with Home in front, as shown in breadcrumbs and BreadcrumbList. */
+export function withHome(items: readonly BreadcrumbItem[]): BreadcrumbItem[] {
+  return [{ label: 'Home', href: '/' }, ...items];
+}
+
 /**
  * schema.org BreadcrumbList. `origin` resolves root-relative hrefs; a crumb with no href
  * (the current page) uses `currentUrl`.

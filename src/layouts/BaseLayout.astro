@@ -13,6 +13,7 @@ import {
   localBusinessJsonLd,
   serializeJsonLd,
   type BreadcrumbItem,
+  withHome,
 } from '@/lib/structured-data';
 
 interface Props {
@@ -37,9 +38,7 @@ const {
 } = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : site.name;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const crumbs: BreadcrumbItem[] | null = breadcrumbs
-  ? [{ label: 'Home', href: '/' }, ...breadcrumbs]
-  : null;
+const crumbs: BreadcrumbItem[] | null = breadcrumbs ? withHome(breadcrumbs) : null;
 // The page's Hero shows the trail (it renders after this frontmatter runs)
 if (crumbs) Astro.locals.breadcrumbs = crumbs;
 ---
