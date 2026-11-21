@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { firstClassSteps, pathway, values } from './academy';
+import { academyFeatures, firstClassSteps, pathway, values } from './academy';
 import { programs } from './site';
 
 describe('academy copy', () => {
@@ -32,6 +32,15 @@ describe('academy copy', () => {
     for (const stage of pathway) {
       const [, anchor] = stage.href.split('#');
       if (anchor) expect(anchors, stage.title).toContain(anchor);
+    }
+  });
+
+  it('has academy features with unique tags and non-empty text', () => {
+    expect(academyFeatures.length).toBeGreaterThan(0);
+    expect(new Set(academyFeatures.map((f) => f.tag)).size).toBe(academyFeatures.length);
+    for (const feature of academyFeatures) {
+      expect(feature.tag.trim()).not.toBe('');
+      expect(feature.title.trim()).not.toBe('');
     }
   });
 });
