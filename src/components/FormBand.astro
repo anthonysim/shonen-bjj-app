@@ -42,6 +42,9 @@ const {
           ))}
         </ul>
       ) : null}
+      <div class="mt-6">
+        <slot />
+      </div>
     </div>
     <div class="bg-paper text-body [--heading:var(--color-ink)] rounded-card relative p-5 md:p-8">
       <BookingForm submitLabel={submitLabel} defaultProgram={defaultProgram} idPrefix={id} />

@@ -1,0 +1,136 @@
+---
+import landscape from '@/assets/placeholders/landscape.jpg';
+import portrait from '@/assets/placeholders/portrait.jpg';
+import square from '@/assets/placeholders/square.jpg';
+import Button from '@/components/Button.astro';
+import FaqList from '@/components/FaqList.astro';
+import FormBand from '@/components/FormBand.astro';
+import Heading from '@/components/Heading.astro';
+import Hero from '@/components/Hero.astro';
+import NumberedCards from '@/components/NumberedCards.astro';
+import NumberedSteps from '@/components/NumberedSteps.astro';
+import Photo from '@/components/Photo.astro';
+import ReviewsBlock from '@/components/ReviewsBlock.astro';
+import Section from '@/components/Section.astro';
+import { partySteps, whyParty } from '@/data/birthday';
+import { faqsFor } from '@/data/faqs';
+import { reviewsFor } from '@/data/reviews';
+import { programs, site } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const party = programs.find((program) => program.slug === 'birthday-parties')!;
+---
+
+<BaseLayout
+  title="Birthday parties"
+  description="A high-energy jiu-jitsu birthday party your kid will talk about for weeks. We run everything. All ages welcome."
+  breadcrumbs={[{ label: 'Programs', href: '/programs' }, { label: 'Birthday parties' }]}
+>
+  <Hero
+    eyebrow={`Birthday parties · All ages · ${site.address.city}, ${site.address.region}`}
+    title="A birthday party worth talking about"
+    accent="worth talking about"
+    deck="Games, a short class, and cake, all run by coaches who know how to keep kids happy and safe."
+    primary={{ label: 'Plan a party', href: '#book' }}
+    secondary={{ label: 'How it works', href: '#how-it-works' }}
+    facts={party.facts}
+  >
+    <Photo
+      slot="media"
+      src={landscape}
+      alt="Placeholder photo of a birthday party on the mats"
+      priority
+      sizes="(min-width: 1024px) 50vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section tone="surface" id="why">
+    <div class="max-w-2xl">
+      <Heading text="Why a jiu-jitsu party?" accent="jiu-jitsu party?" />
+      <p class="mt-3 text-lede text-muted">
+        Active, social, and easy on parents. It is the party kids ask to go back to.
+      </p>
+    </div>
+    <div class="mt-10">
+      <NumberedCards items={whyParty} columns={4} />
+    </div>
+    <div class="mt-10 grid gap-4 md:grid-cols-2">
+      <div class="overflow-hidden rounded-card">
+        <Photo
+          src={portrait}
+          alt=""
+          sizes="(min-width: 768px) 50vw, 100vw"
+          widths={[480, 720, 1000]}
+          class="aspect-[4/3] object-cover"
+        />
+      </div>
+      <div class="overflow-hidden rounded-card">
+        <Photo
+          src={square}
+          alt=""
+          sizes="(min-width: 768px) 50vw, 100vw"
+          widths={[480, 720, 1000]}
+          class="aspect-[4/3] object-cover"
+        />
+      </div>
+    </div>
+  </Section>
+
+  <Section id="how-it-works">
+    <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <Heading text="How it works" accent="works" />
+        <p class="mt-3 max-w-prose text-lede text-muted">Three simple steps from hello to cake.</p>
+        <div class="mt-6">
+          <Button href="#book" arrow>
+            Plan a party
+          </Button>
+        </div>
+      </div>
+      <NumberedSteps items={partySteps} />
+    </div>
+  </Section>
+
+  <ReviewsBlock
+    reviews={reviewsFor('birthday', 1)}
+    heading="What parents say"
+    accent="parents say"
+    tone="surface"
+  />
+
+  <Section id="faq">
+    <div class="grid gap-8 lg:grid-cols-[2fr_3fr] lg:gap-14">
+      <div>
+        <Heading text="Common questions" accent="questions" />
+        <div class="mt-6">
+          <Button href="/faq" variant="secondary">
+            All questions
+          </Button>
+        </div>
+      </div>
+      <FaqList items={faqsFor('birthday')} />
+    </div>
+  </Section>
+
+  <FormBand
+    heading="Let's plan the party"
+    accent="plan the party"
+    body="Tell us a little about your child and your date. We will text you to work out the details."
+    bullets={[
+      'We run the whole party',
+      'Gear provided for every guest',
+      'Parents just bring the cake',
+    ]}
+    defaultProgram="birthday"
+    submitLabel="Plan my party"
+  >
+    <p>
+      Prefer to talk it through?
+      <a href={site.phone.href} class="underline">
+        Call {site.phone.display}
+      </a>
+      .
+    </p>
+  </FormBand>
+</BaseLayout>
