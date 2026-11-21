@@ -1,4 +1,6 @@
 ---
+// Short uppercase facts. Phones: a stacked list with hairlines between rows. sm and up: one row
+// split by vertical rules. Same as the original's proof row.
 interface Props {
   items: readonly string[];
   class?: string;
@@ -9,11 +11,13 @@ const { items, class: className } = Astro.props;
 
 <ul
   class:list={[
-    'flex flex-wrap items-center gap-y-2 text-label font-medium tracking-[0.14em] uppercase',
+    'flex flex-col items-start text-[0.6875rem] font-medium tracking-[0.12em] uppercase sm:flex-row sm:flex-wrap sm:items-center sm:gap-y-2.5 sm:text-label sm:tracking-[0.14em]',
     className,
   ]}
 >
   {items.map((item) => (
-    <li class="border-l border-current/30 px-4 first:border-l-0 first:pl-0">{item}</li>
+    <li class="w-full border-current/15 py-2 not-first:border-t first:pt-0 sm:w-auto sm:border-current/25 sm:py-0 sm:px-[clamp(14px,1.6vw,22px)] sm:not-first:border-t-0 sm:not-first:border-l sm:first:pl-0">
+      {item}
+    </li>
   ))}
 </ul>
