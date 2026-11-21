@@ -1,10 +1,17 @@
+import { coach } from '@/data/coach';
 import { site } from '@/data/site';
+
+/** Stable @id for the academy, so other entities (the coach) can point at it. */
+export function academyId(origin: string) {
+  return new URL('/#academy', origin).href;
+}
 
 /** schema.org LocalBusiness JSON-LD built from the site data. */
 export function localBusinessJsonLd(url: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'SportsActivityLocation',
+    '@id': academyId(url),
     name: site.name,
     description: site.tagline,
     url,
@@ -49,5 +56,30 @@ export function breadcrumbListJsonLd(items: BreadcrumbItem[], origin: string, cu
       name: item.label,
       item: item.href ? new URL(item.href, origin).href : currentUrl,
     })),
+  };
+}
+
+/**
+ * schema.org ProfilePage whose main entity is the coach (Person), linked to the academy by @id.
+ * `imageUrl` is the absolute URL of the profile photo, if any.
+ */
+export function coachProfileJsonLd(pageUrl: string, origin: string, imageUrl?: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    '@id': `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: `${coach.name}, ${coach.title} | ${site.name}`,
+    mainEntity: {
+      '@type': 'Person',
+      '@id': `${pageUrl}#person`,
+      name: coach.name,
+      jobTitle: coach.title,
+      description: coach.summary,
+      url: pageUrl,
+      ...(imageUrl ? { image: imageUrl } : {}),
+      worksFor: { '@id': academyId(origin) },
+      award: coach.competitionRecord.map((record) => record.title),
+    },
   };
 }

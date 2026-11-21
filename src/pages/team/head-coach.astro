@@ -1,8 +1,171 @@
 ---
-import PageStub from '@/components/PageStub.astro';
+// Meet the Coach, laid out like the original's profile page: split hero, the story in a narrow
+// column with a drop cap and a pull quote, the competition record beside a sticky photo, lineage,
+// reviews, and the booking form. JSON-LD: a ProfilePage whose main entity is the coach.
+import landscape from '@/assets/placeholders/landscape.jpg';
+import portrait from '@/assets/placeholders/portrait.jpg';
+import square from '@/assets/placeholders/square.jpg';
+import CredentialList from '@/components/CredentialList.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import FormBand from '@/components/FormBand.astro';
+import Heading from '@/components/Heading.astro';
+import Hero from '@/components/Hero.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
+import Photo from '@/components/Photo.astro';
+import ReviewsBlock from '@/components/ReviewsBlock.astro';
+import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import { coach } from '@/data/coach';
+import { reviewsFor } from '@/data/reviews';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { coachProfileJsonLd } from '@/lib/structured-data';
+import { accentTail } from '@/lib/text';
+
+const firstName = coach.name.split(' ')[0];
+const lastName = coach.name.split(' ').slice(-1)[0];
+const [lead, ...restOfBio] = coach.bio;
+const quote = accentTail(coach.pullQuote, coach.pullQuoteAccent);
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const profile = coachProfileJsonLd(
+  pageUrl,
+  Astro.site!.origin,
+  new URL(portrait.src, Astro.site).href,
+);
+
+const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
 ---
 
-<BaseLayout title="Meet the Coach">
-  <PageStub title="Meet the Coach" />
+<BaseLayout
+  title={`Meet the coach: ${coach.name}`}
+  description={`${coach.name}, ${coach.title}. ${coach.summary}`}
+  breadcrumbs={[{ label: 'Meet the Coach' }]}
+  structuredData={[profile]}
+>
+  <Hero
+    eyebrow="Meet the coach"
+    title={coach.name}
+    accent={lastName}
+    deck={coach.summary}
+    primary={{ label: `Book a class with ${firstName}`, href: '#book' }}
+    secondary={{ label: 'The competition record', href: '#record' }}
+    facts={coach.facts}
+  >
+    <Photo
+      slot="media"
+      src={portrait}
+      alt={`Placeholder portrait of ${coach.name}`}
+      priority
+      grade="mono"
+      sizes="(min-width: 1024px) 60vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section tone="surface" id="story" containerClass="[--page-max:760px]">
+    <Eyebrow>The story</Eyebrow>
+    <Heading text="A teacher who still competes" accent="still competes" class="mt-4 mb-12" />
+    <div class="space-y-[1.1em]">
+      <p class="first-letter:float-left first-letter:mt-[0.08em] first-letter:mr-[0.1em] first-letter:font-display first-letter:text-[4.4em] first-letter:leading-[0.82] first-letter:font-light first-letter:text-ink">
+        {lead}
+      </p>
+      {restOfBio.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+    <figure class="mt-[clamp(56px,7vw,112px)] border-y border-line py-[clamp(32px,4vw,56px)] text-center">
+      <blockquote>
+        <p class="mx-auto max-w-[20ch] font-display text-h2 font-light text-balance text-ink">
+          {quote ? (
+            <>
+              {quote.before}
+              <em class="italic">{quote.accent}</em>
+              {quote.after}
+            </>
+          ) : (
+            coach.pullQuote
+          )}
+        </p>
+      </blockquote>
+    </figure>
+  </Section>
+
+  <Section id="record">
+    <SectionHead
+      eyebrow="On the competition mat"
+      heading="A record earned at the highest level"
+      accent="at the highest level"
+      lede={`${firstName} still competes, so what is taught in class has been tested against the best.`}
+    />
+    <div class="grid items-start gap-16 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+      <figure class="md:max-w-[520px] lg:sticky lg:top-[calc(var(--spacing-header)+32px)] lg:col-start-1 lg:col-end-6 lg:max-w-none">
+        <div class="aspect-square overflow-hidden bg-paper-2">
+          <Photo
+            src={square}
+            alt="Placeholder photo of a competition match"
+            grade="mono"
+            sizes="(min-width: 1024px) 40vw, (min-width: 768px) 520px, 100vw"
+            widths={[480, 720, 1000]}
+            class="h-full object-cover"
+          />
+        </div>
+        <figcaption class:list={[label, 'mt-2']}>Competition, black belt division</figcaption>
+      </figure>
+      <div class="grid gap-16 lg:col-start-7 lg:col-end-13">
+        <div>
+          <h3 class:list={[label, 'mb-2']}>Competition achievements</h3>
+          <CredentialList items={coach.competitionRecord} />
+        </div>
+        <div>
+          <h3 class:list={[label, 'mb-2']}>Professional achievements</h3>
+          <CredentialList items={coach.professional} />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="surface" id="lineage">
+    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+      <div class="lg:col-start-7 lg:col-end-13 lg:row-start-1">
+        <Eyebrow>Lineage</Eyebrow>
+        <Heading text="Modern, detailed, technical" accent="technical" class="mt-4" />
+        <div class="mt-6 max-w-[60ch] space-y-4">
+          {coach.lineage.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+        <LinkArrow href="/programs" class="mt-6 text-ink">
+          Explore the programs
+        </LinkArrow>
+      </div>
+      <figure class="md:max-w-[520px] lg:col-start-1 lg:col-end-6 lg:row-start-1 lg:max-w-none">
+        <div class="aspect-4/5 overflow-hidden bg-paper-2">
+          <Photo
+            src={landscape}
+            alt="Placeholder photo of black belts in a studio portrait"
+            grade="mono"
+            sizes="(min-width: 1024px) 40vw, (min-width: 768px) 520px, 100vw"
+            widths={[480, 720, 1000]}
+            class="h-full object-cover"
+          />
+        </div>
+        <figcaption class:list={[label, 'mt-2']}>Our lineage</figcaption>
+      </figure>
+    </div>
+  </Section>
+
+  <ReviewsBlock
+    reviews={reviewsFor('coach')}
+    eyebrow="What students say"
+    heading="Taught with uncommon detail"
+    accent="uncommon detail"
+    tone="paper"
+  />
+
+  <FormBand
+    heading={`Train with ${firstName}`}
+    accent={firstName}
+    body={`Pick a program and we will text you to set a time. Every class on the schedule is taught by ${firstName} or a coach ${firstName} trained.`}
+    bullets={['First class is free', 'No experience or fitness needed', 'Taught by a black belt']}
+  />
 </BaseLayout>

@@ -16,6 +16,10 @@ export const coach = {
     'Classes blend clear technique, honest drilling, and live rounds at a pace that fits each person, whether they are four years old or forty.',
   ],
   pullQuote: 'Show up, stay curious, and the rest takes care of itself.',
+  /** Where the italic tail of the pull quote starts */
+  pullQuoteAccent: 'takes care of itself.',
+  /** Short facts for the profile hero */
+  facts: ['Black belt', 'National champion', '15+ years coaching'],
   /** Competition results, shown as a numbered list */
   competitionRecord: [
     { title: 'World Championship, Black Belt', tag: '2024' },
@@ -29,6 +33,8 @@ export const coach = {
     { title: 'Youth safety and first-aid trained', tag: 'Current' },
     { title: 'Over 15 years coaching kids and adults', tag: 'Experience' },
   ] satisfies Credential[],
-  lineage:
-    'Trained under a respected lineage of black belts and carries that standard of technique and etiquette into every class.',
+  lineage: [
+    'Alex earned a black belt under a respected lineage of black belts and carries that standard of technique and etiquette into every class.',
+    'That lineage is known for modern, detailed jiu-jitsu: small adjustments that make a technique work against a resisting partner, taught so that beginners can use them too.',
+  ],
 } as const;

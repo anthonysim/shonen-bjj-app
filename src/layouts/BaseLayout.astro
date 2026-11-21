@@ -23,6 +23,8 @@ interface Props {
   breadcrumbs?: BreadcrumbItem[];
   /** Float a transparent header over a dark full-bleed hero (homepage). */
   overlayHeader?: boolean;
+  /** Extra JSON-LD objects for this page (e.g. the coach's ProfilePage). */
+  structuredData?: readonly unknown[];
 }
 
 const {
@@ -31,6 +33,7 @@ const {
   noindex = false,
   breadcrumbs,
   overlayHeader = false,
+  structuredData = [],
 } = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : site.name;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -72,6 +75,9 @@ if (crumbs) Astro.locals.breadcrumbs = crumbs;
         set:html={serializeJsonLd(breadcrumbListJsonLd(crumbs, Astro.site!.origin, canonical))}
       />
     ) : null}
+    {structuredData.map((data) => (
+      <script type="application/ld+json" set:html={serializeJsonLd(data)} />
+    ))}
     <title>{fullTitle}</title>
   </head>
   <body>
