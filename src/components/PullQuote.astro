@@ -17,6 +17,6 @@ const { quote, author, label, class: className } = Astro.props;
   </blockquote>
   <figcaption class="mt-4 text-label font-medium tracking-[0.14em] text-muted uppercase">
     {author}
-    {label ? <span class="text-muted/80"> · {label}</span> : null}
+    {label ? <span class="ml-3 text-muted/80">{label}</span> : null}
   </figcaption>
 </figure>
