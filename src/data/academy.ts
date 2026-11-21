@@ -36,3 +36,32 @@ export const firstClassSteps: Titled[] = [
     body: 'Warm up, learn a technique, and drill with a partner. Rest whenever you need to.',
   },
 ];
+
+export interface PathwayStage extends Titled {
+  /** Page (and optional anchor) for this stage */
+  href: string;
+}
+
+/** The progression from first class to competition. Programs index. */
+export const pathway: PathwayStage[] = [
+  {
+    title: 'Start young',
+    body: 'Ages 4-7 learn balance, listening, and teamwork through games and gentle drills.',
+    href: '/programs/kids#kids-4-7',
+  },
+  {
+    title: 'Build real skill',
+    body: 'Ages 8-13 move into technique, drilling, and supervised live rounds.',
+    href: '/programs/kids#kids-8-13',
+  },
+  {
+    title: 'Train as an adult',
+    body: 'From 14 up, gi classes for every level, whether you are brand new or returning.',
+    href: '/programs/bjj',
+  },
+  {
+    title: 'Go fast and compete',
+    body: 'No-gi sharpens your game with quicker, more athletic grappling.',
+    href: '/programs/no-gi',
+  },
+];
