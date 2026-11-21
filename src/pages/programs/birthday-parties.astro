@@ -2,23 +2,23 @@
 import landscape from '@/assets/placeholders/landscape.jpg';
 import portrait from '@/assets/placeholders/portrait.jpg';
 import Button from '@/components/Button.astro';
-import Eyebrow from '@/components/Eyebrow.astro';
 import FaqSection from '@/components/FaqSection.astro';
 import FormBand from '@/components/FormBand.astro';
 import Heading from '@/components/Heading.astro';
 import Hero from '@/components/Hero.astro';
 import NumberedRows from '@/components/NumberedRows.astro';
 import Photo from '@/components/Photo.astro';
-import ReviewsBlock from '@/components/ReviewsBlock.astro';
 import Section from '@/components/Section.astro';
 import SectionHead from '@/components/SectionHead.astro';
 import { partySteps, whyParty } from '@/data/birthday';
 import { faqsFor } from '@/data/faqs';
-import { reviewsFor } from '@/data/reviews';
-import { programs, site } from '@/data/site';
+import Eyebrow from '@/components/Eyebrow.astro';
+import { rating, reviewLabel, reviewsFor } from '@/data/reviews';
+import { programs } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const party = programs.find((program) => program.slug === 'birthday-parties')!;
+const [review] = reviewsFor('birthday', 1);
 ---
 
 <BaseLayout
@@ -27,12 +27,12 @@ const party = programs.find((program) => program.slug === 'birthday-parties')!;
   breadcrumbs={[{ label: 'Programs', href: '/programs' }, { label: 'Birthday parties' }]}
 >
   <Hero
-    eyebrow={`Birthday parties · All ages · ${site.address.city}, ${site.address.region}`}
-    title="A birthday party worth talking about"
-    accent="worth talking about"
-    deck="Games, a short class, and cake, all run by coaches who know how to keep kids happy and safe."
+    eyebrow="Kids Jiu Jitsu Birthday Parties · Ages 4–13"
+    title="A birthday they’ll talk about for years."
+    accent="talk about for years."
+    deck="Trade the bounce house for the mats. Our coaches run a jiu jitsu party that’s active, safe and genuinely fun, and you don’t lift a finger."
     primary={{ label: 'Plan a party', href: '#book' }}
-    secondary={{ label: 'How it works', href: '#how-it-works' }}
+    secondary={{ label: 'How it works', href: '#how' }}
     facts={party.facts}
   >
     <Photo
@@ -47,10 +47,10 @@ const party = programs.find((program) => program.slug === 'birthday-parties')!;
 
   <Section tone="surface" id="why">
     <SectionHead
-      eyebrow="Why a jiu-jitsu party"
-      heading="What makes it different"
-      accent="different"
-      lede="Active, social, and easy on parents. It is the party kids ask to go back to."
+      eyebrow="Why a jiu jitsu party"
+      heading="What makes it different."
+      accent="different."
+      lede="A party with a purpose: movement, laughter and real skills, run by the same coaches who teach our kids classes in Glen Burnie every week."
     />
     <NumberedRows items={whyParty} />
   </Section>
@@ -81,13 +81,13 @@ const party = programs.find((program) => program.slug === 'birthday-parties')!;
     </div>
   </section>
 
-  <Section tone="surface" id="how-it-works">
+  <Section tone="surface" id="how">
     <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(16px,2vw,32px)]">
       <header class="lg:sticky lg:top-[calc(var(--spacing-header)+48px)] lg:pr-8">
         <Eyebrow class="mb-4">How it works</Eyebrow>
-        <Heading text="Three steps to party day" accent="party day" />
+        <Heading text="Three steps to party day." accent="party day." />
         <p class="mt-6 text-lede">
-          Tell us your preferred date in the form and we will reach out to plan the details.
+          Tell us your preferred date in the form, and we’ll reach out to plan the details.
         </p>
         <div class="mt-8">
           <Button href="#book" arrow>
@@ -99,33 +99,49 @@ const party = programs.find((program) => program.slug === 'birthday-parties')!;
     </div>
   </Section>
 
-  <ReviewsBlock
-    reviews={reviewsFor('birthday', 1)}
-    heading="What parents say"
-    accent="parents say"
-    tone="paper"
+  {/* One centered quote with the rating under it, like the original (no section heading) */}
+  {review ? (
+    <Section>
+      <figure data-reveal class="mx-auto max-w-3xl text-center">
+        <blockquote>
+          <p class="font-display text-[clamp(1.75rem,1.2rem+2.1vw,3.125rem)] leading-[1.14] font-light tracking-[-0.015em] text-balance text-ink">
+            &ldquo;{review.quote}&rdquo;
+          </p>
+        </blockquote>
+        <figcaption class="mt-8 flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
+          <span class="text-[0.9375rem] font-medium text-ink">{review.author}</span>
+          <Eyebrow as="span">{reviewLabel(review)}</Eyebrow>
+        </figcaption>
+        <p class="mt-8 inline-flex flex-wrap items-baseline justify-center gap-x-3.5 text-sm">
+          <span class="font-display text-[2rem] leading-none font-light text-ink">
+            {rating.score.toFixed(1)}
+          </span>
+          <span aria-hidden="true" class="tracking-[0.18em] text-ink">
+            ★★★★★
+          </span>
+          <span>{`${rating.count} ${rating.source} reviews`}</span>
+        </p>
+      </figure>
+    </Section>
+  ) : null}
+
+  <FaqSection
+    items={faqsFor('birthday')}
+    heading="Party questions."
+    accent="questions."
+    tone="surface"
   />
 
-  <FaqSection items={faqsFor('birthday')} heading="Party questions" accent="questions" />
-
   <FormBand
-    heading="Let's plan the party"
-    accent="plan the party"
-    body="Tell us a little about your child and your date. We will text you to work out the details."
+    eyebrow="Birthday parties · Ages 4–13"
+    heading="Let’s plan the party."
+    accent="the party."
+    body="Pick ‘Birthday party’, leave your details and we’ll call you to plan the day."
     bullets={[
-      'We run the whole party',
-      'Gear provided for every guest',
-      'Parents just bring the cake',
+      'Coach-led from start to finish',
+      'No experience needed for guests',
+      'A clean, padded, supervised space',
     ]}
     defaultProgram="birthday"
-    submitLabel="Plan my party"
-  >
-    <p>
-      Prefer to talk it through?
-      <a href={site.phone.href} class="underline">
-        Call {site.phone.display}
-      </a>
-      .
-    </p>
-  </FormBand>
+  />
 </BaseLayout>

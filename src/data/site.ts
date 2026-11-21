@@ -152,7 +152,7 @@ export const programs: Program[] = [
     name: 'Birthday parties',
     ages: 'Ages 4\u201313',
     blurb: 'A high-energy party your kid will talk about for weeks.',
-    facts: ['We run the party', 'Gear provided', 'Easy to book'],
+    facts: ['Ages 4\u201313', 'Coach-led', 'No experience needed'],
   },
 ];
 
