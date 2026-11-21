@@ -5,6 +5,8 @@ import { site } from '@/data/site';
 import {
   aboutPageJsonLd,
   academyId,
+  blogJsonLd,
+  blogPostingJsonLd,
   breadcrumbListJsonLd,
   coachProfileJsonLd,
   contactPageJsonLd,
@@ -119,5 +121,30 @@ describe('contactPageJsonLd', () => {
     const data = contactPageJsonLd('https://example.com/contact', 'https://example.com');
     expect(data['@type']).toBe('ContactPage');
     expect(data.mainEntity['@id']).toBe(academyId('https://example.com'));
+  });
+});
+
+describe('blog JSON-LD', () => {
+  const post = {
+    url: 'https://example.com/blog/a',
+    title: 'A post',
+    description: 'About a post',
+    datePublished: new Date('2026-11-09T00:00:00Z'),
+  };
+
+  it('describes a post published by the academy', () => {
+    const data = blogPostingJsonLd(post, 'https://example.com');
+    expect(data['@type']).toBe('BlogPosting');
+    expect(data.headline).toBe('A post');
+    expect(data.datePublished).toBe('2026-11-09');
+    expect(data.publisher['@id']).toBe(academyId('https://example.com'));
+    expect('image' in data).toBe(false);
+  });
+
+  it('lists every post on the blog', () => {
+    const data = blogJsonLd('https://example.com/blog', 'https://example.com', [post, post]);
+    expect(data['@type']).toBe('Blog');
+    expect(data.blogPost).toHaveLength(2);
+    expect(data.blogPost[0]['@type']).toBe('BlogPosting');
   });
 });

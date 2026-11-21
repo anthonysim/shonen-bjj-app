@@ -1,31 +1,93 @@
 ---
+// Blog index, like the original: a compact hero, one card per post (photo, date and category,
+// title, summary, "Read the post"), and the booking band. JSON-LD: Blog listing every post.
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import FormBand from '@/components/FormBand.astro';
+import Heading from '@/components/Heading.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
+import Photo from '@/components/Photo.astro';
+import Section from '@/components/Section.astro';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { formatDate, getPublishedPosts } from '@/lib/blog';
+import { blogJsonLd } from '@/lib/structured-data';
 
 const posts = await getPublishedPosts();
+const blogUrl = new URL('/blog', Astro.site).href;
+const summaries = posts.map((post) => ({
+  url: new URL(`/blog/${post.id}`, Astro.site).href,
+  title: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate,
+  imageUrl: post.data.image ? new URL(post.data.image.src, Astro.site).href : undefined,
+}));
 ---
 
-<BaseLayout title="Blog" description="News, training tips, and updates from the academy.">
-  <section class="page-container [--page-max:48rem] py-[clamp(4.5rem,4rem+6vw,9.5rem)]">
-    <h1 class="text-h1">Blog</h1>
+<BaseLayout
+  title="Blog"
+  description={`Training advice, beginner guides and tips for parents from ${site.name} in ${site.address.city}.`}
+  breadcrumbs={[{ label: 'Blog' }]}
+  structuredData={[blogJsonLd(blogUrl, Astro.site!.origin, summaries)]}
+>
+  <section class="bg-paper py-[clamp(56px,3rem+4vw,104px)]">
+    <div class="page-container">
+      {Astro.locals.breadcrumbs ? <Breadcrumbs crumbs={Astro.locals.breadcrumbs} /> : null}
+      <Eyebrow class="mt-[clamp(28px,4vw,56px)] mb-[clamp(16px,2vw,24px)]">The Shonen blog</Eyebrow>
+      <Heading level={1} size="xl" text="Notes from the mat." accent="from the mat." />
+      <p class="mt-6 max-w-[56ch] text-lede">
+        Training advice, beginner guides and tips for parents from our academy in
+        {` ${site.address.city}.`}
+      </p>
+    </div>
+  </section>
+
+  <Section tone="surface" id="posts">
     {posts.length > 0 ? (
-      <ul class="mt-8 divide-y divide-black/10">
+      <ul class="border-t border-line">
         {posts.map((post) => (
-          <li class="py-6">
-            <a href={`/blog/${post.id}`} class="group block">
-              <time datetime={post.data.pubDate.toISOString()} class="text-sm text-black/60">
-                {formatDate(post.data.pubDate)}
-              </time>
-              <h2 class="group-hover:underline mt-1 text-xl font-semibold md:text-2xl">
-                {post.data.title}
+          <li class="grid gap-6 border-b border-line py-10 md:grid-cols-12 md:gap-x-[clamp(16px,2vw,32px)]">
+            {post.data.image ? (
+              <a
+                href={`/blog/${post.id}`}
+                class="block aspect-3/2 overflow-hidden bg-paper-2 md:col-span-5"
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <Photo
+                  src={post.data.image}
+                  alt=""
+                  grade="mono"
+                  sizes="(min-width: 768px) 40vw, 100vw"
+                  widths={[480, 720, 960]}
+                  class="h-full object-cover"
+                />
+              </a>
+            ) : null}
+            <div class="flex flex-col items-start gap-4 md:col-span-7 md:self-center">
+              <Eyebrow>
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate)}
+                </time>
+                {` · ${post.data.category}`}
+              </Eyebrow>
+              <h2 class="text-h3">
+                <a href={`/blog/${post.id}`} class="underline-offset-[6px] hover:underline">
+                  {post.data.title}
+                </a>
               </h2>
-              <p class="mt-2 text-black/70">{post.data.description}</p>
-            </a>
+              <p class="max-w-[60ch]">{post.data.description}</p>
+              <LinkArrow href={`/blog/${post.id}`} class="text-ink">
+                Read the post
+              </LinkArrow>
+            </div>
           </li>
         ))}
       </ul>
     ) : (
-      <p class="mt-6 text-black/60">No posts yet.</p>
+      <p>No posts yet.</p>
     )}
-  </section>
+  </Section>
+
+  <FormBand />
 </BaseLayout>

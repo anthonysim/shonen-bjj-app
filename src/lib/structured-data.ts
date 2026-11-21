@@ -127,3 +127,44 @@ export function contactPageJsonLd(pageUrl: string, origin: string) {
     mainEntity: { '@id': academyId(origin) },
   };
 }
+
+export interface PostSummary {
+  url: string;
+  title: string;
+  description: string;
+  datePublished: Date;
+  imageUrl?: string;
+}
+
+function blogPosting(post: PostSummary, origin: string) {
+  return {
+    '@type': 'BlogPosting',
+    '@id': `${post.url}#article`,
+    url: post.url,
+    mainEntityOfPage: post.url,
+    headline: post.title,
+    description: post.description,
+    datePublished: post.datePublished.toISOString().slice(0, 10),
+    ...(post.imageUrl ? { image: post.imageUrl } : {}),
+    author: { '@id': academyId(origin) },
+    publisher: { '@id': academyId(origin) },
+  };
+}
+
+/** schema.org BlogPosting for one post, published by the academy. */
+export function blogPostingJsonLd(post: PostSummary, origin: string) {
+  return { '@context': 'https://schema.org', ...blogPosting(post, origin) };
+}
+
+/** schema.org Blog listing every post. */
+export function blogJsonLd(blogUrl: string, origin: string, posts: readonly PostSummary[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': `${blogUrl}#blog`,
+    url: blogUrl,
+    name: `The ${site.name} blog`,
+    publisher: { '@id': academyId(origin) },
+    blogPost: posts.map((post) => blogPosting(post, origin)),
+  };
+}
