@@ -3,6 +3,8 @@
 export interface NavChild {
   label: string;
   href: string;
+  /** Short qualifier shown after the label in the mobile menu, e.g. "ages 4-13". */
+  detail?: string;
 }
 
 export interface NavItem {
@@ -142,7 +144,11 @@ export const nav: NavItem[] = [
   {
     label: 'Programs',
     href: '/programs',
-    children: programs.map((p) => ({ label: p.name, href: `/programs/${p.slug}` })),
+    children: programs.map((p) => ({
+      label: p.name,
+      href: `/programs/${p.slug}`,
+      detail: p.ages.toLowerCase(),
+    })),
   },
   { label: 'Schedule', href: '/schedule' },
   { label: 'Meet the Coach', href: '/team/head-coach' },
