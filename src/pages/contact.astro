@@ -2,7 +2,6 @@
 // Contact, laid out like the original: split hero, directions and hours (with first-visit and
 // social rows), the booking band, and the towns students come from. JSON-LD: ContactPage.
 import landscape from '@/assets/placeholders/landscape.jpg';
-import Eyebrow from '@/components/Eyebrow.astro';
 import FormBand from '@/components/FormBand.astro';
 import Hero from '@/components/Hero.astro';
 import Photo from '@/components/Photo.astro';
@@ -68,6 +67,5 @@ const towns = [homeCity, site.county, ...otherTowns];
         <li class="border-t border-line py-3">{town}</li>
       ))}
     </ul>
-    <Eyebrow class="mt-8">{`${towns.length} communities`}</Eyebrow>
   </Section>
 </BaseLayout>

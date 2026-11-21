@@ -1,6 +1,8 @@
 ---
 title: "Your child's first jiu jitsu class: a parent's guide."
 description: "Booking your child's first jiu jitsu class in Glen Burnie? What happens in a Shonen kids class, what to bring, how we keep kids safe and how to help a nervous child."
+excerpt: 'What happens in a kids class, what to bring, how we keep kids safe and how to help a nervous first-timer.'
+crumb: "Your child's first class"
 pubDate: 2026-11-09
 category: 'Kids jiu jitsu'
 lede: "Booking a first martial arts class for your kid brings up a lot of questions. Will they be nervous? Will they get hurt? What do they wear? Here's exactly what happens when your child steps on the mat at Shonen, and how to set them up for a great first day."

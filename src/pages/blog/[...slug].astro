@@ -40,7 +40,7 @@ const posting = blogPostingJsonLd(
 <BaseLayout
   title={data.title}
   description={data.description}
-  breadcrumbs={[{ label: 'Blog', href: '/blog' }, { label: data.title }]}
+  breadcrumbs={[{ label: 'Blog', href: '/blog' }, { label: data.crumb ?? data.title }]}
   structuredData={[posting]}
 >
   <Hero eyebrow={data.category} title={data.title} deck={data.lede} facts={[meta]}>
