@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
+import { coach } from '@/data/coach';
 import { site } from '@/data/site';
-import { breadcrumbListJsonLd, localBusinessJsonLd, serializeJsonLd } from './structured-data';
+import {
+  academyId,
+  breadcrumbListJsonLd,
+  coachProfileJsonLd,
+  localBusinessJsonLd,
+  serializeJsonLd,
+} from './structured-data';
 
 describe('localBusinessJsonLd', () => {
   const data = localBusinessJsonLd('https://example.com/');
@@ -44,5 +51,32 @@ describe('breadcrumbListJsonLd', () => {
       'https://example.com/programs',
       'https://example.com/programs/kids/',
     ]);
+  });
+});
+
+describe('coachProfileJsonLd', () => {
+  const pageUrl = 'https://example.com/team/head-coach';
+  const data = coachProfileJsonLd(pageUrl, 'https://example.com', 'https://example.com/a.jpg');
+
+  it('is a ProfilePage about the coach', () => {
+    expect(data['@type']).toBe('ProfilePage');
+    expect(data.url).toBe(pageUrl);
+    expect(data.mainEntity['@type']).toBe('Person');
+    expect(data.mainEntity.name).toBe(coach.name);
+    expect(data.mainEntity.image).toBe('https://example.com/a.jpg');
+  });
+
+  it('links the coach to the academy entity by @id', () => {
+    const academy = localBusinessJsonLd('https://example.com/');
+    expect(data.mainEntity.worksFor['@id']).toBe(academy['@id']);
+    expect(academy['@id']).toBe(academyId('https://example.com'));
+  });
+
+  it('lists every competition result as an award', () => {
+    expect(data.mainEntity.award).toEqual(coach.competitionRecord.map((r) => r.title));
+  });
+
+  it('leaves out the image when there is none', () => {
+    expect('image' in coachProfileJsonLd(pageUrl, 'https://example.com').mainEntity).toBe(false);
   });
 });

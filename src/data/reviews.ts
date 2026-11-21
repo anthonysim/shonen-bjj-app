@@ -91,6 +91,12 @@ export const reviews: Review[] = [
     author: 'Placeholder student K.',
     topic: 'coach',
   },
+  {
+    id: 'coach-3',
+    quote: 'Every class has one small detail that changes how a whole position feels.',
+    author: 'Placeholder student L.',
+    topic: 'coach',
+  },
 ];
 
 /** Reviews for a topic. Pass "general" or omit to get general ones. Order is stable. */
