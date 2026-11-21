@@ -19,6 +19,7 @@ const hasAside = Astro.slots.has('aside');
 ---
 
 <header
+  data-reveal
   class:list={[
     'mb-[clamp(40px,2rem+3vw,80px)] grid gap-6',
     split && 'lg:grid-cols-12 lg:items-end lg:gap-x-[clamp(16px,2vw,32px)]',

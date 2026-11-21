@@ -35,7 +35,7 @@ const link =
 
 <Section tone={tone} id="visit">
   <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
-    <div class="lg:col-start-1 lg:col-end-7">
+    <div data-reveal class="lg:col-start-1 lg:col-end-7">
       <SectionHead eyebrow="Visit" heading={heading} accent={accent} split={false} />
       <dl class="border-b border-line">
         <div class={row}>
@@ -121,7 +121,11 @@ const link =
         )}
       </div>
     </div>
-    <div class="hidden aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-8 lg:col-end-13 lg:block">
+    <div
+      data-reveal
+      style={{ '--i': 1 }}
+      class="hidden aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-8 lg:col-end-13 lg:block"
+    >
       <Photo
         src={square}
         alt="Placeholder photo of the academy entrance"

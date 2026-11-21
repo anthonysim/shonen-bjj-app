@@ -80,26 +80,30 @@ const edge = 'max(var(--spacing-gutter), calc((100% - 1280px) / 2))';
   {meta ? (
     <p
       style={{ right: edge }}
-      class="absolute top-[calc(var(--spacing-header)+40px)] hidden items-center gap-3.5 text-label font-medium tracking-[0.14em] text-white/55 uppercase before:h-px before:w-10 before:bg-white/35 lg:flex"
+      class="hero-rise absolute top-[calc(var(--spacing-header)+40px)] hidden [--rise-delay:750ms] items-center gap-3.5 text-label font-medium tracking-[0.14em] text-white/55 uppercase before:h-px before:w-10 before:bg-white/35 lg:flex"
     >
       {meta}
     </p>
   ) : null}
 
   <Container class="relative">
-    {eyebrow ? <Eyebrow class="text-white/55">{eyebrow}</Eyebrow> : null}
+    {eyebrow ? (
+      <Eyebrow class="hero-rise text-white/55 [--rise-delay:150ms]">{eyebrow}</Eyebrow>
+    ) : null}
     <Heading
       level={1}
       size="display"
       text={title}
       accent={accent}
-      class="mt-[clamp(20px,2.4vw,32px)] max-w-[1040px]"
+      class="hero-rise mt-[clamp(20px,2.4vw,32px)] max-w-[1040px] [--rise-delay:270ms]"
     />
     {deck ? (
-      <p class="mt-[clamp(20px,2.2vw,32px)] max-w-[46ch] text-lede text-white/72">{deck}</p>
+      <p class="hero-rise mt-[clamp(20px,2.2vw,32px)] max-w-[46ch] text-lede text-white/72 [--rise-delay:390ms]">
+        {deck}
+      </p>
     ) : null}
     {primary || secondary ? (
-      <div class="mt-[clamp(28px,3vw,44px)] flex flex-wrap gap-x-6 gap-y-4">
+      <div class="hero-rise mt-[clamp(28px,3vw,44px)] flex flex-wrap gap-x-6 gap-y-4 [--rise-delay:510ms]">
         {primary ? (
           <Button href={primary.href} size="lg" variant="inverse" arrow>
             {primary.label}
@@ -112,7 +116,7 @@ const edge = 'max(var(--spacing-gutter), calc((100% - 1280px) / 2))';
         ) : null}
       </div>
     ) : null}
-    <div class="mt-[clamp(36px,5vw,72px)]">
+    <div class="hero-rise mt-[clamp(36px,5vw,72px)] [--rise-delay:630ms]">
       <slot />
     </div>
   </Container>

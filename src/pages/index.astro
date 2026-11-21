@@ -56,13 +56,15 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
 
   <Section tone="paper">
     <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
-      <Definition
-        word="Sh\u014dnen"
-        pronunciation="show-nuhn"
-        partOfSpeech="noun"
-        meaning="High-action narratives that focus on competitions or fights to decide their storylines. These stories stress values such as self-perfection, self-discipline, and honorable service to community, family, and friends."
-      />
-      <div>
+      <div data-reveal>
+        <Definition
+          word="Sh\u014dnen"
+          pronunciation="show-nuhn"
+          partOfSpeech="noun"
+          meaning="High-action narratives that focus on competitions or fights to decide their storylines. These stories stress values such as self-perfection, self-discipline, and honorable service to community, family, and friends."
+        />
+      </div>
+      <div data-reveal style={{ '--i': 1 }}>
         <Heading
           text="Superior to your average martial arts academy."
           accent="martial arts academy."

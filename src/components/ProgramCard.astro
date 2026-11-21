@@ -19,6 +19,8 @@ const volume = `Vol. ${String(index + 1).padStart(2, '0')}`;
 
 <a
   href={card.href}
+  data-reveal
+  style={{ '--i': index }}
   class:list={['group flex flex-col text-inherit focus-visible:outline-offset-[6px]', className]}
 >
   <div class="relative aspect-4/5 overflow-hidden bg-paper-2">

@@ -60,7 +60,7 @@ const cardBg = tone === 'surface' ? 'max-lg:bg-paper' : 'max-lg:bg-surface';
   </SectionHead>
 
   {single ? (
-    <figure class="mx-auto max-w-3xl text-center">
+    <figure data-reveal class="mx-auto max-w-3xl text-center">
       <blockquote>
         <p class="font-display text-[clamp(1.75rem,1.2rem+2.1vw,3.125rem)] leading-[1.14] font-light tracking-[-0.015em] text-balance text-ink">
           &ldquo;{feature.quote}&rdquo;
@@ -74,6 +74,7 @@ const cardBg = tone === 'surface' ? 'max-lg:bg-paper' : 'max-lg:bg-surface';
   ) : (
     <div class="-mx-(--spacing-gutter) grid snap-x snap-mandatory auto-cols-[85%] grid-flow-col gap-3 overflow-x-auto scroll-px-(--spacing-gutter) px-(--spacing-gutter) pb-4 lg:mx-0 lg:snap-none lg:grid-flow-row lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start lg:gap-x-[clamp(32px,6vw,112px)] lg:gap-y-0 lg:overflow-visible lg:p-0">
       <figure
+        data-reveal
         class:list={[
           'flex snap-start flex-col justify-between rounded-card border border-line p-6 lg:sticky lg:top-[calc(var(--spacing-header)+48px)] lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0',
           cardBg,
@@ -89,8 +90,10 @@ const cardBg = tone === 'surface' ? 'max-lg:bg-paper' : 'max-lg:bg-surface';
           <Eyebrow as="span">{reviewLabel(feature)}</Eyebrow>
         </figcaption>
       </figure>
-      {rest.map((review) => (
+      {rest.map((review, index) => (
         <figure
+          data-reveal
+          style={{ '--i': index + 1 }}
           class:list={[
             'flex snap-start flex-col justify-between rounded-card border border-line p-6 lg:col-start-2 lg:rounded-none lg:border-x-0 lg:border-b-0 lg:bg-transparent lg:px-0 lg:py-8 lg:last:border-b',
             cardBg,

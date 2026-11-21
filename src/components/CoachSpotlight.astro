@@ -22,7 +22,10 @@ const cardBg = tone === 'paper' ? 'bg-surface' : 'bg-paper';
 ---
 
 <Section tone={tone} id="coach">
-  <article class:list={['grid overflow-hidden md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]', cardBg]}>
+  <article
+    data-reveal
+    class:list={['grid overflow-hidden md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]', cardBg]}
+  >
     <div class="relative aspect-square overflow-hidden bg-paper-2 md:aspect-auto md:min-h-full">
       <Photo
         src={portrait}
