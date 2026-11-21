@@ -38,31 +38,37 @@ export const firstClassSteps: Titled[] = [
 ];
 
 export interface PathwayStage extends Titled {
-  /** Page (and optional anchor) for this stage */
-  href: string;
+  /** Small line under the title */
+  sub: string;
+  /** Link after the body text */
+  link: { label: string; href: string };
 }
 
-/** The progression from first class to competition. Programs index. */
+/** "How the classes fit together", from shonenjiujitsu.com/programs (client's permission). */
 export const pathway: PathwayStage[] = [
   {
-    title: 'Start young',
-    body: 'Ages 4-7 learn balance, listening, and teamwork through games and gentle drills.',
-    href: '/programs/kids#kids-4-7',
+    title: 'Kids (4\u20137)',
+    sub: 'Games and fundamentals',
+    body: 'A playful, structured introduction: mobility, coordination and listening skills, built through jiu jitsu drills and games.',
+    link: { label: 'Kids 4\u20137', href: '/programs/kids#kids-4-7' },
   },
   {
-    title: 'Build real skill',
-    body: 'Ages 8-13 move into technique, drilling, and supervised live rounds.',
-    href: '/programs/kids#kids-8-13',
+    title: 'Kids (8\u201313)',
+    sub: 'Technique, focus and supervised sparring',
+    body: 'Real grappling technique with a greater focus on the sport, including competition rules and strategy, alongside supportive teammates.',
+    link: { label: 'Kids 8\u201313', href: '/programs/kids#kids-8-13' },
   },
   {
-    title: 'Train as an adult',
-    body: 'From 14 up, gi classes for every level, whether you are brand new or returning.',
-    href: '/programs/bjj',
+    title: 'Gi Basics',
+    sub: 'The core concepts for new adults',
+    body: 'Where every adult starts: essential positions, escapes and self-defense, taught step by step, Monday to Thursday at 7 PM.',
+    link: { label: 'Adult classes', href: '/programs/bjj' },
   },
   {
-    title: 'Go fast and compete',
-    body: 'No-gi sharpens your game with quicker, more athletic grappling.',
-    href: '/programs/no-gi',
+    title: 'All-Levels, Gi & No-Gi',
+    sub: 'Advanced technique and competition-style training',
+    body: 'For students with experience: intricate technique, your own individual game, and competition preparation and analysis.',
+    link: { label: 'No-Gi', href: '/programs/no-gi' },
   },
 ];
 

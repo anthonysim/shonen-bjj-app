@@ -22,7 +22,7 @@ describe('academy copy', () => {
     expect(pathway).toHaveLength(4);
     const routes = programs.map((p) => `/programs/${p.slug}`);
     for (const stage of pathway) {
-      expect(routes, stage.title).toContain(stage.href.split('#')[0]);
+      expect(routes, stage.title).toContain(stage.link.href.split('#')[0]);
     }
   });
 
@@ -30,7 +30,7 @@ describe('academy copy', () => {
     const kids = programs.find((p) => p.slug === 'kids');
     const anchors = (kids?.ageGroups ?? []).map((g) => g.id);
     for (const stage of pathway) {
-      const [, anchor] = stage.href.split('#');
+      const [, anchor] = stage.link.href.split('#');
       if (anchor) expect(anchors, stage.title).toContain(anchor);
     }
   });
