@@ -83,7 +83,7 @@ const crumbs: BreadcrumbItem[] | null = breadcrumbs
     <Header overlay={overlayHeader} />
     <main id="main">
       {crumbs ? (
-        <div class="mx-auto max-w-[1280px] px-[clamp(1.25rem,4vw,3rem)] pt-2">
+        <div class="page-container pt-2">
           <Breadcrumbs crumbs={crumbs} />
         </div>
       ) : null}

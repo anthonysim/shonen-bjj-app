@@ -27,3 +27,6 @@ pnpm-debug.log*
 # local planning notes
 .plan/
 .vercel
+
+# Personal Claude Code settings
+.claude/settings.local.json

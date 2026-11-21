@@ -13,7 +13,7 @@ const { Content } = await render(post);
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="mx-auto max-w-3xl px-[clamp(1.25rem,4vw,3rem)] py-[clamp(4.5rem,4rem+6vw,9.5rem)]">
+  <article class="page-container [--page-max:48rem] py-[clamp(4.5rem,4rem+6vw,9.5rem)]">
     <a href="/blog" class="inline-flex min-h-11 items-center text-sm underline">
       &larr; All posts
     </a>

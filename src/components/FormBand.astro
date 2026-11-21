@@ -28,25 +28,28 @@ const {
 ---
 
 <Section tone="dark" id={id}>
-  <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
-    <div>
-      <Heading text={heading} accent={accent} size="xl" />
-      <p class="mt-4 max-w-prose text-lg">{body}</p>
+  {/* Like the original's trial band: text in columns 1-5 (sticky on desktop), form card in 7-12 */}
+  <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+    <div class="lg:sticky lg:top-[120px] lg:col-span-5 lg:pt-4">
+      <Heading text={heading} accent={accent} size="lg" class="max-w-[12em]" />
+      <p class="mt-6 max-w-prose text-lede text-white/72">{body}</p>
       {bullets.length > 0 ? (
-        <ul class="mt-6 space-y-2">
+        <ul class="mt-8 border-t border-white/16">
           {bullets.map((bullet) => (
-            <li class="flex items-center gap-3">
-              <span aria-hidden="true" class="bg-current size-2 rounded-full" />
+            <li class="flex gap-3.5 border-b border-white/16 py-3.5 text-white">
+              <span aria-hidden="true" class="text-white/55">
+                &mdash;
+              </span>
               {bullet}
             </li>
           ))}
         </ul>
       ) : null}
-      <div class="mt-6">
+      <div class="mt-6 text-white/72">
         <slot />
       </div>
     </div>
-    <div class="bg-paper text-body [--heading:var(--color-ink)] rounded-card relative p-5 md:p-8">
+    <div class="relative rounded-card bg-surface p-[clamp(24px,3vw,44px)] text-body shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] [--heading:var(--color-ink)] lg:col-span-6 lg:col-start-7">
       <BookingForm submitLabel={submitLabel} defaultProgram={defaultProgram} idPrefix={id} />
     </div>
   </div>
