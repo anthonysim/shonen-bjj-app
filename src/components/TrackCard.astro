@@ -1,0 +1,60 @@
+---
+import Button from '@/components/Button.astro';
+import type { Track } from '@/data/adults';
+import { categoryLabels, schedule, whenLabel } from '@/data/schedule';
+
+interface Props {
+  track: Track;
+  /** Zero-based position, shown as "Track 01" */
+  index: number;
+}
+
+const { track, index } = Astro.props;
+const label = `Track ${String(index + 1).padStart(2, '0')}`;
+
+// Resolve schedule classes in the track's own order, so times always come from the schedule
+const classes = track.classIds.flatMap((id) => schedule.filter((cls) => cls.id === id));
+
+const specs = [
+  { label: 'Class length', value: track.length },
+  { label: 'Attire', value: track.attire },
+];
+---
+
+<article class="rounded-card border border-line bg-surface p-6 text-body md:p-10">
+  <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">{label}</p>
+  <h3 class="mt-2 text-h2">{track.name}</h3>
+  <p class="mt-3 text-lede">{track.blurb}</p>
+
+  <ul class="mt-6 space-y-2">
+    {track.bullets.map((bullet) => (
+      <li class="flex gap-3">
+        <span aria-hidden="true" class="text-muted">
+          &mdash;
+        </span>
+        {bullet}
+      </li>
+    ))}
+  </ul>
+
+  <dl class="mt-6">
+    {specs.map((spec) => (
+      <div class="flex flex-col gap-1 border-b border-line py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+        <dt class="text-label font-medium tracking-[0.14em] text-muted uppercase">{spec.label}</dt>
+        <dd class="text-ink sm:text-right">{spec.value}</dd>
+      </div>
+    ))}
+    {classes.map((cls) => (
+      <div class="flex flex-col gap-1 border-b border-line py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+        <dt class="text-label font-medium tracking-[0.14em] text-muted uppercase">
+          {categoryLabels[cls.category]}
+        </dt>
+        <dd class="text-ink sm:text-right">{whenLabel([cls])}</dd>
+      </div>
+    ))}
+  </dl>
+
+  <div class="mt-6">
+    <Button href="#book">Book a free class</Button>
+  </div>
+</article>

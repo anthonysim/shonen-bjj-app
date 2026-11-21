@@ -6,9 +6,11 @@ import type { ProgramCard } from '@/data/site';
 interface Props {
   card: ProgramCard;
   image: ImageMetadata;
+  /** Link text, e.g. "Plan a party" */
+  ctaLabel?: string;
 }
 
-const { card, image } = Astro.props;
+const { card, image, ctaLabel = 'Learn more' } = Astro.props;
 ---
 
 <article class="group border-line bg-surface text-body rounded-card relative flex flex-col overflow-hidden border focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ink md:flex-row">
@@ -29,7 +31,8 @@ const { card, image } = Astro.props;
       href={card.href}
       class="mt-5 inline-flex min-h-11 items-center gap-2 self-start border-b border-current text-nav font-medium tracking-[0.12em] text-ink uppercase after:absolute after:inset-0 focus-visible:outline-none"
     >
-      Plan a party<span class="sr-only"> ({card.name})</span>
+      {ctaLabel}
+      <span class="sr-only"> ({card.name})</span>
       <span aria-hidden="true">&rarr;</span>
     </a>
   </div>

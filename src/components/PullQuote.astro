@@ -1,0 +1,19 @@
+---
+// A review as an editorial pull quote: hairline, serif italic, tracked attribution.
+interface Props {
+  quote: string;
+  author: string;
+  class?: string;
+}
+
+const { quote, author, class: className } = Astro.props;
+---
+
+<figure class:list={['border-t border-line-strong pt-6', className]}>
+  <blockquote class="font-display text-xl leading-snug font-light text-ink italic md:text-2xl">
+    <p>&ldquo;{quote}&rdquo;</p>
+  </blockquote>
+  <figcaption class="mt-4 text-label font-medium tracking-[0.14em] text-muted uppercase">
+    {author}
+  </figcaption>
+</figure>
