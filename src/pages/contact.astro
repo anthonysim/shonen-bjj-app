@@ -1,8 +1,73 @@
 ---
-import PageStub from '@/components/PageStub.astro';
+// Contact, laid out like the original: split hero, directions and hours (with first-visit and
+// social rows), the booking band, and the towns students come from. JSON-LD: ContactPage.
+import landscape from '@/assets/placeholders/landscape.jpg';
+import Eyebrow from '@/components/Eyebrow.astro';
+import FormBand from '@/components/FormBand.astro';
+import Hero from '@/components/Hero.astro';
+import Photo from '@/components/Photo.astro';
+import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import VisitBlock from '@/components/VisitBlock.astro';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { mapsUrl } from '@/lib/maps';
+import { contactPageJsonLd } from '@/lib/structured-data';
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const { address } = site;
+const cityLine = `${address.city}, ${address.region} ${address.postalCode}`;
+// The county sits second, after the home city, like the original's list
+const [homeCity, ...otherTowns] = site.serviceArea;
+const towns = [homeCity, site.county, ...otherTowns];
 ---
 
-<BaseLayout title="Contact">
-  <PageStub title="Contact" />
+<BaseLayout
+  title="Contact"
+  description={`Visit ${site.name} at ${address.street}, ${cityLine}. Call ${site.phone.display} or book a free class.`}
+  breadcrumbs={[{ label: 'Contact' }]}
+  structuredData={[contactPageJsonLd(pageUrl, Astro.site!.origin)]}
+>
+  <Hero
+    eyebrow={`Contact ${site.name}`}
+    title="Come see the academy."
+    accent="the academy."
+    deck="We're in the Cromwell Field Shopping Center on Baltimore Annapolis Boulevard, next to Dunkin', with plenty of parking."
+    primary={site.cta}
+    secondary={{ label: 'Get directions', href: mapsUrl(address) }}
+    facts={[address.street, cityLine]}
+  >
+    <Photo
+      slot="media"
+      src={landscape}
+      alt="Placeholder photo of the academy"
+      priority
+      grade="mono"
+      sizes="(min-width: 1024px) 60vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <VisitBlock tone="surface" heading="Directions & hours." accent="hours." detailed />
+
+  <FormBand
+    heading="Book a free class or ask us anything."
+    accent="ask us anything."
+    body="Fill this in and we'll be in touch shortly. Every class on the schedule is open to first-timers, and a clean gi is waiting for you."
+  />
+
+  <Section tone="surface" id="service-area">
+    <SectionHead
+      eyebrow="Where our students come from"
+      heading="Serving Anne Arundel County and beyond."
+      accent="and beyond."
+      lede="Students train with us from across Anne Arundel County and nearby Baltimore and Howard County communities."
+    />
+    <ul class="grid grid-cols-2 gap-x-[clamp(16px,2vw,32px)] sm:grid-cols-3 lg:grid-cols-4">
+      {towns.map((town) => (
+        <li class="border-t border-line py-3">{town}</li>
+      ))}
+    </ul>
+    <Eyebrow class="mt-8">{`${towns.length} communities`}</Eyebrow>
+  </Section>
 </BaseLayout>
