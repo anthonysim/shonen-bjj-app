@@ -27,8 +27,8 @@ const highlights = coach.competitionRecord.slice(0, 4);
       />
     </div>
     <div>
-      <Eyebrow class="text-brand-600">Meet the coach</Eyebrow>
-      <Heading text={coach.name} accent={coach.name.split(' ')[0]} class="mt-2" />
+      <Eyebrow>Meet the coach</Eyebrow>
+      <Heading text={coach.name} accent={coach.name.split(' ').slice(-1)[0]} class="mt-2" />
       <p class="mt-2 text-lg font-semibold">{coach.title}</p>
       <p class="text-muted mt-3 max-w-prose text-lg">{coach.summary}</p>
       <ol class="mt-6 space-y-3">
@@ -36,7 +36,7 @@ const highlights = coach.competitionRecord.slice(0, 4);
           <li class="border-line flex items-baseline gap-4 border-b pb-3">
             <span
               aria-hidden="true"
-              class="font-display text-brand-600 w-9 shrink-0 text-2xl font-extrabold"
+              class="font-display w-9 shrink-0 text-2xl font-light italic opacity-60"
             >
               {String(index + 1).padStart(2, '0')}
             </span>

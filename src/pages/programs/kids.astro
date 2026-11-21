@@ -80,7 +80,7 @@ const groupImages = [landscape, square];
 
   <Section id="why">
     <div class="max-w-2xl">
-      <Heading text="Why jiu-jitsu?" accent="Why" />
+      <Heading text="Why jiu-jitsu?" accent="jiu-jitsu?" />
       <p class="text-muted mt-3 max-w-prose text-lg">
         It is one of the few sports where size and strength matter less than patience and
         problem-solving, which is why it works for so many kids.
@@ -94,7 +94,7 @@ const groupImages = [landscape, square];
   <Section tone="surface" id="inside-a-class">
     <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
       <div>
-        <Heading text="Inside a class" accent="Inside" />
+        <Heading text="Inside a class" accent="a class" />
         <p class="text-muted mt-3 max-w-prose text-lg">{parentNote}</p>
         <div class="mt-8">
           <NumberedSteps items={classSteps} />
@@ -115,11 +115,11 @@ const groupImages = [landscape, square];
   <Section id="safety">
     <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
       <div>
-        <Heading text="Parents ask us" accent="ask" />
+        <Heading text="Parents ask us" accent="ask us" />
         <ul class="mt-6 space-y-4">
           {safetyPoints.map((point) => (
             <li class="flex gap-3 text-lg">
-              <span aria-hidden="true" class="bg-brand-600 mt-2.5 size-2 shrink-0 rounded-full" />
+              <span aria-hidden="true" class="bg-ink mt-2.5 size-2 shrink-0 rounded-full" />
               {point}
             </li>
           ))}
@@ -158,7 +158,7 @@ const groupImages = [landscape, square];
   <Section tone="dark" id="watch">
     <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
       <div>
-        <Heading text="Watch a class" accent="Watch" />
+        <Heading text="Watch a class" accent="a class" />
         <p class="mt-4 max-w-prose text-lg">
           See the warm-up games, the technique, and the smiles for yourself before you book.
         </p>

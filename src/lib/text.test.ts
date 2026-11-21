@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { splitAccent } from './text';
+import { accentTail, splitAccent } from './text';
 
 describe('splitAccent', () => {
   it('splits around the first match', () => {
@@ -31,5 +31,33 @@ describe('splitAccent', () => {
     expect(splitAccent('Train hard')).toBeNull();
     expect(splitAccent('Train hard', '')).toBeNull();
     expect(splitAccent('Train hard', 'easy')).toBeNull();
+  });
+});
+
+describe('accentTail', () => {
+  it('italicizes from the accent to the end of the text', () => {
+    expect(accentTail('Training for every stage.', 'every stage.')).toEqual({
+      before: 'Training for ',
+      accent: 'every stage.',
+      after: '',
+    });
+    expect(accentTail('Find your class', 'class')?.accent).toBe('class');
+  });
+
+  it('extends a partial match to the end', () => {
+    expect(accentTail('Classes for every age', 'every')).toEqual({
+      before: 'Classes for ',
+      accent: 'every age',
+      after: '',
+    });
+  });
+
+  it('keeps only the accent when it starts the text', () => {
+    expect(accentTail('Visit us', 'Visit')).toEqual({ before: '', accent: 'Visit', after: ' us' });
+  });
+
+  it('returns null with no accent or no match', () => {
+    expect(accentTail('Find your class')).toBeNull();
+    expect(accentTail('Find your class', 'nope')).toBeNull();
   });
 });

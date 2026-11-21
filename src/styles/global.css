@@ -1,7 +1,6 @@
-@import '@fontsource-variable/inter/wght.css';
-@import '@fontsource/barlow-condensed/600.css';
-@import '@fontsource/barlow-condensed/700.css';
-@import '@fontsource/barlow-condensed/800.css';
+@import '@fontsource-variable/fraunces/opsz.css';
+@import '@fontsource-variable/fraunces/opsz-italic.css';
+@import '@fontsource-variable/dm-sans/opsz.css';
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
@@ -11,25 +10,44 @@
  *   md    = 768px  (iPad portrait)
  *   lg    = 1024px (iPad landscape / laptop)
  *   xl    = 1280px (desktop)
+ *
+ * Look: editorial and monochrome. Black ink on warm paper, a light serif for headings with an
+ * italic tail phrase, uppercase tracked labels, hairline rules, near-square corners.
  */
 @theme {
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Barlow Condensed', 'Arial Narrow', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'DM Sans Variable', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
 
-  /* Placeholder palette; swap for real brand colors later */
-  --color-brand-50: oklch(0.97 0.012 25);
-  --color-brand-100: oklch(0.93 0.035 25);
-  --color-brand-500: oklch(0.58 0.2 25);
-  --color-brand-600: oklch(0.5 0.2 25);
-  --color-brand-700: oklch(0.43 0.17 25);
-  --color-brand-900: oklch(0.25 0.06 25);
-  --color-ink: oklch(0.2 0 0);
-  --color-muted: oklch(0.45 0 0);
-  --color-paper: oklch(0.99 0 0);
-  --color-surface: oklch(0.96 0.006 85);
-  --color-line: oklch(0.88 0.004 85);
+  --color-ink: #000000;
+  --color-ink-soft: #111111;
+  --color-body: #3f3d39;
+  --color-muted: #6b6862;
+  --color-paper: #f5f2eb;
+  --color-paper-2: #ede8de;
+  --color-surface: #ffffff;
+  --color-line: rgb(0 0 0 / 0.12);
+  --color-line-strong: rgb(0 0 0 / 0.24);
+  --color-error: #8a1c1c;
 
-  --radius-card: 1rem;
+  --radius-card: 2px;
+
+  /* Fluid type scale, from the original's scale */
+  --text-display: clamp(2.75rem, 1.55rem + 5.4vw, 6.75rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.025em;
+  --text-h1: clamp(2.5rem, 1.6rem + 4vw, 5.25rem);
+  --text-h1--line-height: 1.04;
+  --text-h1--letter-spacing: -0.025em;
+  --text-h2: clamp(2rem, 1.35rem + 2.8vw, 3.875rem);
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h3: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+  --text-h3--line-height: 1.15;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
+  --text-nav: 0.8125rem;
+  --text-nav--line-height: 1;
+  --text-lede: clamp(1.0625rem, 1rem + 0.35vw, 1.3125rem);
 }
 
 @layer base {
@@ -40,24 +58,40 @@
     scroll-behavior: smooth;
   }
 
+  body {
+    min-height: 100dvh;
+    overflow-x: clip;
+    background: var(--color-paper);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+    line-height: 1.65;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Notched iPhones in landscape */
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+  }
+
   h1,
   h2,
   h3,
   h4 {
     font-family: var(--font-display);
+    font-weight: 300;
+    font-optical-sizing: auto;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
     text-wrap: balance;
-    /* Condensed face has a tight word space; italic accents otherwise nearly touch */
-    word-spacing: 0.08em;
+    /* Sections on dark backgrounds set --heading to white */
+    color: var(--heading, var(--color-ink));
   }
 
-  body {
-    min-height: 100dvh;
-    overflow-x: clip;
-    background: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    /* Notched iPhones in landscape */
-    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+  /* The outline follows the text color, so it is black on paper and white on dark sections */
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
   }
 
   /* 16px min on inputs prevents iOS zoom-on-focus */
@@ -71,5 +105,18 @@
     html {
       scroll-behavior: auto;
     }
+  }
+}
+
+/* Photography is graded to black and white, like the original look. Stack with Photo's `grade`. */
+@layer utilities {
+  .grade-soft {
+    filter: grayscale(0.55) contrast(1.04) saturate(0.9);
+  }
+  .grade-mono {
+    filter: grayscale(1) contrast(1.08) brightness(0.98);
+  }
+  .grade-hero {
+    filter: grayscale(1) contrast(1.15) brightness(0.9);
   }
 }

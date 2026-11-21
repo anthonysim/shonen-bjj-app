@@ -1,5 +1,5 @@
 ---
-// Small label above a heading.
+// Small uppercase label above a heading.
 interface Props {
   class?: string;
 }
@@ -7,6 +7,6 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<p class:list={['text-sm font-semibold tracking-[0.14em] uppercase', className]}>
+<p class:list={['text-label font-medium tracking-[0.14em] text-muted uppercase', className]}>
   <slot />
 </p>

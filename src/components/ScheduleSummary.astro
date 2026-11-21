@@ -21,8 +21,8 @@ const groups = classesByCategory().filter((group) => group.classes.length > 0);
 
   <div class="mt-8 grid gap-6 lg:grid-cols-3">
     {groups.map((group) => (
-      <section class="border-line bg-paper text-ink rounded-card border p-6">
-        <h3 class="font-display text-2xl font-bold">{categoryLabels[group.category]}</h3>
+      <section class="border-line bg-surface text-body rounded-card border p-6">
+        <h3 class="font-display text-2xl">{categoryLabels[group.category]}</h3>
         <ul class="divide-line mt-3 divide-y">
           {group.classes.map((cls) => (
             <li class="flex items-baseline justify-between gap-4 py-3">

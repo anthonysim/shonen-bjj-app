@@ -1,9 +1,9 @@
 ---
-import { splitAccent } from '@/lib/text';
+import { accentTail } from '@/lib/text';
 
 interface Props {
   text: string;
-  /** Word or phrase inside `text` to style as the accent. */
+  /** Where the italic tail starts: this phrase through the end of `text` is italicized. */
   accent?: string;
   /** Semantic level (document outline). Independent of visual `size`. */
   level?: 1 | 2 | 3 | 4;
@@ -13,21 +13,21 @@ interface Props {
 
 const { text, accent, level = 2, size = 'lg', class: className } = Astro.props;
 const Tag = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4';
-const parts = splitAccent(text, accent);
+const parts = accentTail(text, accent);
 
 const sizes = {
-  display: 'text-5xl leading-[0.95] md:text-7xl lg:text-8xl',
-  xl: 'text-4xl leading-[1] md:text-6xl',
-  lg: 'text-3xl leading-[1.05] md:text-5xl',
-  md: 'text-2xl leading-[1.1] md:text-3xl',
+  display: 'text-display',
+  xl: 'text-h1',
+  lg: 'text-h2',
+  md: 'text-h3',
 } as const;
 ---
 
-<Tag class:list={['font-extrabold tracking-tight', sizes[size], className]}>
+<Tag class:list={[sizes[size], className]}>
   {parts ? (
     <>
       {parts.before}
-      <em class="pe-[0.06em] text-[var(--accent,var(--color-brand-600))] italic">{parts.accent}</em>
+      <em class="italic">{parts.accent}</em>
       {parts.after}
     </>
   ) : (
