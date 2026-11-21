@@ -22,7 +22,7 @@ import SectionHead from '@/components/SectionHead.astro';
 import { academyFeatures, nameDefinition, values } from '@/data/academy';
 import { coach } from '@/data/coach';
 import { featuredReviews, rating, reviewsFor } from '@/data/reviews';
-import { site } from '@/data/site';
+import { site, bookOnPage } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { aboutPageJsonLd } from '@/lib/structured-data';
 
@@ -49,7 +49,7 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
     title="A jiu-jitsu academy that sweats the details"
     accent="sweats the details"
     deck="Built on a simple idea: specialist jiu-jitsu instruction in a clean, organized academy where every student is looked after."
-    primary={site.cta}
+    primary={bookOnPage}
     secondary={{ label: 'See class times', href: '/schedule' }}
     facts={facts}
   >

@@ -9,7 +9,7 @@ import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
 import SectionHead from '@/components/SectionHead.astro';
 import VisitBlock from '@/components/VisitBlock.astro';
-import { site } from '@/data/site';
+import { site, bookOnPage } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { mapsUrl } from '@/lib/maps';
 import { contactPageJsonLd } from '@/lib/structured-data';
@@ -33,7 +33,7 @@ const towns = [homeCity, site.county, ...otherTowns];
     title="Come see the academy."
     accent="the academy."
     deck="We're in the Cromwell Field Shopping Center on Baltimore Annapolis Boulevard, next to Dunkin', with plenty of parking."
-    primary={site.cta}
+    primary={bookOnPage}
     secondary={{ label: 'Get directions', href: mapsUrl(address) }}
     facts={[address.street, cityLine]}
   >
