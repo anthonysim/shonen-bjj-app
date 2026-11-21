@@ -58,6 +58,8 @@ export const site = {
     /** Shown under the address in the visit block */
     note: "In the Cromwell Field Shopping Center, next to Dunkin', with plenty of parking.",
   },
+  /** The academy's Google Maps listing (place ID), used for map, directions and review links */
+  googlePlaceId: 'ChIJlRMV2Iv9t4kRTmSeyCYYSp8',
   /** The county the academy serves, shown with the city in the hero */
   county: 'Anne Arundel County',
   hours: [

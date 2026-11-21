@@ -8,7 +8,7 @@ import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
 import SectionHead from '@/components/SectionHead.astro';
 import { site } from '@/data/site';
-import { mapsUrl } from '@/lib/maps';
+import { directionsUrl, mapsUrl } from '@/lib/maps';
 
 interface Props {
   tone?: 'paper' | 'surface';
@@ -26,7 +26,9 @@ const {
 } = Astro.props;
 const { address, hours, phone, email } = site;
 const fullAddress = `${address.street}, ${address.city}, ${address.region} ${address.postalCode}`;
-const directions = mapsUrl(address);
+// The address opens the academy's Maps listing; the button opens directions to it
+const listing = mapsUrl();
+const directions = directionsUrl();
 const row = 'grid grid-cols-[88px_minmax(0,1fr)] gap-4 border-t border-line py-4';
 const label = 'text-label leading-[1.8] font-medium tracking-[0.14em] text-muted uppercase';
 const link =
@@ -41,7 +43,7 @@ const link =
         <div class={row}>
           <dt class={label}>Address</dt>
           <dd>
-            <a href={directions} rel="noopener" class={link}>
+            <a href={listing} rel="noopener" class={link}>
               {fullAddress}
             </a>
             <p class="mt-1 text-sm">{address.note}</p>

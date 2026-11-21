@@ -1,9 +1,26 @@
-import type { site } from '@/data/site';
+import { site } from '@/data/site';
 
-type Address = (typeof site)['address'];
+/** The academy's Google Maps listing, so links open the business, not just an address pin. */
+type Place = { name: string; placeId: string };
 
-/** Google Maps search link for an address. Opens the Maps app on phones. */
-export function mapsUrl(address: Pick<Address, 'street' | 'city' | 'region' | 'postalCode'>) {
-  const query = `${address.street}, ${address.city}, ${address.region} ${address.postalCode}`;
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+const academy: Place = { name: site.name, placeId: site.googlePlaceId };
+
+/** Google Maps search for the academy by name, pinned to its listing. Opens the Maps app on phones. */
+export function mapsUrl(place: Place = academy) {
+  const params = new URLSearchParams({
+    api: '1',
+    query: place.name,
+    query_place_id: place.placeId,
+  });
+  return `https://www.google.com/maps/search/?${params}`;
+}
+
+/** Google Maps directions to the academy's listing from wherever the person is. */
+export function directionsUrl(place: Place = academy) {
+  const params = new URLSearchParams({
+    api: '1',
+    destination: place.name,
+    destination_place_id: place.placeId,
+  });
+  return `https://www.google.com/maps/dir/?${params}`;
 }
