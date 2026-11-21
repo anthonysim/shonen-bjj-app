@@ -126,8 +126,15 @@
     scroll-behavior: smooth;
   }
 
+  main {
+    flex: 1 0 auto;
+  }
+
   body {
     min-height: 100dvh;
+    /* Short pages (a filtered schedule, the thank-you page) still push the footer to the bottom */
+    display: flex;
+    flex-direction: column;
     overflow-x: clip;
     background: var(--color-paper);
     color: var(--color-body);
