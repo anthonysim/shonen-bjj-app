@@ -5,6 +5,8 @@ export type FaqPage = 'kids' | 'bjj' | 'no-gi' | 'birthday' | 'free-trial';
 export interface Faq {
   question: string;
   answer: string;
+  /** Optional bullet list shown under the answer */
+  list?: readonly string[];
   /** Pages that show this question in their short FAQ list */
   pages?: FaqPage[];
 }
@@ -176,8 +178,21 @@ export const etiquette: string[] = [
   'Be kind. Everyone was a beginner once.',
 ];
 
-/** Groups shown on the full /faq page. */
-export const faqPageGroups: FaqGroup[] = faqGroups.filter((group) => group.onFaqPage !== false);
+/** Groups shown on the full /faq page, with etiquette as the last group. */
+export const faqPageGroups: FaqGroup[] = [
+  ...faqGroups.filter((group) => group.onFaqPage !== false),
+  {
+    id: 'etiquette',
+    title: 'Academy etiquette',
+    items: [
+      {
+        question: 'What is the academy code of conduct?',
+        answer: 'A few simple rules keep training safe, clean and friendly for everyone:',
+        list: etiquette,
+      },
+    ],
+  },
+];
 
 /** Short FAQ list for a page (questions tagged for it), in group order. */
 export function faqsFor(page: FaqPage): Faq[] {

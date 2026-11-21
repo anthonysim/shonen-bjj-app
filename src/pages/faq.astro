@@ -1,8 +1,99 @@
 ---
-import PageStub from '@/components/PageStub.astro';
+// FAQ, laid out like the original: split hero, then one section with a sticky "Jump to" column
+// (group links, a note, book and call buttons) beside the grouped questions. Etiquette is the last
+// group. JSON-LD: FAQPage with every question on the page.
+import landscape from '@/assets/placeholders/landscape.jpg';
+import Button from '@/components/Button.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import FaqList from '@/components/FaqList.astro';
+import FormBand from '@/components/FormBand.astro';
+import Hero from '@/components/Hero.astro';
+import Photo from '@/components/Photo.astro';
+import Section from '@/components/Section.astro';
+import { faqPageGroups } from '@/data/faqs';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { faqPageJsonLd } from '@/lib/structured-data';
 ---
 
-<BaseLayout title="FAQ">
-  <PageStub title="FAQ" />
+<BaseLayout
+  title="FAQ"
+  description={`Answers to what new students and parents ask ${site.name}: getting started, what to wear, kids classes, training and etiquette.`}
+  breadcrumbs={[{ label: 'FAQ' }]}
+  structuredData={[faqPageJsonLd(faqPageGroups)]}
+>
+  <Hero
+    eyebrow={`FAQ · ${site.name}`}
+    title="Questions, answered"
+    accent="answered"
+    deck={`Everything new students and parents ask us. Don't see yours? Call ${site.phone.display}.`}
+    primary={site.cta}
+    secondary={{ label: 'See class times', href: '/schedule' }}
+  >
+    <Photo
+      slot="media"
+      src={landscape}
+      alt="Placeholder photo of two students before a training round"
+      priority
+      grade="mono"
+      sizes="(min-width: 1024px) 60vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section tone="surface" id="questions">
+    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(16px,2vw,32px)]">
+      <nav
+        aria-label="FAQ topics"
+        class="lg:sticky lg:top-[calc(var(--spacing-header)+48px)] lg:pr-8"
+      >
+        <Eyebrow>Jump to</Eyebrow>
+        <ul class="mt-3">
+          {faqPageGroups.map((group) => (
+            <li>
+              <a
+                href={`#${group.id}`}
+                class="block border-t border-line py-2.5 font-display text-[clamp(1.125rem,1.07rem+0.25vw,1.25rem)] font-light text-ink underline-offset-4 hover:underline"
+              >
+                {group.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-12 hidden space-y-4 lg:block">
+          <p>
+            Still wondering about something? We are happy to help, and every class on the schedule
+            is open to first-timers.
+          </p>
+          <Button href="#book" arrow class="w-full">
+            Book a free class
+          </Button>
+          <Button href={site.phone.href} variant="secondary" class="w-full">
+            Call {site.phone.display}
+          </Button>
+        </div>
+      </nav>
+
+      <div class="space-y-24">
+        {faqPageGroups.map((group) => (
+          <section
+            id={group.id}
+            aria-labelledby={`${group.id}-title`}
+            class="scroll-mt-[calc(var(--spacing-header)+24px)]"
+          >
+            <h2 id={`${group.id}-title`} class="mb-4 text-h3">
+              {group.title}
+            </h2>
+            <FaqList items={group.items} />
+          </section>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <FormBand
+    heading="Still have questions? Come see for yourself"
+    accent="Come see for yourself"
+    body="The best answer is a free class. Pick a program and we will text you to set a time."
+  />
 </BaseLayout>

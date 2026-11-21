@@ -1,4 +1,5 @@
 import { coach } from '@/data/coach';
+import type { FaqGroup } from '@/data/faqs';
 import { site } from '@/data/site';
 
 /** Stable @id for the academy, so other entities (the coach) can point at it. */
@@ -93,5 +94,23 @@ export function aboutPageJsonLd(pageUrl: string, origin: string) {
     url: pageUrl,
     name: `About | ${site.name}`,
     mainEntity: { '@id': academyId(origin) },
+  };
+}
+
+/** schema.org FAQPage: every question on the page with its answer (list items appended). */
+export function faqPageJsonLd(groups: readonly FaqGroup[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: groups.flatMap((group) =>
+      group.items.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.list?.length ? `${item.answer} ${item.list.join(' ')}` : item.answer,
+        },
+      })),
+    ),
   };
 }

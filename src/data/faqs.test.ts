@@ -24,10 +24,19 @@ describe('faqs', () => {
 
   it('keeps birthday questions off the full FAQ page', () => {
     expect(faqPageGroups.map((g) => g.id)).not.toContain('birthday-parties');
-    expect(faqPageGroups.length).toBeLessThan(faqGroups.length);
+    const fromData = faqPageGroups.filter((g) => g.id !== 'etiquette');
+    expect(fromData.length).toBeLessThan(faqGroups.length);
   });
 
-  it('has etiquette rules', () => {
+  it('ends the FAQ page with an etiquette group listing every rule', () => {
     expect(etiquette.length).toBeGreaterThan(0);
+    const last = faqPageGroups.at(-1);
+    expect(last?.id).toBe('etiquette');
+    expect(last?.items[0].list).toEqual(etiquette);
+  });
+
+  it('uses unique group ids on the FAQ page (they are jump-link anchors)', () => {
+    const ids = faqPageGroups.map((g) => g.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });

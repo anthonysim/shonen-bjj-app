@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { coach } from '@/data/coach';
+import { faqPageGroups } from '@/data/faqs';
 import { site } from '@/data/site';
 import {
   aboutPageJsonLd,
   academyId,
   breadcrumbListJsonLd,
   coachProfileJsonLd,
+  faqPageJsonLd,
   localBusinessJsonLd,
   serializeJsonLd,
 } from './structured-data';
@@ -88,5 +90,25 @@ describe('aboutPageJsonLd', () => {
     expect(data['@type']).toBe('AboutPage');
     expect(data.url).toBe('https://example.com/about');
     expect(data.mainEntity['@id']).toBe(localBusinessJsonLd('https://example.com/')['@id']);
+  });
+});
+
+describe('faqPageJsonLd', () => {
+  const data = faqPageJsonLd(faqPageGroups);
+  const total = faqPageGroups.reduce((n, g) => n + g.items.length, 0);
+
+  it('has one Question per FAQ item, each with an answer', () => {
+    expect(data['@type']).toBe('FAQPage');
+    expect(data.mainEntity).toHaveLength(total);
+    for (const q of data.mainEntity) {
+      expect(q['@type']).toBe('Question');
+      expect(q.acceptedAnswer.text.trim()).not.toBe('');
+    }
+  });
+
+  it('includes list items (etiquette rules) in the answer text', () => {
+    const etiquetteItem = faqPageGroups.at(-1)!.items[0];
+    const q = data.mainEntity.find((m) => m.name === etiquetteItem.question)!;
+    for (const rule of etiquetteItem.list ?? []) expect(q.acceptedAnswer.text).toContain(rule);
   });
 });
