@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { coach } from '@/data/coach';
 import { site } from '@/data/site';
 import {
+  aboutPageJsonLd,
   academyId,
   breadcrumbListJsonLd,
   coachProfileJsonLd,
@@ -78,5 +79,14 @@ describe('coachProfileJsonLd', () => {
 
   it('leaves out the image when there is none', () => {
     expect('image' in coachProfileJsonLd(pageUrl, 'https://example.com').mainEntity).toBe(false);
+  });
+});
+
+describe('aboutPageJsonLd', () => {
+  it('is an AboutPage about the academy entity', () => {
+    const data = aboutPageJsonLd('https://example.com/about', 'https://example.com');
+    expect(data['@type']).toBe('AboutPage');
+    expect(data.url).toBe('https://example.com/about');
+    expect(data.mainEntity['@id']).toBe(localBusinessJsonLd('https://example.com/')['@id']);
   });
 });

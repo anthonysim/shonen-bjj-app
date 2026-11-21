@@ -1,8 +1,223 @@
 ---
-import PageStub from '@/components/PageStub.astro';
+// About, laid out like the original: split hero, the name's definition beside a statement, our
+// story, what we stand for, the academy (features + gallery), community, the no-fees promise,
+// one review, and the booking form. JSON-LD: an AboutPage whose main entity is the academy.
+import landscape from '@/assets/placeholders/landscape.jpg';
+import portrait from '@/assets/placeholders/portrait.jpg';
+import square from '@/assets/placeholders/square.jpg';
+import Button from '@/components/Button.astro';
+import CredentialList from '@/components/CredentialList.astro';
+import Definition from '@/components/Definition.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import FormBand from '@/components/FormBand.astro';
+import Heading from '@/components/Heading.astro';
+import Hero from '@/components/Hero.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
+import NumberedRows from '@/components/NumberedRows.astro';
+import Photo from '@/components/Photo.astro';
+import PullQuote from '@/components/PullQuote.astro';
+import ReviewsBlock from '@/components/ReviewsBlock.astro';
+import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
+import { academyFeatures, values } from '@/data/academy';
+import { coach } from '@/data/coach';
+import { featuredReviews, rating, reviewsFor } from '@/data/reviews';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { aboutPageJsonLd } from '@/lib/structured-data';
+
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const [featured] = featuredReviews();
+const [communityQuote] = reviewsFor('general', 2).slice(1);
+const facts = [
+  `${rating.score.toFixed(1)} ★ ${rating.source} · ${rating.count} reviews`,
+  `${site.address.city}, ${site.address.region}`,
+  'No sign-up fees',
+];
+const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
+const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
 ---
 
-<BaseLayout title="About">
-  <PageStub title="About" />
+<BaseLayout
+  title="About our academy"
+  description={`${site.name}: ${site.tagline}. Detailed instruction, a spotless academy, and no sign-up fees.`}
+  breadcrumbs={[{ label: 'About' }]}
+  structuredData={[aboutPageJsonLd(pageUrl, Astro.site!.origin)]}
+>
+  <Hero
+    eyebrow={`About ${site.name}`}
+    title="A jiu-jitsu academy that sweats the details"
+    accent="sweats the details"
+    deck="Built on a simple idea: specialist jiu-jitsu instruction in a clean, organized academy where every student is looked after."
+    primary={site.cta}
+    secondary={{ label: 'See class times', href: '/schedule' }}
+    facts={facts}
+  >
+    <Photo
+      slot="media"
+      src={landscape}
+      alt="Placeholder photo of an evening adult class"
+      priority
+      grade="mono"
+      sizes="(min-width: 1024px) 60vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section id="the-name">
+    <div class:list={['grid gap-12 lg:grid-cols-12 lg:gap-y-16', gutterX]}>
+      <Definition
+        word="Shonen"
+        pronunciation="SHOH-nen"
+        partOfSpeech="noun"
+        meaning="A young person full of determination; someone who keeps showing up and keeps getting better."
+        class="lg:col-start-1 lg:col-end-7"
+      />
+      <div class="lg:col-start-8 lg:col-end-13 lg:self-end">
+        <Heading text="At Shonen, you become the hero of your own story" accent="your own story" />
+        <p class="mt-6">
+          In a good story the hero does not start out strong. They train, they get knocked down, and
+          they get back up a little better each time. That is what a jiu-jitsu journey looks like
+          here.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="surface" id="story">
+    <div class:list={['grid items-center gap-12 lg:grid-cols-12', gutterX]}>
+      <div class="lg:col-start-7 lg:col-end-13 lg:row-start-1">
+        <Eyebrow>Our story</Eyebrow>
+        <Heading text="From one mat to a home academy" accent="a home academy" class="mt-4" />
+        <div class="mt-6 max-w-[60ch] space-y-4">
+          <p>
+            {coach.name} trained for years under a respected lineage of black belts, then started
+            teaching kids and adults with the same curriculum and the same standard.
+          </p>
+          <p>
+            That approach became {site.name}: a place in {site.address.city} where beginners and
+            competitors learn detailed, modern jiu-jitsu side by side.
+          </p>
+        </div>
+        <LinkArrow href={`/team/${coach.slug}`} class="mt-6 text-ink">
+          Meet the coach
+        </LinkArrow>
+      </div>
+      <figure class="md:max-w-[520px] lg:col-start-1 lg:col-end-6 lg:row-start-1 lg:max-w-none">
+        <div class="aspect-4/5 overflow-hidden bg-paper-2">
+          <Photo
+            src={portrait}
+            alt="Placeholder photo of black belts in a studio portrait"
+            grade="mono"
+            sizes="(min-width: 1024px) 40vw, (min-width: 768px) 520px, 100vw"
+            widths={[480, 720, 1000]}
+            class="h-full object-cover"
+          />
+        </div>
+        <figcaption class:list={[label, 'mt-2']}>Lineage matters</figcaption>
+      </figure>
+    </div>
+  </Section>
+
+  <Section id="values">
+    <SectionHead
+      eyebrow="What we believe"
+      heading="What we stand for"
+      accent="stand for"
+      lede="Three words have guided the academy since day one, and they still decide how every class is run."
+    />
+    <NumberedRows items={values} />
+  </Section>
+
+  <Section tone="surface" id="academy">
+    <div class:list={['mb-24 grid gap-12 lg:grid-cols-12', gutterX]}>
+      <header class="lg:col-start-1 lg:col-end-6">
+        <Eyebrow>The academy</Eyebrow>
+        <Heading text="Built for training, kept immaculate" accent="kept immaculate" class="mt-4" />
+        <p class="mt-6 max-w-[56ch] text-lede">
+          A clean academy is the first thing members mention, and it is the first thing we check
+          every morning.
+        </p>
+      </header>
+      <CredentialList items={academyFeatures} class="lg:col-start-7 lg:col-end-13" />
+    </div>
+    {/* Swipeable row on phones; three photos bottom-aligned from lg, the last one wider */}
+    <div class="-mx-(--spacing-gutter) grid snap-x snap-mandatory auto-cols-[78%] grid-flow-col gap-3 overflow-x-auto scroll-px-(--spacing-gutter) px-(--spacing-gutter) pb-3 lg:mx-0 lg:grid-flow-row lg:grid-cols-3 lg:items-end lg:gap-[clamp(16px,2vw,32px)] lg:overflow-visible lg:p-0">
+      {[portrait, square, landscape].map((image, index) => (
+        <div
+          class:list={[
+            'aspect-4/5 snap-start overflow-hidden bg-paper-2',
+            index === 2 && 'lg:aspect-3/2',
+          ]}
+        >
+          <Photo
+            src={image}
+            alt="Placeholder photo of the academy"
+            grade="mono"
+            sizes="(min-width: 1024px) 33vw, 78vw"
+            widths={[320, 480, 720]}
+            class="h-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="community">
+    <SectionHead
+      eyebrow="Community"
+      heading="Beginners and competitors, one team"
+      accent="one team"
+      lede="From four-year-olds on their first day to competitors getting ready for a tournament, everyone trains on the same mats and cheers for each other."
+    />
+    <figure>
+      <div class="aspect-3/2 overflow-hidden bg-paper-2">
+        <Photo
+          src={landscape}
+          alt="Placeholder photo of the whole team together"
+          grade="mono"
+          sizes="(min-width: 1376px) 1280px, 100vw"
+          widths={[640, 960, 1280, 1600]}
+          class="h-full object-cover"
+        />
+      </div>
+      <figcaption class:list={[label, 'mt-2']}>The {site.name} team</figcaption>
+    </figure>
+    {communityQuote ? (
+      <PullQuote
+        quote={communityQuote.quote}
+        author={communityQuote.author}
+        class="mt-16 ml-auto max-w-[760px]"
+      />
+    ) : null}
+  </Section>
+
+  <Section tone="surface" id="promise" containerClass="[--page-max:760px] text-center">
+    <Eyebrow>Our promise</Eyebrow>
+    <Heading text="No sign-up fees. Ever." accent="Ever." class="mt-4" />
+    <p class="mx-auto mt-6 max-w-[56ch] text-lede">
+      Sign-up fees and hidden extras are common in martial arts schools. We do not charge them. You
+      pay for classes, and that is it.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+      <Button href="#book" arrow>
+        Book a free class
+      </Button>
+      <LinkArrow href="/faq" class="text-ink">
+        Read the FAQ
+      </LinkArrow>
+    </div>
+  </Section>
+
+  {featured ? (
+    <ReviewsBlock
+      reviews={[featured]}
+      eyebrow="Reviews"
+      heading="Details matter"
+      accent="matter"
+      tone="paper"
+    />
+  ) : null}
+
+  <FormBand />
 </BaseLayout>

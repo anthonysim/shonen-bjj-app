@@ -83,3 +83,15 @@ export function coachProfileJsonLd(pageUrl: string, origin: string, imageUrl?: s
     },
   };
 }
+
+/** schema.org AboutPage whose main entity is the academy (by @id). */
+export function aboutPageJsonLd(pageUrl: string, origin: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: `About | ${site.name}`,
+    mainEntity: { '@id': academyId(origin) },
+  };
+}
