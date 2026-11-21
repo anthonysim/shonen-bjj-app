@@ -180,9 +180,22 @@ export const nav: NavItem[] = [
   { label: 'Contact', href: '/contact' },
 ];
 
+/** Footer "Academy" column, like the original. */
 export const footerLinks = [
+  { label: 'Kids jiu jitsu', href: '/programs/kids' },
+  { label: 'Adult jiu jitsu', href: '/programs/bjj' },
+  { label: 'No-Gi', href: '/programs/no-gi' },
+  { label: 'Birthday parties', href: '/programs/birthday-parties' },
+  { label: 'Meet the Coach', href: '/team/professor-lee-rosenfield' },
+  { label: 'About', href: '/about' },
+  { label: 'FAQ', href: '/faq' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Privacy policy', href: '/privacy-policy' },
-  { label: 'Terms and conditions', href: '/terms-and-conditions' },
+  { label: 'Contact', href: '/contact' },
+] as const;
+
+/** Footer bottom row. */
+export const legalLinks = [
+  { label: 'Privacy', href: '/privacy-policy' },
+  { label: 'Terms', href: '/terms-and-conditions' },
   { label: 'Waiver', href: '/waiver' },
 ] as const;
