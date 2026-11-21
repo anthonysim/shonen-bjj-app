@@ -181,3 +181,19 @@ export function classesForAgeGroup(ageGroupId: string, classes: ScheduleClass[] 
 export function whenLabel(classes: readonly ScheduleClass[]): string {
   return classes.map((cls) => `${formatDays(cls.days)} at ${formatTime(cls.start)}`).join(' and ');
 }
+
+export const DAY_NAMES: Record<Day, string> = {
+  Mon: 'Monday',
+  Tue: 'Tuesday',
+  Wed: 'Wednesday',
+  Thu: 'Thursday',
+  Fri: 'Friday',
+  Sat: 'Saturday',
+  Sun: 'Sunday',
+};
+
+/** The `Day` for a date, in the date's own (local) time zone. JS counts Sunday as 0. */
+export function dayFromDate(date: Date): Day {
+  const order: Day[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  return order[date.getDay()];
+}
