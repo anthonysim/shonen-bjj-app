@@ -1,0 +1,23 @@
+---
+// Label/value rows with hairlines. Labels are small tracked caps.
+interface Spec {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  items: readonly Spec[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<dl class={className}>
+  {items.map((item) => (
+    <div class="flex flex-col gap-1 border-b border-line py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+      <dt class="text-label font-medium tracking-[0.14em] text-muted uppercase">{item.label}</dt>
+      <dd class="text-ink sm:text-right">{item.value}</dd>
+    </div>
+  ))}
+</dl>
