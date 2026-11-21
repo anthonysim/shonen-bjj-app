@@ -1,12 +1,13 @@
 ---
 import landscape from '@/assets/placeholders/landscape.jpg';
+import Eyebrow from '@/components/Eyebrow.astro';
 import FormBand from '@/components/FormBand.astro';
 import Heading from '@/components/Heading.astro';
 import Hero from '@/components/Hero.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
 import NumberedCards from '@/components/NumberedCards.astro';
 import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
-import SectionHead from '@/components/SectionHead.astro';
 import VisitBlock from '@/components/VisitBlock.astro';
 import { classGuide } from '@/data/class-guide';
 import {
@@ -67,22 +68,55 @@ const legend = [
   </Hero>
 
   <Section tone="surface" id="timetable">
-    <SectionHead eyebrow="Timetable" heading="Find your class." accent="class.">
-      <Fragment slot="aside">
-        <p class="max-w-[56ch] text-lede">
+    {/*
+      Header: title and intro on the left, a "next class" card on the right. The card ships a
+      static week summary and the script swaps in the live next class (static HTML can't know
+      the time).
+    */}
+    <header
+      data-reveal
+      class="mb-[clamp(40px,2rem+3vw,72px)] grid gap-10 lg:grid-cols-12 lg:items-stretch lg:gap-x-[clamp(16px,2vw,32px)]"
+    >
+      {/* Same vertical padding as the card, so the label and the last line line up with it */}
+      <div class="flex flex-col lg:col-span-7 lg:justify-between lg:py-8">
+        <div>
+          <Eyebrow>Timetable</Eyebrow>
+          <Heading text="Find your class." accent="class." class="mt-4" />
+        </div>
+        <p class="mt-6 max-w-[48ch] text-lede">
           Kids train Tuesday and Thursday evenings and Saturday mornings. Adults can train six days
           a week.
         </p>
-        {/* Filled in by the script: static HTML can't know the time */}
-        <div data-next-class hidden class="w-full border-t border-line pt-4">
-          <p class="flex items-center gap-2 text-label font-medium tracking-[0.14em] text-muted uppercase">
-            <span aria-hidden="true" class="size-1.5 rounded-full bg-ink"></span>
-            Next class
-          </p>
-          <p data-next-class-text class="mt-1 font-medium text-ink"></p>
-        </div>
-      </Fragment>
-    </SectionHead>
+      </div>
+
+      <aside
+        aria-label="Next class"
+        class="flex flex-col rounded-card border border-line bg-paper p-6 sm:p-8 lg:col-start-9 lg:col-end-13"
+      >
+        <p class="flex items-center gap-2.5 text-label font-medium tracking-[0.14em] text-muted uppercase">
+          <span aria-hidden="true" class="relative flex size-2">
+            <span class="absolute inline-flex size-full animate-ping rounded-full bg-ink opacity-40 motion-reduce:animate-none"></span>
+            <span class="relative inline-flex size-2 rounded-full bg-ink"></span>
+          </span>
+          <span data-next-label>This week</span>
+        </p>
+        <p data-next-name class="mt-4 font-display text-h3 font-light text-ink">
+          Classes six days a week
+        </p>
+        <p
+          data-next-when
+          class="mt-1 font-display text-[clamp(1.75rem,1.4rem+1.2vw,2.25rem)] leading-tight font-light text-ink italic"
+        >
+          Mon &ndash; Sat
+        </p>
+        <p data-next-meta class="mt-3 text-sm">
+          Sunday closed &middot; First class free
+        </p>
+        <LinkArrow href="#book" class="mt-5 self-start text-ink">
+          Book this class
+        </LinkArrow>
+      </aside>
+    </header>
 
     <div class="timetable">
       <fieldset>
@@ -202,12 +236,17 @@ const legend = [
   const today = document.querySelector(`[data-day="${dayFromDate(new Date())}"]`);
   today?.querySelector('[data-today]')?.removeAttribute('hidden');
 
-  // "Kids · Ages 4-7, today at 5:00 PM" in the timetable header
+  // Next-class card: "Kids" / "Today · 9:00 AM" / "Ages 8-13 · 60 min"
   const next = nextClass(new Date());
-  const nextBox = document.querySelector<HTMLElement>('[data-next-class]');
-  const nextText = document.querySelector<HTMLElement>('[data-next-class-text]');
-  if (next && nextBox && nextText) {
-    nextText.textContent = `${next.cls.name} \u00b7 ${next.cls.audience}, ${next.when}`;
-    nextBox.hidden = false;
+  const set = (attr: string, text: string) => {
+    const el = document.querySelector<HTMLElement>(`[${attr}]`);
+    if (el) el.textContent = text;
+  };
+  if (next) {
+    const [day, time] = next.when.split(' at ');
+    set('data-next-label', 'Next class');
+    set('data-next-name', next.cls.name);
+    set('data-next-when', `${day.charAt(0).toUpperCase()}${day.slice(1)} \u00b7 ${time}`);
+    set('data-next-meta', `${next.cls.audience} \u00b7 ${next.cls.durationMin} min`);
   }
 </script>
