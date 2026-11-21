@@ -13,6 +13,7 @@ import {
   faqPageJsonLd,
   localBusinessJsonLd,
   serializeJsonLd,
+  withHome,
 } from './structured-data';
 
 describe('localBusinessJsonLd', () => {
@@ -146,5 +147,14 @@ describe('blog JSON-LD', () => {
     expect(data['@type']).toBe('Blog');
     expect(data.blogPost).toHaveLength(2);
     expect(data.blogPost[0]['@type']).toBe('BlogPosting');
+  });
+});
+
+describe('withHome', () => {
+  it('puts Home in front of a page trail', () => {
+    expect(withHome([{ label: 'Blog' }])).toEqual([
+      { label: 'Home', href: '/' },
+      { label: 'Blog' },
+    ]);
   });
 });
