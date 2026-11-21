@@ -1,8 +1,127 @@
 ---
-import PageStub from '@/components/PageStub.astro';
+// Free class, laid out like the original: a form-first hero (intro left, form card right, then
+// reassurance points and the rating), what to expect, first-timer reviews, first-class questions,
+// visit, and a short closing call to action. JSON-LD: FAQPage for the questions.
+import landscape from '@/assets/placeholders/landscape.jpg';
+import portrait from '@/assets/placeholders/portrait.jpg';
+import square from '@/assets/placeholders/square.jpg';
+import BookingForm from '@/components/BookingForm.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Button from '@/components/Button.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import FaqSection from '@/components/FaqSection.astro';
+import Heading from '@/components/Heading.astro';
+import ReviewsBlock from '@/components/ReviewsBlock.astro';
+import Section from '@/components/Section.astro';
+import StepCards from '@/components/StepCards.astro';
+import VisitBlock from '@/components/VisitBlock.astro';
+import { firstClassSteps } from '@/data/academy';
+import { coach } from '@/data/coach';
+import { firstClassFaqs } from '@/data/faqs';
+import { rating, reviewsById } from '@/data/reviews';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { faqPageJsonLd } from '@/lib/structured-data';
+
+const reassurance = [
+  'A real class, not a sales pitch',
+  `Meet ${coach.shortName} and tour the academy`,
+  'No sign-up fees, no pressure',
+  'Takes about a minute',
+];
+const ratingLine = `${rating.count} ${rating.source} reviews`;
+const faqJsonLd = faqPageJsonLd([
+  { id: 'first-class', title: 'First-class questions', items: firstClassFaqs },
+]);
 ---
 
-<BaseLayout title="Book a free class">
-  <PageStub title="Book a free class" />
+<BaseLayout
+  title="Book a free class"
+  description={`Your first class at ${site.name} is free. Kids and adults, beginners and experienced grapplers: pick a program and a time.`}
+  breadcrumbs={[{ label: 'Free class' }]}
+  structuredData={[faqJsonLd]}
+>
+  <section id="book" class="scroll-mt-(--spacing-header) bg-paper text-body">
+    <div class="page-container grid items-start gap-10 py-[clamp(28px,5vw,72px)] lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+      <div class="lg:col-start-1 lg:col-end-6 lg:pt-6">
+        {Astro.locals.breadcrumbs ? <Breadcrumbs crumbs={Astro.locals.breadcrumbs} /> : null}
+        <Eyebrow class="mt-[clamp(28px,4vw,56px)] mb-[clamp(16px,2vw,24px)]">
+          {`Free Brazilian Jiu Jitsu class · ${site.address.city}, ${site.address.region}`}
+        </Eyebrow>
+        <Heading level={1} size="xl" text="Your first class is on us." accent="on us." />
+        <p class="mt-6 max-w-[48ch] text-lede">
+          Kids and adults, beginners and experienced grapplers: pick a program, choose a time and
+          we'll have a clean gi ready.
+        </p>
+      </div>
+
+      <div class="rounded-card bg-surface p-[clamp(24px,3vw,44px)] shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] lg:col-start-7 lg:col-end-13 lg:row-span-2">
+        <Eyebrow class="mb-6">Pick your class</Eyebrow>
+        <BookingForm idPrefix="trial" />
+      </div>
+
+      <div class="lg:col-start-1 lg:col-end-6">
+        <ul class="border-t border-line">
+          {reassurance.map((point) => (
+            <li class="relative border-b border-line py-3.5 pl-8 text-ink before:absolute before:left-0 before:text-muted before:content-['—']">
+              {point}
+            </li>
+          ))}
+        </ul>
+        <p class="mt-6 inline-flex flex-wrap items-baseline gap-x-3.5 gap-y-1 text-sm">
+          <span class="font-display text-[2rem] leading-none font-light text-ink">
+            {rating.score.toFixed(1)}
+          </span>
+          <span aria-hidden="true" class="tracking-[0.18em] text-ink">
+            ★★★★★
+          </span>
+          <span>{ratingLine}</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <StepCards
+    id="what-to-expect"
+    eyebrow="What to expect"
+    heading="Your first class, step by step."
+    accent="step by step."
+    lede="No experience, no fitness requirement and no pressure. Here's exactly what happens."
+    steps={firstClassSteps}
+    images={[portrait, square, landscape]}
+    cta={{ label: 'Book a free class', href: '#book' }}
+  />
+
+  <ReviewsBlock
+    reviews={reviewsById(['adults-charlotte', 'adults-rob', 'kids-1'])}
+    heading="First-timers, in their words."
+    accent="in their words."
+    tone="paper"
+  />
+
+  <FaqSection
+    items={firstClassFaqs}
+    eyebrow="Good to know"
+    heading="First-class questions."
+    accent="questions."
+  />
+
+  <VisitBlock tone="paper" />
+
+  <Section tone="dark" id="ready" class="py-[clamp(56px,3rem+4vw,104px)]">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div>
+        <Eyebrow class="text-white/55">{`${site.address.city} · ${site.county}`}</Eyebrow>
+        <Heading text="Ready? Book your class." accent="Book your class." class="mt-4" />
+      </div>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+        <Button href="#book" variant="inverse" arrow>
+          Book a free class
+        </Button>
+        <Button href={site.phone.href} variant="secondary">
+          Call {site.phone.display}
+        </Button>
+      </div>
+    </div>
+  </Section>
 </BaseLayout>

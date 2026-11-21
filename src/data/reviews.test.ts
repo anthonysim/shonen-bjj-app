@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { featuredReviews, rating, reviewLabel, reviews, reviewsFor } from './reviews';
+import { featuredReviews, rating, reviewLabel, reviews, reviewsById, reviewsFor } from './reviews';
 
 describe('reviews', () => {
   it('has unique ids and non-empty quotes', () => {
@@ -40,5 +40,12 @@ describe('reviews', () => {
     expect(reviewLabel({ role: 'Parent', caption: 'From a fellow academy' })).toBe(
       'From a fellow academy',
     );
+  });
+
+  it('looks reviews up by id in the given order, skipping unknown ids', () => {
+    expect(reviewsById(['kids-1', 'nope', 'general-1']).map((r) => r.id)).toEqual([
+      'kids-1',
+      'general-1',
+    ]);
   });
 });
