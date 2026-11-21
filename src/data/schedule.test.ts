@@ -7,6 +7,7 @@ import {
   classesForAgeGroup,
   compactRange,
   friendlyWhen,
+  slotText,
   DAY_NAMES,
   dayFromDate,
   classesByDay,
@@ -144,6 +145,18 @@ describe('kids age groups', () => {
       'Tuesday & Thursday 5:00 PM \u00b7 Saturday 9:00 AM',
     );
     expect(whenLabel([])).toBe('');
+  });
+});
+
+describe('slotText', () => {
+  it('puts kids ages in the name and adult ages in the meta, like the original', () => {
+    const byId = (id: string) => schedule.find((c) => c.id === id)!;
+    expect(slotText(byId('kids-weekday'))).toEqual({
+      name: 'Kids BJJ \u00b7 Ages 4\u20137 & 8\u201313',
+      meta: '45 min \u00b7 Gi',
+    });
+    expect(slotText(byId('no-gi')).meta).toBe('Adults 14+ \u00b7 60 min \u00b7 Rash guard');
+    expect(slotText(byId('adults-basics')).meta).toBe('Adults 14+ \u00b7 60 min');
   });
 });
 

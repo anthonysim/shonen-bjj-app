@@ -1,35 +1,43 @@
-// "Class guide" cards on the schedule page. Placeholder text.
+// "Which class is for me?" rows on the schedule page, from shonenjiujitsu.com/schedule (client's
+// permission).
 
 export interface GuideItem {
+  /** Small label beside the title, e.g. "Start here" */
   tag: string;
   title: string;
   body: string;
+  /** Text of the link at the end of the body */
+  link: string;
   href: string;
 }
 
 export const classGuide: GuideItem[] = [
   {
-    tag: 'Kids',
-    title: 'Kids 4-7',
-    body: 'Playful classes that build listening, balance, and coordination.',
-    href: '/programs/kids#kids-4-7',
+    tag: 'Ages 4–13',
+    title: 'Kids BJJ',
+    body: 'Kids 4–7 and 8–13 train in the same 45-minute slot, with games, technique and supervised sparring.',
+    link: 'Kids program',
+    href: '/programs/kids',
   },
   {
-    tag: 'Kids',
-    title: 'Kids 8-13',
-    body: 'Real technique, drilling, and supervised live rounds.',
-    href: '/programs/kids#kids-8-13',
+    tag: 'Start here',
+    title: 'Gi Basics',
+    body: 'The core concepts of jiu jitsu for new adults and teens 14+. The best first class if you’ve never trained.',
+    link: 'Adult program',
+    href: '/programs/bjj',
   },
   {
-    tag: 'Adults gi',
-    title: 'Adults Basics',
-    body: 'The best place to start. Fundamentals in a patient, beginner-only room.',
-    href: '/programs/bjj#tracks',
+    tag: 'Ages 14+',
+    title: 'Gi All-Levels',
+    body: 'Advanced technique, your individual game and competition-style training, in the gi.',
+    link: 'All-Levels',
+    href: '/programs/bjj#all-levels',
   },
   {
-    tag: 'No-gi',
-    title: 'No-Gi',
-    body: 'Fast, athletic grappling in a rash guard and shorts.',
+    tag: 'Ages 14+',
+    title: 'No-Gi All-Levels',
+    body: 'Faster-paced grappling in a rash guard and shorts. Beginners are welcome; pair it with Gi Basics.',
+    link: 'No-Gi program',
     href: '/programs/no-gi',
   },
 ];
