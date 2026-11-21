@@ -1,0 +1,47 @@
+---
+// Small coach card (photo + short note + link), like the original's .coach-card--mini. Sits under
+// the "Watch a class" text on the kids page in place of the full coach section.
+import portrait from '@/assets/placeholders/portrait.jpg';
+import Eyebrow from '@/components/Eyebrow.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
+import Photo from '@/components/Photo.astro';
+import { coach } from '@/data/coach';
+
+interface Props {
+  note: string;
+  class?: string;
+}
+
+const { note, class: className } = Astro.props;
+const lastName = coach.name.split(' ').slice(-1)[0];
+const firstPart = coach.name.slice(0, coach.name.length - lastName.length);
+---
+
+<article
+  class:list={[
+    'grid grid-cols-[96px_minmax(0,1fr)] items-center gap-5 rounded-card border border-line p-4 sm:grid-cols-[160px_minmax(0,1fr)] sm:gap-8 sm:p-6',
+    className,
+  ]}
+>
+  <div class="aspect-square overflow-hidden bg-paper-2">
+    <Photo
+      src={portrait}
+      alt={`Placeholder portrait of ${coach.name}`}
+      grade="mono"
+      sizes="160px"
+      widths={[160, 320]}
+      class="h-full object-cover"
+    />
+  </div>
+  <div class="space-y-2">
+    <Eyebrow>Meet the coach</Eyebrow>
+    <h3 class="text-h3">
+      {firstPart}
+      <em class="italic">{lastName}</em>
+    </h3>
+    <p class="text-sm">{note}</p>
+    <LinkArrow href={`/team/${coach.slug}`} class="text-ink">
+      Meet the coach
+    </LinkArrow>
+  </div>
+</article>

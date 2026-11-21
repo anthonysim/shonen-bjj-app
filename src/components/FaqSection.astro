@@ -1,0 +1,32 @@
+---
+// FAQ section, like the original's .faq-layout: the header (eyebrow, heading, "All questions")
+// stays put in a 4fr column on desktop while the questions run in the 8fr column beside it.
+import Eyebrow from '@/components/Eyebrow.astro';
+import FaqList from '@/components/FaqList.astro';
+import Heading from '@/components/Heading.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
+import Section from '@/components/Section.astro';
+import type { Faq } from '@/data/faqs';
+
+interface Props {
+  items: readonly Faq[];
+  heading?: string;
+  accent?: string;
+  tone?: 'paper' | 'surface';
+}
+
+const { items, heading = 'Common questions', accent = 'questions', tone = 'surface' } = Astro.props;
+---
+
+<Section tone={tone} id="faq">
+  <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(16px,2vw,32px)]">
+    <header class="lg:sticky lg:top-[calc(var(--spacing-header)+48px)] lg:pr-8">
+      <Eyebrow class="mb-4">FAQ</Eyebrow>
+      <Heading text={heading} accent={accent} />
+      <LinkArrow href="/faq" class="mt-6 text-ink">
+        All questions
+      </LinkArrow>
+    </header>
+    <FaqList items={items} />
+  </div>
+</Section>

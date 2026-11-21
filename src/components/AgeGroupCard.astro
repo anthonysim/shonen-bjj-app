@@ -1,6 +1,7 @@
 ---
+// One age group, like the original's .age-duo column: a photo (4:3, square from lg) sitting on
+// top of a bordered card with the label, name, blurb and a class/when list at the bottom.
 import type { ImageMetadata } from 'astro';
-import Button from '@/components/Button.astro';
 import Photo from '@/components/Photo.astro';
 import type { AgeGroup } from '@/data/site';
 
@@ -9,49 +10,43 @@ interface Props {
   image: ImageMetadata;
   /** "Tue, Thu at 5:00 PM" */
   when: string;
-  /** Put the photo on the right from md up, for an alternating layout. */
-  reverse?: boolean;
-  ctaHref?: string;
 }
 
-const { group, image, when, reverse = false, ctaHref = '#book' } = Astro.props;
+const { group, image, when } = Astro.props;
 
 const specs = [
-  { label: 'Class length', value: group.classLength },
-  { label: 'Format', value: group.format },
+  { label: 'Class', value: [group.classLength, group.format].filter(Boolean).join(', ') },
   { label: 'When', value: when },
 ].filter((spec) => spec.value !== '');
 ---
 
-<article
-  id={group.id}
-  class="border-line bg-surface text-body rounded-card grid scroll-mt-24 overflow-hidden border md:grid-cols-2"
->
-  <div class:list={['overflow-hidden', reverse && 'md:order-last']}>
+<div class="flex flex-col">
+  <div class="aspect-4/3 overflow-hidden bg-paper-2 lg:aspect-square">
     <Photo
       src={image}
       alt=""
-      sizes="(min-width: 768px) 50vw, 100vw"
-      widths={[480, 720, 960, 1280]}
-      class="aspect-[4/3] object-cover md:aspect-auto md:h-full"
+      grade="soft"
+      sizes="(min-width: 640px) 42vw, 100vw"
+      widths={[480, 720, 960]}
+      class="h-full object-cover"
     />
   </div>
-  <div class="p-6 md:p-10">
+  <article
+    id={group.id}
+    class="flex flex-1 scroll-mt-[calc(var(--spacing-header)+24px)] flex-col rounded-b-card border border-t-0 border-line-strong p-[clamp(24px,3vw,40px)]"
+  >
     <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">{group.ages}</p>
-    <h3 class="mt-2 text-h2">{group.name}</h3>
-    <p class="mt-3 text-lede">{group.blurb}</p>
-    <dl class="mt-5">
+    <h3 class="mt-3 text-h3">{group.name}</h3>
+    <p class="mt-4">{group.blurb}</p>
+    <dl class="mt-auto pt-8">
       {specs.map((spec) => (
-        <div class="border-line flex flex-col gap-1 border-b py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-          <dt class="text-label font-medium tracking-[0.14em] text-muted uppercase">
+        <div class="grid grid-cols-[88px_minmax(0,1fr)] gap-4 border-t border-line py-3 text-sm leading-normal">
+          <dt class="text-label leading-[1.8] font-medium tracking-[0.14em] text-muted uppercase">
             {spec.label}
           </dt>
-          <dd class="text-ink sm:text-right">{spec.value}</dd>
+          <dd class="text-ink">{spec.value}</dd>
         </div>
       ))}
     </dl>
-    <div class="mt-6">
-      <Button href={ctaHref}>Book a free {group.name} class</Button>
-    </div>
-  </div>
-</article>
+  </article>
+</div>

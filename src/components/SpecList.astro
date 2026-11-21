@@ -1,5 +1,6 @@
 ---
-// Label/value rows with hairlines. Labels are small tracked caps.
+// Label/value rows between hairlines, like the original's spec rows: a small tracked label in an
+// 88px column and the value beside it.
 interface Spec {
   label: string;
   value: string;
@@ -15,9 +16,11 @@ const { items, class: className } = Astro.props;
 
 <dl class={className}>
   {items.map((item) => (
-    <div class="flex flex-col gap-1 border-b border-line py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-      <dt class="text-label font-medium tracking-[0.14em] text-muted uppercase">{item.label}</dt>
-      <dd class="text-ink sm:text-right">{item.value}</dd>
+    <div class="grid grid-cols-[88px_minmax(0,1fr)] items-baseline gap-4 border-t border-line py-3 text-sm leading-normal last:border-b">
+      <dt class="text-label leading-[1.8] font-medium tracking-[0.14em] text-muted uppercase">
+        {item.label}
+      </dt>
+      <dd class="text-ink">{item.value}</dd>
     </div>
   ))}
 </dl>

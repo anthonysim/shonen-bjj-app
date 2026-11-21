@@ -1,6 +1,8 @@
 ---
 // Numbered rows between hairlines, like the original's .rows: a small number, a serif title, and
 // body text. One column on phones; number, title and text side by side from lg up.
+// `compact`: number beside a small sans title with the text under it (the original's
+// .rows--compact), for lists inside a text column.
 interface Row {
   title: string;
   body: string;
@@ -10,27 +12,42 @@ interface Props {
   items: readonly Row[];
   /** Tighter title column, for a list that shares its row with a photo. */
   narrow?: boolean;
+  compact?: boolean;
+  /** Text before each number, e.g. "Step " for "Step 01". */
+  prefix?: string;
   class?: string;
 }
 
-const { items, narrow = false, class: className } = Astro.props;
+const { items, narrow = false, compact = false, prefix = '', class: className } = Astro.props;
+const num = (index: number) => `${prefix}${String(index + 1).padStart(2, '0')}`;
+const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
 ---
 
-<ol class:list={[className]}>
-  {items.map((item, index) => (
-    <li
-      class:list={[
-        'grid gap-3 border-t border-line py-8 last:border-b lg:items-baseline lg:gap-x-[clamp(16px,2vw,32px)]',
-        narrow
-          ? 'lg:grid-cols-[64px_minmax(0,3fr)_minmax(0,5fr)]'
-          : 'lg:grid-cols-[80px_minmax(0,4fr)_minmax(0,7fr)]',
-      ]}
-    >
-      <span class="pt-[0.35em] text-label font-medium tracking-[0.14em] text-muted uppercase">
-        {String(index + 1).padStart(2, '0')}
-      </span>
-      <h3 class="text-h3 tracking-[-0.01em]">{item.title}</h3>
-      <p class="max-w-[60ch]">{item.body}</p>
-    </li>
-  ))}
-</ol>
+{compact ? (
+  <ol class:list={[className]}>
+    {items.map((item, index) => (
+      <li class="grid grid-cols-[minmax(56px,80px)_minmax(0,1fr)] items-baseline gap-x-5 gap-y-2 border-t border-line py-4 last:border-b sm:grid-cols-[minmax(80px,120px)_minmax(0,1fr)]">
+        <span class={label}>{num(index)}</span>
+        <h3 class="leading-[1.45] font-medium text-ink">{item.title}</h3>
+        <p class="col-start-2 text-sm">{item.body}</p>
+      </li>
+    ))}
+  </ol>
+) : (
+  <ol class:list={[className]}>
+    {items.map((item, index) => (
+      <li
+        class:list={[
+          'grid gap-3 border-t border-line py-8 last:border-b lg:items-baseline lg:gap-x-[clamp(16px,2vw,32px)]',
+          narrow
+            ? 'lg:grid-cols-[64px_minmax(0,3fr)_minmax(0,5fr)]'
+            : 'lg:grid-cols-[80px_minmax(0,4fr)_minmax(0,7fr)]',
+        ]}
+      >
+        <span class:list={[label, 'pt-[0.35em]']}>{num(index)}</span>
+        <h3 class="text-h3 tracking-[-0.01em]">{item.title}</h3>
+        <p class="max-w-[60ch]">{item.body}</p>
+      </li>
+    ))}
+  </ol>
+)}
