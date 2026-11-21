@@ -5,7 +5,6 @@ import '@/styles/global.css';
 import dmSans from '@fontsource-variable/dm-sans/files/dm-sans-latin-opsz-normal.woff2?url';
 import frauncesItalic from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-italic.woff2?url';
 import frauncesNormal from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
-import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Footer from '@/components/Footer.astro';
 import Header from '@/components/Header.astro';
 import { site } from '@/data/site';
@@ -38,6 +37,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const crumbs: BreadcrumbItem[] | null = breadcrumbs
   ? [{ label: 'Home', href: '/' }, ...breadcrumbs]
   : null;
+// The page's Hero shows the trail (it renders after this frontmatter runs)
+if (crumbs) Astro.locals.breadcrumbs = crumbs;
 ---
 
 <!doctype html>
@@ -82,11 +83,6 @@ const crumbs: BreadcrumbItem[] | null = breadcrumbs
     </a>
     <Header overlay={overlayHeader} />
     <main id="main">
-      {crumbs ? (
-        <div class="page-container pt-2">
-          <Breadcrumbs crumbs={crumbs} />
-        </div>
-      ) : null}
       <slot />
     </main>
     <Footer />
