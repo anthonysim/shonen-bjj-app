@@ -1,0 +1,145 @@
+---
+import landscape from '@/assets/placeholders/landscape.jpg';
+import portrait from '@/assets/placeholders/portrait.jpg';
+import square from '@/assets/placeholders/square.jpg';
+import Button from '@/components/Button.astro';
+import CredentialList from '@/components/CredentialList.astro';
+import FaqList from '@/components/FaqList.astro';
+import FormBand from '@/components/FormBand.astro';
+import Heading from '@/components/Heading.astro';
+import Hero from '@/components/Hero.astro';
+import Photo from '@/components/Photo.astro';
+import PullQuote from '@/components/PullQuote.astro';
+import Section from '@/components/Section.astro';
+import SpecList from '@/components/SpecList.astro';
+import { coach } from '@/data/coach';
+import { faqsFor } from '@/data/faqs';
+import { comparison, competitionBlurb, noGiDetails } from '@/data/no-gi';
+import { reviewsFor } from '@/data/reviews';
+import { schedule, whenLabel } from '@/data/schedule';
+import { programs, site } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const noGi = programs.find((program) => program.slug === 'no-gi')!;
+const noGiClasses = schedule.filter((cls) => cls.category === 'no-gi');
+const details = [{ label: 'When', value: whenLabel(noGiClasses) }, ...noGiDetails];
+const [quote] = reviewsFor('no-gi', 1);
+---
+
+<BaseLayout
+  title="No-gi jiu-jitsu (ages 14+)"
+  description="Fast, athletic no-gi grappling for ages 14 and up. Rash guard and shorts, all levels welcome. First class free."
+  breadcrumbs={[{ label: 'Programs', href: '/programs' }, { label: 'No-Gi' }]}
+>
+  <Hero
+    eyebrow={`No-Gi · Ages 14+ · ${site.address.city}, ${site.address.region}`}
+    title="Fast, athletic grappling without the gi"
+    accent="without the gi"
+    deck="Quicker, closer to wrestling, and just as technical. Throw on a rash guard and shorts and come train."
+    primary={{ label: 'Book a free class', href: '#book' }}
+    secondary={{ label: 'When & what to wear', href: '#details' }}
+    facts={noGi.facts}
+  >
+    <Photo
+      slot="media"
+      src={landscape}
+      alt="Placeholder photo of a no-gi class"
+      priority
+      sizes="(min-width: 1024px) 50vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section tone="surface" id="gi-vs-no-gi">
+    <div class="max-w-2xl">
+      <Heading text="Gi or no-gi?" accent="no-gi?" />
+      <p class="mt-3 text-lede text-muted">
+        Same art, two flavors. Many students train both, and you can switch any time.
+      </p>
+    </div>
+    <div class="mt-10 grid gap-6 md:grid-cols-2">
+      {comparison.map((item) => (
+        <article class="rounded-card border border-line bg-surface p-6 md:p-10">
+          <h3 class="text-h2">{item.title}</h3>
+          <p class="mt-3 text-lede">{item.blurb}</p>
+          <SpecList items={item.rows} class="mt-6" />
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="details">
+    <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <Heading text="The details" accent="details" />
+        <p class="mt-3 max-w-prose text-lede text-muted">
+          Everything you need to know before your first no-gi class.
+        </p>
+        <div class="mt-6">
+          <Button href="/schedule" variant="secondary">
+            See the full schedule
+          </Button>
+        </div>
+      </div>
+      <SpecList items={details} />
+    </div>
+  </Section>
+
+  <Section tone="surface" id="competition">
+    <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <Heading text="On the competition mat" accent="competition mat" />
+        <p class="mt-3 max-w-prose text-lede text-muted">{competitionBlurb}</p>
+        <CredentialList items={coach.competitionRecord.slice(0, 3)} class="mt-6" />
+        {quote ? <PullQuote class="mt-8" quote={quote.quote} author={quote.author} /> : null}
+        <div class="mt-6">
+          <Button href={`/team/${coach.slug}`} variant="secondary">
+            Meet {coach.name.split(' ')[0]}
+          </Button>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="overflow-hidden rounded-card">
+          <Photo
+            src={portrait}
+            alt=""
+            sizes="(min-width: 1024px) 20vw, 50vw"
+            widths={[320, 480, 640]}
+            class="aspect-[4/5] object-cover"
+          />
+        </div>
+        <div class="mt-10 overflow-hidden rounded-card">
+          <Photo
+            src={square}
+            alt=""
+            sizes="(min-width: 1024px) 20vw, 50vw"
+            widths={[320, 480, 640]}
+            class="aspect-square object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="faq">
+    <div class="grid gap-8 lg:grid-cols-[2fr_3fr] lg:gap-14">
+      <div>
+        <Heading text="Common questions" accent="questions" />
+        <div class="mt-6">
+          <Button href="/faq" variant="secondary">
+            All questions
+          </Button>
+        </div>
+      </div>
+      <FaqList items={faqsFor('no-gi')} />
+    </div>
+  </Section>
+
+  <FormBand
+    heading="Book your free no-gi class"
+    accent="free no-gi class"
+    body="Tell us a little about you and we will text you to set a time. No gi needed."
+    bullets={['First class is free', 'No sign-up fees', 'Just bring a rash guard and shorts']}
+    defaultProgram="adults"
+  />
+</BaseLayout>
