@@ -13,7 +13,7 @@ import ProgramCard from '@/components/ProgramCard.astro';
 import ReviewsBlock from '@/components/ReviewsBlock.astro';
 import Section from '@/components/Section.astro';
 import { pathway } from '@/data/academy';
-import { rating, reviewsFor } from '@/data/reviews';
+import { rating, reviewsById } from '@/data/reviews';
 import { programCards, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
@@ -95,7 +95,7 @@ const cardImages = [landscape, portrait, square, landscape];
     </div>
   </Section>
 
-  <ReviewsBlock reviews={reviewsFor('general', 1)} tone="surface" />
+  <ReviewsBlock reviews={reviewsById(['general-brent'])} tone="surface" />
 
   <FormBand />
 </BaseLayout>

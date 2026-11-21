@@ -48,4 +48,11 @@ describe('reviews', () => {
       'general-1',
     ]);
   });
+
+  it('has only real reviews (no placeholders, which would be captioned as Google reviews)', () => {
+    for (const r of reviews) {
+      expect(r.author, r.id).not.toMatch(/placeholder/i);
+      expect(r.quote, r.id).not.toMatch(/placeholder/i);
+    }
+  });
 });
