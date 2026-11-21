@@ -17,9 +17,7 @@ interface Props {
 }
 
 const { tone = 'paper', fullBio = false } = Astro.props;
-const highlights = coach.competitionRecord.slice(0, 4);
-const firstName = coach.name.split(' ')[0];
-const lastName = coach.name.split(' ').slice(-1)[0];
+const highlights = coach.highlights;
 const cardBg = tone === 'paper' ? 'bg-surface' : 'bg-paper';
 ---
 
@@ -28,7 +26,7 @@ const cardBg = tone === 'paper' ? 'bg-surface' : 'bg-paper';
     <div class="relative aspect-square overflow-hidden bg-paper-2 md:aspect-auto md:min-h-full">
       <Photo
         src={portrait}
-        alt={`Placeholder portrait of ${coach.name}`}
+        alt={`Placeholder portrait of ${coach.displayName}`}
         grade="mono"
         sizes="(min-width: 768px) 42vw, 100vw"
         widths={[480, 720, 1000]}
@@ -37,7 +35,7 @@ const cardBg = tone === 'paper' ? 'bg-surface' : 'bg-paper';
     </div>
     <div class="self-center p-[clamp(28px,2rem+2vw,72px)]">
       <Eyebrow>Meet the coach</Eyebrow>
-      <Heading text={coach.name} accent={lastName} class="mt-4" />
+      <Heading text={coach.displayName} accent={coach.accent} class="mt-4" />
       <Eyebrow class="mt-4 text-body">{coach.title}</Eyebrow>
       {fullBio ? (
         <div class="mt-6 max-w-[60ch] space-y-4">
@@ -51,14 +49,14 @@ const cardBg = tone === 'paper' ? 'bg-surface' : 'bg-paper';
       <CredentialList items={highlights} class="mt-8" />
       <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
         <Button href={`/team/${coach.slug}`} variant="secondary" arrow>
-          {`${firstName}'s story`}
+          {`${coach.shortName}'s story`}
         </Button>
         <a
           href="#book"
           class="group inline-flex min-h-11 items-center gap-2 text-nav font-medium tracking-[0.12em] text-ink uppercase"
         >
           <span class="border-b border-line-strong pb-1 transition-colors group-hover:border-current">
-            Book a class with {firstName}
+            Book a class with {coach.firstName}
           </span>
           <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">
             →

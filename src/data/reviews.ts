@@ -1,4 +1,5 @@
-// Placeholder reviews. Replace with real, permissioned quotes before launch.
+// Reviews. The real Google reviews come from shonenjiujitsu.com (used with the client's
+// permission); entries still authored "Placeholder ..." need real quotes.
 
 export type ReviewTopic = 'general' | 'kids' | 'adults' | 'no-gi' | 'birthday' | 'coach';
 
@@ -7,38 +8,52 @@ export interface Review {
   quote: string;
   author: string;
   topic: ReviewTopic;
-  /** Shown in the homepage reviews block */
-  featured?: boolean;
+  /** Shown before the source in the caption, e.g. "Parent & student" */
+  role?: string;
+  /** Replaces the whole caption label, for quotes that are not Google reviews */
+  caption?: string;
+  /** Position in the homepage reviews block (1 = the large featured quote) */
+  featured?: number;
+}
+
+/** Caption label under a quote: "Parent & student · Google review". */
+export function reviewLabel(review: Pick<Review, 'role' | 'caption'>): string {
+  if (review.caption) return review.caption;
+  const source = `${rating.source} review`;
+  return review.role ? `${review.role} \u00b7 ${source}` : source;
 }
 
 export const rating = {
   score: 5.0,
   count: 75,
   source: 'Google',
-  /** Where "Read all reviews" goes. Placeholder until the real listing exists. */
-  url: 'https://www.google.com/maps',
+  /** The academy's Google reviews */
+  url: 'https://search.google.com/local/reviews?placeid=ChIJlRMV2Iv9t4kRTmSeyCYYSp8',
 } as const;
 
 export const reviews: Review[] = [
   {
     id: 'general-1',
-    featured: true,
-    quote: 'Friendly, well-run, and nobody makes you feel out of place on day one.',
-    author: 'Placeholder reviewer A.',
+    featured: 1,
+    quote:
+      'The instruction at Shonen is superb\u2026 The facility is also immaculately clean. Details matter, and the attention given to small details here is second to none.',
+    author: 'Mike B.',
+    role: 'Parent & student',
     topic: 'general',
   },
   {
     id: 'general-2',
-    featured: true,
     quote: 'The coaching is clear and patient. I improve every single week.',
     author: 'Placeholder reviewer B.',
     topic: 'general',
   },
   {
     id: 'kids-1',
-    featured: true,
-    quote: 'My son looks forward to class all week. His focus at school has improved.',
-    author: 'Placeholder parent C.',
+    featured: 3,
+    quote:
+      'My 10 year old has a quiet temperament\u2026 ever since she started training at Shonen she definitely gained confidence and became more secure.',
+    author: 'Donna A.',
+    role: 'Parent',
     topic: 'kids',
   },
   {
@@ -55,9 +70,10 @@ export const reviews: Review[] = [
   },
   {
     id: 'adults-1',
-    featured: true,
-    quote: 'I had never trained before. The basics class made it easy to start.',
-    author: 'Placeholder student F.',
+    featured: 4,
+    quote:
+      'I started Jiu Jitsu at age 38, with trials at a few local gyms before I landed at Shonen. Easily the best decision I could have made!',
+    author: 'Joshua S.',
     topic: 'adults',
   },
   {
@@ -80,21 +96,24 @@ export const reviews: Review[] = [
   },
   {
     id: 'coach-1',
-    featured: true,
-    quote: 'A world-class competitor who is also an excellent teacher.',
-    author: 'Placeholder student J.',
+    featured: 2,
+    quote:
+      'Professor Lee is the real deal\u2026 Lee runs an excellent jiu jitsu class and teaches details that blow my mind even after 11 years of doing jiu jitsu.',
+    author: 'Raghav S.',
     topic: 'coach',
   },
   {
     id: 'coach-2',
-    quote: 'The coach explains the why behind every technique.',
-    author: 'Placeholder student K.',
+    quote:
+      'His teachings are detailed and specific, which significantly helps in retaining and applying the techniques. I learned a new guard pass on my first day\u2026',
+    author: 'Kevin S.',
     topic: 'coach',
   },
   {
     id: 'coach-3',
-    quote: 'Every class has one small detail that changes how a whole position feels.',
-    author: 'Placeholder student L.',
+    quote: 'Shonen is a world class training center with a world class coach and competitor, Lee.',
+    author: 'Masterskya Jiu Jitsu',
+    caption: 'From a fellow academy \u00b7 New York City',
     topic: 'coach',
   },
 ];
@@ -105,7 +124,9 @@ export function reviewsFor(topic: ReviewTopic = 'general', limit?: number): Revi
   return limit === undefined ? matches : matches.slice(0, limit);
 }
 
-/** Reviews picked for the homepage, in file order. */
+/** Reviews picked for the homepage, in their `featured` order. */
 export function featuredReviews(): Review[] {
-  return reviews.filter((r) => r.featured);
+  return reviews
+    .filter((r) => r.featured !== undefined)
+    .toSorted((a, b) => (a.featured ?? 0) - (b.featured ?? 0));
 }

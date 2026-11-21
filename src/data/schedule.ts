@@ -159,6 +159,22 @@ export function formatDays(days: readonly Day[]): string {
   return sorted.join(', ');
 }
 
+/**
+ * Friendlier day label for the schedule cards: a run of 3+ days becomes "Mon\u2013Thu", two
+ * days "Tue & Thu", one day its full name ("Saturday") unless `short` asks for "Sat".
+ */
+export function formatDaysFriendly(days: readonly Day[], { short = false } = {}): string {
+  const sorted = [...days].toSorted((a, b) => DAYS.indexOf(a) - DAYS.indexOf(b));
+  if (sorted.length === 1) return short ? sorted[0] : DAY_NAMES[sorted[0]];
+  if (sorted.length >= 3) {
+    const first = DAYS.indexOf(sorted[0]);
+    if (sorted.every((day, i) => DAYS.indexOf(day) === first + i)) {
+      return `${sorted[0]}\u2013${sorted[sorted.length - 1]}`;
+    }
+  }
+  return sorted.length === 2 ? sorted.join(' & ') : sorted.join(', ');
+}
+
 /** Classes grouped by category (in `CATEGORIES` order), each sorted by first day then start time. */
 export function classesByCategory(
   classes: ScheduleClass[] = schedule,

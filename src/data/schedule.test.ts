@@ -9,6 +9,7 @@ import {
   dayFromDate,
   classesByDay,
   formatDays,
+  formatDaysFriendly,
   endTime,
   formatTime,
   schedule,
@@ -145,5 +146,15 @@ describe('dayFromDate', () => {
 
   it('has a full name for every day', () => {
     for (const day of DAYS) expect(DAY_NAMES[day].startsWith(day)).toBe(true);
+  });
+});
+
+describe('formatDaysFriendly', () => {
+  it('formats runs, pairs and single days like the original schedule cards', () => {
+    expect(formatDaysFriendly(['Mon', 'Tue', 'Wed', 'Thu'])).toBe('Mon\u2013Thu');
+    expect(formatDaysFriendly(['Thu', 'Tue'])).toBe('Tue & Thu');
+    expect(formatDaysFriendly(['Sat'])).toBe('Saturday');
+    expect(formatDaysFriendly(['Fri'], { short: true })).toBe('Fri');
+    expect(formatDaysFriendly(['Mon', 'Wed', 'Fri'])).toBe('Mon, Wed, Fri');
   });
 });

@@ -5,7 +5,7 @@
 import Eyebrow from '@/components/Eyebrow.astro';
 import Section from '@/components/Section.astro';
 import SectionHead from '@/components/SectionHead.astro';
-import { rating, type Review } from '@/data/reviews';
+import { rating, reviewLabel, type Review } from '@/data/reviews';
 
 interface Props {
   reviews: readonly Review[];
@@ -27,7 +27,7 @@ const [feature, ...rest] = reviews;
 const single = rest.length === 0;
 // One string so formatters can't split the expressions and drop the space between them
 const reviewCount = `${rating.count} ${rating.source}`;
-const source = `${rating.source} review`;
+const readAll = `Read all ${rating.count} reviews on ${rating.source}`;
 // Cards on phones sit on the opposite tone so they read as cards
 const cardBg = tone === 'surface' ? 'max-lg:bg-paper' : 'max-lg:bg-surface';
 ---
@@ -50,7 +50,7 @@ const cardBg = tone === 'surface' ? 'max-lg:bg-paper' : 'max-lg:bg-surface';
         class="group inline-flex min-h-11 items-center gap-2 text-nav font-medium tracking-[0.12em] text-ink uppercase"
       >
         <span class="border-b border-line-strong pb-1 transition-colors group-hover:border-current">
-          Read all {reviewCount} reviews
+          {readAll}
         </span>
         <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">
           →
@@ -68,7 +68,7 @@ const cardBg = tone === 'surface' ? 'max-lg:bg-paper' : 'max-lg:bg-surface';
       </blockquote>
       <figcaption class="mt-8 flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
         <span class="text-[0.9375rem] font-medium text-ink">{feature.author}</span>
-        <Eyebrow as="span">{source}</Eyebrow>
+        <Eyebrow as="span">{reviewLabel(feature)}</Eyebrow>
       </figcaption>
     </figure>
   ) : (
@@ -86,7 +86,7 @@ const cardBg = tone === 'surface' ? 'max-lg:bg-paper' : 'max-lg:bg-surface';
         </blockquote>
         <figcaption class="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 lg:mt-8">
           <span class="text-[0.9375rem] font-medium text-ink">{feature.author}</span>
-          <Eyebrow as="span">{source}</Eyebrow>
+          <Eyebrow as="span">{reviewLabel(feature)}</Eyebrow>
         </figcaption>
       </figure>
       {rest.map((review) => (
@@ -103,7 +103,7 @@ const cardBg = tone === 'surface' ? 'max-lg:bg-paper' : 'max-lg:bg-surface';
           </blockquote>
           <figcaption class="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span class="text-[0.9375rem] font-medium text-ink">{review.author}</span>
-            <Eyebrow as="span">{source}</Eyebrow>
+            <Eyebrow as="span">{reviewLabel(review)}</Eyebrow>
           </figcaption>
         </figure>
       ))}

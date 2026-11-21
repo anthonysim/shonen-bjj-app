@@ -1,46 +1,76 @@
 ---
-import Button from '@/components/Button.astro';
-import Heading from '@/components/Heading.astro';
+// "Find your time", like the original: one white card per category with its class times, a
+// link to the program, and a note plus "Full schedule" link underneath.
+import Eyebrow from '@/components/Eyebrow.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
 import Section from '@/components/Section.astro';
-import { categoryLabels, classesByCategory, formatDays, formatTime } from '@/data/schedule';
+import SectionHead from '@/components/SectionHead.astro';
+import {
+  classesByCategory,
+  formatDaysFriendly,
+  formatTime,
+  type Category,
+  type ScheduleClass,
+} from '@/data/schedule';
 
 interface Props {
   tone?: 'paper' | 'surface';
 }
 
 const { tone = 'paper' } = Astro.props;
-// Skip categories with no classes so a group never renders empty
+
+const cards: Record<Category, { label: string; title: string; link: string; href: string }> = {
+  kids: { label: 'Ages 4–13', title: 'Kids', link: 'Kids program', href: '/programs/kids' },
+  gi: { label: 'Ages 14+ · Gi', title: 'Adults', link: 'Adult program', href: '/programs/bjj' },
+  'no-gi': {
+    label: 'Ages 14+ · No-Gi',
+    title: 'No-Gi',
+    link: 'No-Gi program',
+    href: '/programs/no-gi',
+  },
+};
+
+// Adult gi classes say which class it is ("Basics · Mon–Thu"); the others just give the days
+function rowLabel(cls: ScheduleClass) {
+  if (cls.category !== 'gi') return formatDaysFriendly(cls.days);
+  const name = cls.name.replace(/^Adults\s+/, '');
+  return `${name} · ${formatDaysFriendly(cls.days, { short: true })}`;
+}
+
+// Skip categories with no classes so a card never renders empty
 const groups = classesByCategory().filter((group) => group.classes.length > 0);
 ---
 
 <Section tone={tone} id="class-times">
-  <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-    <Heading text="Class times" accent="times" />
-    <p class="text-muted">Closed Sundays. Arrive 15 minutes early for your first class.</p>
-  </div>
+  <SectionHead eyebrow="Schedule" heading="Find your time." accent="time." split={false} />
 
-  <div class="mt-8 grid gap-6 lg:grid-cols-3">
-    {groups.map((group) => (
-      <section class="border-line bg-surface text-body rounded-card border p-6">
-        <h3 class="font-display text-2xl">{categoryLabels[group.category]}</h3>
-        <ul class="divide-line mt-3 divide-y">
-          {group.classes.map((cls) => (
-            <li class="flex items-baseline justify-between gap-4 py-3">
-              <div>
-                <p class="font-semibold">{cls.name}</p>
-                <p class="text-muted text-sm">{formatDays(cls.days)}</p>
+  <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-[clamp(16px,2vw,32px)]">
+    {groups.map((group) => {
+      const card = cards[group.category];
+      return (
+        <section class="flex flex-col rounded-card border border-line bg-surface p-[clamp(24px,3vw,40px)]">
+          <Eyebrow>{card.label}</Eyebrow>
+          <h3 class="mt-3 text-h3">{card.title}</h3>
+          <dl class="mt-6 text-sm">
+            {group.classes.map((cls) => (
+              <div class="flex items-baseline justify-between gap-4 border-t border-line py-3 last:border-b">
+                <dt>{rowLabel(cls)}</dt>
+                <dd class="whitespace-nowrap text-ink">{formatTime(cls.start)}</dd>
               </div>
-              <p class="font-semibold whitespace-nowrap">{formatTime(cls.start)}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))}
+            ))}
+          </dl>
+          <LinkArrow href={card.href} class="mt-auto pt-10 text-ink">
+            {card.link}
+          </LinkArrow>
+        </section>
+      );
+    })}
   </div>
 
-  <div class="mt-8">
-    <Button href="/schedule" variant="secondary">
-      See the full schedule
-    </Button>
+  <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-sm">Every class is open to first-timers. Sunday: closed.</p>
+    <LinkArrow href="/schedule" class="text-ink">
+      Full schedule
+    </LinkArrow>
   </div>
 </Section>
