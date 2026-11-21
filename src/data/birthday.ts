@@ -1,36 +1,37 @@
-// Copy for the birthday parties page. Placeholder text.
+// Copy for the birthday parties page, from shonenjiujitsu.com/programs/birthday-parties (client's
+// permission).
 import type { Titled } from './academy';
 
 export const whyParty: Titled[] = [
   {
-    title: 'We run everything',
-    body: 'Coaches lead the games, the class, and the cleanup, so you can enjoy the party.',
+    title: 'Led by our coaches',
+    body: 'Our coaches run the party on the mat, so every guest is looked after and you get to enjoy the day.',
   },
   {
-    title: 'High energy, low stress',
-    body: 'Kids burn off energy with games and drills built for first-timers.',
+    title: 'Games built on real jiu jitsu',
+    body: 'Every game is built on real technique, so every guest leaves having learned something.',
   },
   {
-    title: 'Safe and supervised',
-    body: 'Every child is looked after, with padded mats and clear, simple rules.',
+    title: 'A clean, safe, padded space',
+    body: 'Raised-floor mats, cleaned and sterilized daily, in a bright academy made for kids to move.',
   },
   {
-    title: 'Memories, not mess',
-    body: 'There is space for cake and gifts, and nothing for you to set up.',
+    title: 'Nothing to set up or clean up',
+    body: 'No equipment to rent and no living room to put back together. Bring the birthday crew; the mat will be ready.',
   },
 ];
 
 export const partySteps: Titled[] = [
   {
-    title: 'Tell us your date',
-    body: 'Share your date, the number of guests, and your child’s age. We will confirm availability.',
+    title: 'Send your date and details',
+    body: 'Choose “Birthday party” in the form below and tell us a little about the birthday kid.',
   },
   {
-    title: 'We plan the fun',
-    body: 'We pick games and a short class to match the group, and send you the details.',
+    title: 'We’ll call to plan it with you',
+    body: 'We’ll find a date that works and talk through the day together.',
   },
   {
     title: 'Show up and celebrate',
-    body: 'Arrive with the cake. We take care of everything else.',
+    body: 'Bring the guests. Our coaches take it from there.',
   },
 ];

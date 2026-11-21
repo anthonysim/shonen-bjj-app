@@ -156,23 +156,25 @@ export const faqGroups: FaqGroup[] = [
     onFaqPage: false,
     items: [
       {
-        question: 'How long is a party?',
-        answer: 'About 90 minutes, including a short class, games, and time for cake.',
+        question: 'What ages are the parties for?',
+        answer: 'Our jiu jitsu birthday parties are designed for kids ages 4 to 13.',
         pages: ['birthday'],
       },
       {
-        question: 'How many kids can come?',
-        answer: 'Groups of up to 15 work well. Ask us about larger parties.',
+        question: 'Do guests need any jiu jitsu experience?',
+        answer:
+          'No. Every game is taught from scratch by our coaches, so first-timers fit right in.',
         pages: ['birthday'],
       },
       {
-        question: 'Can we bring food?',
-        answer: 'Yes. Bring cake and snacks; we will set up a space for them.',
+        question: 'Can parents stay?',
+        answer: 'Yes. Parents are welcome to stay and watch from our lounge.',
         pages: ['birthday'],
       },
       {
-        question: 'Do guests need experience?',
-        answer: 'No. Coaches lead everything and keep it fun for first-timers.',
+        question: 'How do I book a party?',
+        answer:
+          'Fill in the form on this page and choose \u201cBirthday party\u201d. We\u2019ll call you to find a date and plan the details together.',
         pages: ['birthday'],
       },
     ],
