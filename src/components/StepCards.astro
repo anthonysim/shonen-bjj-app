@@ -1,0 +1,77 @@
+---
+// "Your first class, step by step", like the original: the header stays put on the left while
+// step cards (text + photo) stack on top of each other as you scroll. Phones: plain card list.
+import type { ImageMetadata } from 'astro';
+import Button from '@/components/Button.astro';
+import Photo from '@/components/Photo.astro';
+import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
+
+interface Step {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  steps: readonly Step[];
+  images: readonly ImageMetadata[];
+  eyebrow?: string;
+  heading: string;
+  accent?: string;
+  lede?: string;
+  cta?: { label: string; href: string };
+  tone?: 'paper' | 'surface';
+  id?: string;
+}
+
+const { steps, images, eyebrow, heading, accent, lede, cta, tone = 'surface', id } = Astro.props;
+---
+
+<Section tone={tone} id={id}>
+  <div class="grid items-start lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(32px,5vw,96px)] xl:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
+    <div class="mb-12 lg:sticky lg:top-[calc(var(--spacing-header)+48px)] lg:mb-0">
+      <SectionHead
+        eyebrow={eyebrow}
+        heading={heading}
+        accent={accent}
+        lede={lede}
+        split={false}
+        class="mb-0!"
+      />
+      {cta ? (
+        <div class="mt-8">
+          <Button href={cta.href} arrow>
+            {cta.label}
+          </Button>
+        </div>
+      ) : null}
+    </div>
+
+    <ol class="grid gap-4 lg:gap-0">
+      {steps.map((step, index) => (
+        <li
+          style={{ '--n': index }}
+          class="grid overflow-hidden rounded-card border border-line bg-surface sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:sticky lg:top-[calc(var(--spacing-header)+32px+var(--n)*28px)] lg:mb-[18vh] lg:min-h-[420px] lg:grid-cols-2 lg:shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] lg:last:mb-0"
+        >
+          <div class="flex flex-col p-[clamp(24px,3vw,44px)]">
+            <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">
+              Step {String(index + 1).padStart(2, '0')}
+            </p>
+            <h3 class="mt-3 text-h3">{step.title}</h3>
+            <p class="mt-4">{step.body}</p>
+          </div>
+          <div class="aspect-3/2 overflow-hidden bg-paper-2 sm:aspect-4/5 lg:aspect-auto">
+            <Photo
+              src={images[index % images.length]}
+              alt=""
+              grade="mono"
+              sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 100vw"
+              widths={[320, 480, 720]}
+              class="h-full object-cover"
+            />
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Section>

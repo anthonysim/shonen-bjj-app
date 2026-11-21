@@ -1,0 +1,36 @@
+---
+// Numbered rows between hairlines, like the original's .rows: a small number, a serif title, and
+// body text. One column on phones; number, title and text side by side from lg up.
+interface Row {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  items: readonly Row[];
+  /** Tighter title column, for a list that shares its row with a photo. */
+  narrow?: boolean;
+  class?: string;
+}
+
+const { items, narrow = false, class: className } = Astro.props;
+---
+
+<ol class:list={[className]}>
+  {items.map((item, index) => (
+    <li
+      class:list={[
+        'grid gap-3 border-t border-line py-8 last:border-b lg:items-baseline lg:gap-x-[clamp(16px,2vw,32px)]',
+        narrow
+          ? 'lg:grid-cols-[64px_minmax(0,3fr)_minmax(0,5fr)]'
+          : 'lg:grid-cols-[80px_minmax(0,4fr)_minmax(0,7fr)]',
+      ]}
+    >
+      <span class="pt-[0.35em] text-label font-medium tracking-[0.14em] text-muted uppercase">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <h3 class="text-h3 tracking-[-0.01em]">{item.title}</h3>
+      <p class="max-w-[60ch]">{item.body}</p>
+    </li>
+  ))}
+</ol>
