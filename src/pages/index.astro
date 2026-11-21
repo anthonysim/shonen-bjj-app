@@ -2,10 +2,10 @@
 import landscape from '@/assets/placeholders/landscape.jpg';
 import portrait from '@/assets/placeholders/portrait.jpg';
 import square from '@/assets/placeholders/square.jpg';
-import Button from '@/components/Button.astro';
 import CoachSpotlight from '@/components/CoachSpotlight.astro';
 import Definition from '@/components/Definition.astro';
 import FormBand from '@/components/FormBand.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
 import Heading from '@/components/Heading.astro';
 import Photo from '@/components/Photo.astro';
 import ProgramCard from '@/components/ProgramCard.astro';
@@ -19,6 +19,7 @@ import NumberedRows from '@/components/NumberedRows.astro';
 import VideoHero from '@/components/VideoHero.astro';
 import VisitBlock from '@/components/VisitBlock.astro';
 import { firstClassSteps, values } from '@/data/academy';
+import { coach } from '@/data/coach';
 import { featuredReviews, rating } from '@/data/reviews';
 import { programCards, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -28,7 +29,7 @@ const cardImages = [portrait, square, landscape, portrait];
 // Four cards in the grid; birthday parties get the row underneath, like the original
 const mainCards = programCards.filter((card) => !card.href.includes('birthday'));
 const birthdayCard = programCards.find((card) => card.href.includes('birthday'));
-const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${rating.source} reviews`;
+const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} ${rating.source} reviews`;
 ---
 
 <BaseLayout
@@ -36,50 +37,45 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
   description={`${site.tagline}. Your first class is free, with no sign-up fees.`}
 >
   <VideoHero
-    title="Become the hero of your own story"
-    accent="your own story"
-    eyebrow={`Brazilian jiu-jitsu · ${site.address.city}, ${site.address.region}`}
-    meta={`${site.address.city} · ${site.serviceArea.length} nearby towns`}
-    deck="Brazilian jiu-jitsu for kids and adults, taught by coaches who care about every student."
+    title="Become the hero of your own story."
+    accent="your own story."
+    eyebrow={`Brazilian Jiu Jitsu · ${site.address.city}, ${site.address.region}`}
+    meta={`${site.address.city} · ${site.county}`}
+    deck={`World-class jiu jitsu for kids and adults, taught by IBJJF black belt ${coach.displayName}. Your first class is free.`}
     primary={site.cta}
-    secondary={{ label: 'See class times', href: '/schedule' }}
+    secondary={{ label: 'Explore programs', href: '/programs' }}
     poster={landscape}
     videoSources={[{ src: '/videos/placeholder-hero.webm', type: 'video/webm' }]}
   >
     <ul class="flex flex-wrap items-center gap-y-2 text-label font-medium tracking-[0.14em] uppercase">
-      <li class="pr-4">
-        <span aria-hidden="true" class="mr-1">
-          ★
-        </span>
-        {reviewSummary}
-      </li>
-      <li class="border-l border-white/30 px-4">No sign-up fees</li>
+      {[reviewSummary, 'Mendes Brothers black belt', 'No sign-up fees'].map((item) => (
+        <li class="border-white/30 px-4 first:pl-0 not-first:border-l">{item}</li>
+      ))}
     </ul>
   </VideoHero>
 
   <Section tone="paper">
     <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
       <Definition
-        word="Shonen"
-        pronunciation="SHOH-nen"
+        word="Sh\u014dnen"
+        pronunciation="show-nuhn"
         partOfSpeech="noun"
-        meaning="A young person full of determination; someone who keeps showing up and keeps getting better."
+        meaning="High-action narratives that focus on competitions or fights to decide their storylines. These stories stress values such as self-perfection, self-discipline, and honorable service to community, family, and friends."
       />
       <div>
-        <Heading text="Not your average martial arts school" accent="martial arts school" />
-        <p class="mt-4 text-lg">
-          Plenty of schools teach kicks and forms. We teach jiu-jitsu: real technique, real
-          sparring, and a room where beginners and black belts train side by side.
+        <Heading
+          text="Superior to your average martial arts academy."
+          accent="martial arts academy."
+        />
+        <p class="mt-6">
+          Shonen was built to offer world-class instruction that specializes in jiu jitsu, instead
+          of following the trend of being a sub-par MMA school. Every class is organized, supervised
+          and taught with the same attention to detail, whether it's your first day or your
+          hundredth.
         </p>
-        <p class="mt-4 text-lg">
-          Classes are structured, safe, and led by coaches who know every student by name. You will
-          build fitness and confidence, and make friends along the way.
-        </p>
-        <div class="mt-6">
-          <Button href="/about" variant="secondary">
-            Our story
-          </Button>
-        </div>
+        <LinkArrow href="/about" class="mt-6 text-ink">
+          Our story
+        </LinkArrow>
       </div>
     </div>
   </Section>
@@ -87,8 +83,8 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
   <Section tone="surface" id="programs">
     <SectionHead
       eyebrow="Our programs"
-      heading="Find your class"
-      accent="class"
+      heading="Training for every stage."
+      accent="every stage."
       lede="Classes are grouped by age, so every student trains with partners their own size. The first class is always free."
     />
     <ul class="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-[clamp(16px,2vw,32px)] sm:gap-y-12 xl:grid-cols-4">
@@ -120,9 +116,9 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
   <StepCards
     id="new-here"
     eyebrow="New here?"
-    heading="Your first class, step by step"
-    accent="step by step"
-    lede="No experience, no fitness requirement and no pressure. Here is exactly what happens."
+    heading="Your first class, step by step."
+    accent="step by step."
+    lede="No experience, no fitness requirement and no pressure. Here's exactly what happens."
     steps={firstClassSteps}
     images={[portrait, square, landscape]}
     cta={site.cta}
@@ -130,10 +126,10 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
 
   <Section tone="paper" id="why">
     <SectionHead
-      eyebrow="Why train with us"
-      heading="Details matter"
-      accent="matter"
-      lede="The standard behind every class, every mat and every interaction."
+      eyebrow="Why Shonen"
+      heading="Details matter."
+      accent="matter."
+      lede="It's the phrase our members use most, and it's the standard behind every class, every mat and every interaction."
     />
     <div class="grid items-start gap-12 xl:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] xl:gap-x-[clamp(40px,5vw,96px)]">
       <NumberedRows items={values} narrow />
@@ -155,7 +151,12 @@ const reviewSummary = `${rating.score.toFixed(1)} stars, ${rating.count} ${ratin
     </div>
   </Section>
 
-  <ReviewsBlock reviews={featuredReviews().slice(0, 4)} tone="surface" />
+  <ReviewsBlock
+    reviews={featuredReviews()}
+    heading="What our members say."
+    accent="say."
+    tone="surface"
+  />
 
   <ScheduleSummary tone="paper" />
 

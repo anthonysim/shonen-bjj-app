@@ -1,4 +1,4 @@
-// Shared academy copy used on several pages. Placeholder text.
+// Shared academy copy used on several pages, from shonenjiujitsu.com (client's permission).
 
 export interface Titled {
   title: string;
@@ -9,15 +9,15 @@ export interface Titled {
 export const values: Titled[] = [
   {
     title: 'Authentic',
-    body: 'Real jiu-jitsu with real technique, taught the way it is practiced and competed.',
+    body: 'Everyone is welcome, from total beginners to seasoned competitors. We value your budget, so fair, transparent business is non-negotiable. There are no sign-up fees at Shonen.',
   },
   {
     title: 'Elite',
-    body: 'Coaching from a proven competitor who builds clear, repeatable skills.',
+    body: 'World-class instruction that specializes in jiu jitsu, led by a coach with proven success as a competitor and coach at the highest level of the sport.',
   },
   {
     title: 'Safe',
-    body: 'A structured, respectful room where beginners are looked after from day one.',
+    body: 'Bathrooms, lockers and mats are cleaned and sterilized daily, and our mats sit on a raised floor for your safety. The most organized, well-supervised martial arts experience around.',
   },
 ];
 
@@ -25,15 +25,15 @@ export const values: Titled[] = [
 export const firstClassSteps: Titled[] = [
   {
     title: 'Pick a class',
-    body: 'Choose a time that suits you. We will text to confirm and answer any questions.',
+    body: "Book any class on the schedule. They're all open to first-timers. Kids train Tuesday and Thursday evenings and Saturday mornings; adults can start in Gi Basics, Monday to Thursday at 7 PM.",
   },
   {
     title: 'Arrive 15 minutes early',
-    body: 'Meet your coach, get a tour, and borrow a gi if you need one.',
+    body: 'Meet the staff and Professor Lee, sign a quick waiver and take a tour. A clean gi is provided for your free class. Just wear athletic clothes underneath.',
   },
   {
     title: 'Train at your own pace',
-    body: 'Warm up, learn a technique, and drill with a partner. Rest whenever you need to.',
+    body: "Warm up, learn the technique of the day and drill it with a partner. Coaches stay close, and you'll leave knowing more than when you walked in.",
   },
 ];
 

@@ -1,4 +1,4 @@
-// Placeholder coach profile. Replace with the real academy's coach.
+// The academy's head instructor, from shonenjiujitsu.com (used with the client's permission).
 
 export interface Credential {
   title: string;
@@ -7,34 +7,62 @@ export interface Credential {
 }
 
 export const coach = {
-  slug: 'head-coach',
-  name: 'Alex Morgan',
-  title: 'Head Coach and Black Belt',
-  summary: 'Competitor, teacher, and the reason the mats feel like a community.',
+  slug: 'professor-lee-rosenfield',
+  /** Legal name, for structured data */
+  name: 'Lee Rosenfield',
+  honorific: 'Professor',
+  /** "Professor Lee Rosenfield": headings */
+  displayName: 'Professor Lee Rosenfield',
+  /** "Professor Lee": running text and buttons ("Professor Lee's story") */
+  shortName: 'Professor Lee',
+  /** "Lee": short calls to action ("Book a class with Lee") */
+  firstName: 'Lee',
+  /** Last word of the display name, set in italic */
+  accent: 'Rosenfield',
+  title: 'First-degree black belt · Mendes Brothers lineage',
+  /** schema.org jobTitle */
+  jobTitle: 'Head Instructor, First Degree Brazilian Jiu Jitsu Black Belt',
+  /** Homepage spotlight paragraph */
+  summary:
+    "Professor Lee is a Brazilian Jiu Jitsu black belt under the legendary Mendes Brothers and a former kids and adults instructor at the world-renowned Art of Jiu Jitsu Academy in Costa Mesa, California. Still an active IBJJF black belt competitor, he's passionate about pushing himself and his students past their limits: the King Midas of teachers, turning his students' goals into gold.",
+  /** Coach page hero */
+  intro:
+    'First-degree black belt under the legendary Mendes Brothers. Former Art of Jiu Jitsu instructor. IBJJF ranked #2 black belt in 2021 and 2022.',
   bio: [
-    'Alex started jiu-jitsu as a teenager and never stopped. Two decades later, the goal is the same: help every student get a little better every week.',
-    'Classes blend clear technique, honest drilling, and live rounds at a pace that fits each person, whether they are four years old or forty.',
+    'Professor Lee is a Brazilian Jiu Jitsu black belt under the legendary Mendes Brothers. Having been an instructor at the world renown Art of Jiu Jitsu Academy in Costa Mesa, CA, he has gone on to become a top prospect in the adult black belt division. In addition to chasing his dream of becoming black belt world champion, he is passionate about pushing himself and others to surpass their limits.',
+    'He brought that same approach from California to Glen Burnie. Whether someone walks in for fitness, for confidence, or to compete, he meets them where they are, from four-year-olds tying their first belt to adults stepping on the mat for the first time, and helps them turn their goals into results.',
   ],
-  pullQuote: 'Show up, stay curious, and the rest takes care of itself.',
+  pullQuote: "The King Midas of teachers, turning his students' goals into gold.",
   /** Where the italic tail of the pull quote starts */
-  pullQuoteAccent: 'takes care of itself.',
+  pullQuoteAccent: 'into gold.',
   /** Short facts for the profile hero */
-  facts: ['Black belt', 'National champion', '15+ years coaching'],
-  /** Competition results, shown as a numbered list */
+  facts: ['Mendes Brothers black belt', 'IBJJF No-Gi national champion'],
+  /** The four rows in the homepage coach card */
+  highlights: [
+    { title: 'IBJJF ranked #2 black belt (Gi & No-Gi)', tag: '2021 · 2022' },
+    { title: 'Adult Black Belt No-Gi American National Champion', tag: 'IBJJF' },
+    { title: 'No-Gi World Championship bronze', tag: 'IBJJF' },
+    { title: '5× IBJJF Kids Pan American team titles as a coach', tag: 'AOJ' },
+  ] satisfies Credential[],
+  /** Competition results */
   competitionRecord: [
-    { title: 'World Championship, Black Belt', tag: '2024' },
-    { title: 'Pan American Championship, Gold', tag: '2023' },
-    { title: 'National Championship, Gold', tag: '2022' },
-    { title: 'Regional Open, Gold (x3)', tag: '2019-2021' },
+    { title: 'IBJJF Adult Black Belt No-Gi American National Champion', tag: 'Nationals' },
+    { title: 'IBJJF Adult Black Belt No-Gi World Championship Bronze', tag: 'Worlds' },
+    { title: 'IBJJF Masters Black Belt World Championship Bronze', tag: 'Worlds' },
+    { title: '2 x IBJJF Adult Black Belt Atlanta Open Champion', tag: '2× Atlanta' },
+    { title: '2 x IBJJF Adult Black Belt Miami Open Champion', tag: '2× Miami' },
+    { title: 'IBJJF Adult Black Belt New Orleans Open Champion', tag: 'New Orleans' },
+    { title: 'IBJJF Adult Black Belt Detroit Open Champion', tag: 'Detroit' },
   ] satisfies Credential[],
   /** Teaching and professional highlights */
   professional: [
-    { title: 'Certified instructor', tag: 'Federation' },
-    { title: 'Youth safety and first-aid trained', tag: 'Current' },
-    { title: 'Over 15 years coaching kids and adults', tag: 'Experience' },
+    { title: 'IBJJF Ranked #2 Black Belt (Gi/No-Gi)', tag: '2021 · 2022' },
+    { title: 'Mendes Brothers First Degree Black Belt', tag: 'Lineage' },
+    { title: 'Art of Jiu Jitsu Kids and Adults Instructor', tag: 'AOJ' },
+    { title: '5x IBJJF Kids Pan American Team Title (as a coach at AOJ)', tag: 'AOJ' },
   ] satisfies Credential[],
   lineage: [
-    'Alex earned a black belt under a respected lineage of black belts and carries that standard of technique and etiquette into every class.',
-    'That lineage is known for modern, detailed jiu-jitsu: small adjustments that make a technique work against a resisting partner, taught so that beginners can use them too.',
+    'Professor Lee earned his black belt under Rafael and Guilherme Mendes, the Mendes Brothers, whose Art of Jiu Jitsu Academy opened in Costa Mesa, California, in 2012 and became one of the most respected academies in the sport.',
+    "He taught kids and adults there, and he coached on the AOJ team that won five IBJJF Kids Pan American team titles. That's the curriculum he teaches at Shonen: modern technique, broken down into details you can actually use, and a class that stays organized from the first bow to the last round.",
   ],
 } as const;

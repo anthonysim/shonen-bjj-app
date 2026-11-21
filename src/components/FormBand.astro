@@ -1,10 +1,14 @@
 ---
 import BookingForm from '@/components/BookingForm.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
 import Heading from '@/components/Heading.astro';
 import Section from '@/components/Section.astro';
+import { site } from '@/data/site';
 import type { ProgramChoice } from '@/lib/booking-schema';
 
 interface Props {
+  /** Small label above the heading */
+  eyebrow?: string;
   heading?: string;
   accent?: string;
   body?: string;
@@ -16,11 +20,17 @@ interface Props {
   id?: string;
 }
 
+// Defaults are the original's trial band copy
 const {
-  heading = 'Book your free class',
-  accent = 'free',
-  body = 'Tell us a little about you and we will text you to set a time.',
-  bullets = ['First class is free', 'No sign-up fees', 'Gear provided for your first class'],
+  eyebrow = 'Your first class is free',
+  heading = 'Your journey starts here.',
+  accent = 'starts here.',
+  body = "Pick a program and we'll text you to lock in a time. Every class on the schedule is open to first-timers, and a clean gi is waiting for you.",
+  bullets = [
+    'No sign-up fees, ever',
+    'No experience or fitness needed',
+    'Taught by an IBJJF black belt',
+  ],
   submitLabel,
   defaultProgram,
   id = 'book',
@@ -31,6 +41,7 @@ const {
   {/* Like the original's trial band: text in columns 1-5 (sticky on desktop), form card in 7-12 */}
   <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
     <div class="lg:sticky lg:top-[120px] lg:col-span-5 lg:pt-4">
+      {eyebrow ? <Eyebrow class="mb-4 text-white/55">{eyebrow}</Eyebrow> : null}
       <Heading text={heading} accent={accent} size="lg" class="max-w-[12em]" />
       <p class="mt-6 max-w-prose text-lede text-white/72">{body}</p>
       {bullets.length > 0 ? (
@@ -46,7 +57,19 @@ const {
         </ul>
       ) : null}
       <div class="mt-6 text-white/72">
-        <slot />
+        {Astro.slots.has('default') ? (
+          <slot />
+        ) : (
+          <p>
+            Prefer to talk?{' '}
+            <a
+              href={site.phone.href}
+              class="text-white underline decoration-white/36 underline-offset-4 hover:decoration-current"
+            >
+              {site.phone.display}
+            </a>
+          </p>
+        )}
       </div>
     </div>
     <div class="relative rounded-card bg-surface p-[clamp(24px,3vw,44px)] text-body shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] [--heading:var(--color-ink)] lg:col-span-6 lg:col-start-7">

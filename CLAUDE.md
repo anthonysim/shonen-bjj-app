@@ -31,6 +31,6 @@ Editorial and monochrome, matched to the original site: black ink on warm paper 
 
 - Import app code with the `@/` alias (maps to `src/`)
 - Never commit secrets. Real credentials live only in `.env.local` and Vercel; `.env.example` holds placeholders
-- Placeholder text and images only; do not copy the original site's photos, video, or copy
+- The academy is a client and has given permission to reuse its site's copy and business details (shonenjiujitsu.com). Use the real text, names, reviews, and contact details from the original. Photos and video are still placeholders until the client supplies files
 - Mobile-first: must work on phones and iPads (375 / 768 / 1024 / 1280 widths). Use base styles for phone, `md:` for iPad portrait, `lg:` for iPad landscape
 - Work lands in small PRs, one at a time

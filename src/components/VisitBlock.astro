@@ -1,7 +1,12 @@
 ---
+// "Visit the academy", like the original: label/value rows (address with a parking note, phone,
+// email, hours) and two links on the left, a photo on the right from lg up.
+import square from '@/assets/placeholders/square.jpg';
 import Button from '@/components/Button.astro';
-import Heading from '@/components/Heading.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
+import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
 import { site } from '@/data/site';
 import { mapsUrl } from '@/lib/maps';
 
@@ -11,50 +16,81 @@ interface Props {
 
 const { tone = 'paper' } = Astro.props;
 const { address, hours, phone, email } = site;
-const cityLine = `${address.city}, ${address.region} ${address.postalCode}`;
+const fullAddress = `${address.street}, ${address.city}, ${address.region} ${address.postalCode}`;
+const directions = mapsUrl(address);
+const row = 'grid grid-cols-[88px_minmax(0,1fr)] gap-4 border-t border-line py-4';
+const label = 'text-label leading-[1.8] font-medium tracking-[0.14em] text-muted uppercase';
+const link =
+  'text-ink underline decoration-line-strong underline-offset-4 hover:decoration-current';
 ---
 
-<Section tone={tone}>
-  <Heading text="Visit us" accent="us" />
-  <div class="mt-8 grid gap-8 md:grid-cols-2">
-    <div>
-      <h3 class="text-sm font-semibold tracking-[0.14em] uppercase">Find us</h3>
-      <address class="mt-3 text-lg not-italic">
-        {address.street}
-        <br />
-        {cityLine}
-      </address>
-      <p class="mt-3 flex flex-col">
-        <a href={phone.href} class="inline-flex min-h-11 items-center underline">
-          {phone.display}
-        </a>
-        <a href={`mailto:${email}`} class="inline-flex min-h-11 items-center underline">
-          {email}
-        </a>
-      </p>
-    </div>
-    <div>
-      <h3 class="text-sm font-semibold tracking-[0.14em] uppercase">Hours</h3>
-      <dl class="mt-3 max-w-xs space-y-2 text-lg">
-        {hours.map((h) => (
-          <div class="border-line flex justify-between gap-4 border-b pb-2">
-            <dt>{h.days}</dt>
-            <dd>{h.time}</dd>
-          </div>
-        ))}
+<Section tone={tone} id="visit">
+  <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+    <div class="lg:col-start-1 lg:col-end-7">
+      <SectionHead
+        eyebrow="Visit"
+        heading="Visit the academy."
+        accent="the academy."
+        split={false}
+      />
+      <dl class="border-b border-line">
+        <div class={row}>
+          <dt class={label}>Address</dt>
+          <dd>
+            <a href={directions} rel="noopener" class={link}>
+              {fullAddress}
+            </a>
+            <p class="mt-1 text-sm">{address.note}</p>
+          </dd>
+        </div>
+        <div class={row}>
+          <dt class={label}>Phone</dt>
+          <dd>
+            <a href={phone.href} class={link}>
+              {phone.display}
+            </a>
+          </dd>
+        </div>
+        <div class={row}>
+          <dt class={label}>Email</dt>
+          <dd>
+            <a href={`mailto:${email}`} class={link}>
+              {email}
+            </a>
+          </dd>
+        </div>
+        <div class={row}>
+          <dt class={label}>Hours</dt>
+          <dd>
+            <dl class="max-w-xs space-y-1">
+              {hours.map((h) => (
+                <div class="flex justify-between gap-6">
+                  <dt>{h.days}</dt>
+                  <dd class="text-ink">{h.time}</dd>
+                </div>
+              ))}
+            </dl>
+          </dd>
+        </div>
       </dl>
-      <p class="text-muted mt-3 text-sm">New? Arrive 15 minutes early for your first class.</p>
+      <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+        <Button href={directions} rel="noopener" variant="secondary" arrow>
+          Get directions
+        </Button>
+        <LinkArrow href={phone.href} class="text-ink">
+          Call the academy
+        </LinkArrow>
+      </div>
     </div>
-  </div>
-  <div class="mt-8 flex flex-wrap gap-3">
-    <Button href={mapsUrl(address)} rel="noopener">
-      Get directions
-    </Button>
-    <Button href={phone.href} variant="secondary">
-      Call us
-    </Button>
-    <Button href={`mailto:${email}`} variant="secondary">
-      Email us
-    </Button>
+    <div class="hidden aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-8 lg:col-end-13 lg:block">
+      <Photo
+        src={square}
+        alt="Placeholder photo of the academy entrance"
+        grade="mono"
+        sizes="40vw"
+        widths={[480, 720, 960]}
+        class="h-full object-cover"
+      />
+    </div>
   </div>
 </Section>

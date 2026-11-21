@@ -21,8 +21,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { coachProfileJsonLd } from '@/lib/structured-data';
 import { accentTail } from '@/lib/text';
 
-const firstName = coach.name.split(' ')[0];
-const lastName = coach.name.split(' ').slice(-1)[0];
+const { firstName } = coach;
 const [lead, ...restOfBio] = coach.bio;
 const quote = accentTail(coach.pullQuote, coach.pullQuoteAccent);
 
@@ -37,16 +36,16 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
 ---
 
 <BaseLayout
-  title={`Meet the coach: ${coach.name}`}
-  description={`${coach.name}, ${coach.title}. ${coach.summary}`}
+  title={`${coach.displayName}, BJJ Black Belt`}
+  description={`${coach.displayName}: ${coach.intro}`}
   breadcrumbs={[{ label: 'Meet the Coach' }]}
   structuredData={[profile]}
 >
   <Hero
     eyebrow="Meet the coach"
-    title={coach.name}
-    accent={lastName}
-    deck={coach.summary}
+    title={coach.displayName}
+    accent={coach.accent}
+    deck={coach.intro}
     primary={{ label: `Book a class with ${firstName}`, href: '#book' }}
     secondary={{ label: 'The competition record', href: '#record' }}
     facts={coach.facts}
@@ -54,7 +53,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
     <Photo
       slot="media"
       src={portrait}
-      alt={`Placeholder portrait of ${coach.name}`}
+      alt={`Placeholder portrait of ${coach.displayName}`}
       priority
       grade="mono"
       sizes="(min-width: 1024px) 60vw, 100vw"
@@ -64,7 +63,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
 
   <Section tone="surface" id="story" containerClass="[--page-max:760px]">
     <Eyebrow>The story</Eyebrow>
-    <Heading text="A teacher who still competes" accent="still competes" class="mt-4 mb-12" />
+    <Heading text="A teacher who still competes." accent="still competes." class="mt-4 mb-12" />
     <div class="space-y-[1.1em]">
       <p class="first-letter:float-left first-letter:mt-[0.08em] first-letter:mr-[0.1em] first-letter:font-display first-letter:text-[4.4em] first-letter:leading-[0.82] first-letter:font-light first-letter:text-ink">
         {lead}
@@ -93,9 +92,9 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
   <Section id="record">
     <SectionHead
       eyebrow="On the competition mat"
-      heading="A record earned at the highest level"
-      accent="at the highest level"
-      lede={`${firstName} still competes, so what is taught in class has been tested against the best.`}
+      heading="A record earned at the highest level."
+      accent="at the highest level."
+      lede={`${coach.shortName} still competes as an IBJJF black belt, so what he teaches in class has been tested against the best in the world.`}
     />
     <div class="grid items-start gap-16 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
       <figure class="md:max-w-[520px] lg:sticky lg:top-[calc(var(--spacing-header)+32px)] lg:col-start-1 lg:col-end-6 lg:max-w-none">
@@ -109,7 +108,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
             class="h-full object-cover"
           />
         </div>
-        <figcaption class:list={[label, 'mt-2']}>Competition, black belt division</figcaption>
+        <figcaption class:list={[label, 'mt-2']}>IBJJF, no-gi</figcaption>
       </figure>
       <div class="grid gap-16 lg:col-start-7 lg:col-end-13">
         <div>
@@ -128,7 +127,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
     <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
       <div class="lg:col-start-7 lg:col-end-13 lg:row-start-1">
         <Eyebrow>Lineage</Eyebrow>
-        <Heading text="Modern, detailed, technical" accent="technical" class="mt-4" />
+        <Heading text="Modern, detailed, technical." accent="technical." class="mt-4" />
         <div class="mt-6 max-w-[60ch] space-y-4">
           {coach.lineage.map((paragraph) => (
             <p>{paragraph}</p>
@@ -149,7 +148,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
             class="h-full object-cover"
           />
         </div>
-        <figcaption class:list={[label, 'mt-2']}>Our lineage</figcaption>
+        <figcaption class:list={[label, 'mt-2']}>Art of Jiu Jitsu lineage</figcaption>
       </figure>
     </div>
   </Section>
@@ -157,15 +156,14 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
   <ReviewsBlock
     reviews={reviewsFor('coach')}
     eyebrow="What students say"
-    heading="Taught with uncommon detail"
-    accent="uncommon detail"
+    heading="Taught with uncommon detail."
+    accent="uncommon detail."
     tone="paper"
   />
 
   <FormBand
-    heading={`Train with ${firstName}`}
-    accent={firstName}
-    body={`Pick a program and we will text you to set a time. Every class on the schedule is taught by ${firstName} or a coach ${firstName} trained.`}
-    bullets={['First class is free', 'No experience or fitness needed', 'Taught by a black belt']}
+    heading={`Train with ${coach.shortName}.`}
+    accent={`${coach.shortName}.`}
+    body="Pick a program and we'll text you to lock in a time. Every class on the schedule is open to first-timers, and a clean gi is waiting for you."
   />
 </BaseLayout>

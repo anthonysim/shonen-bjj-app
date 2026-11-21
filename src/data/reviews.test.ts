@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { featuredReviews, rating, reviews, reviewsFor } from './reviews';
+import { featuredReviews, rating, reviewLabel, reviews, reviewsFor } from './reviews';
 
 describe('reviews', () => {
   it('has unique ids and non-empty quotes', () => {
@@ -27,9 +27,18 @@ describe('reviews', () => {
     expect(reviewsFor('kids', 2)).toHaveLength(2);
   });
 
-  it('features five reviews across topics for the homepage', () => {
+  it('features four reviews across topics for the homepage, in order', () => {
     const featured = featuredReviews();
-    expect(featured).toHaveLength(5);
+    expect(featured).toHaveLength(4);
+    expect(featured.map((r) => r.featured)).toEqual([1, 2, 3, 4]);
     expect(new Set(featured.map((r) => r.topic)).size).toBeGreaterThan(2);
+  });
+
+  it('labels reviews with role and source, or a custom caption', () => {
+    expect(reviewLabel({})).toBe('Google review');
+    expect(reviewLabel({ role: 'Parent' })).toBe('Parent \u00b7 Google review');
+    expect(reviewLabel({ role: 'Parent', caption: 'From a fellow academy' })).toBe(
+      'From a fellow academy',
+    );
   });
 });
