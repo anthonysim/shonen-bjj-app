@@ -7,6 +7,7 @@ import Button from '@/components/Button.astro';
 import FactStrip from '@/components/FactStrip.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import Heading from '@/components/Heading.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
 
 interface Cta {
   label: string;
@@ -44,17 +45,18 @@ const bleed = 'max(var(--spacing-gutter), calc((100vw - 1280px) / 2))';
         <Heading level={1} size="xl" text={title} accent={accent} />
       </div>
       {deck ? <p class="mt-6 max-w-[56ch] text-lede">{deck}</p> : null}
+      {/* Like the original: a solid button with an arrow, then a text link with an arrow */}
       {primary || secondary ? (
-        <div class="mt-8 flex w-full flex-wrap gap-x-6 gap-y-4">
+        <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
           {primary ? (
-            <Button href={primary.href} size="lg" class="max-sm:flex-1">
+            <Button href={primary.href} size="lg" arrow>
               {primary.label}
             </Button>
           ) : null}
           {secondary ? (
-            <Button href={secondary.href} size="lg" variant="secondary" class="max-sm:flex-1">
+            <LinkArrow href={secondary.href} class="text-ink">
               {secondary.label}
-            </Button>
+            </LinkArrow>
           ) : null}
         </div>
       ) : null}
