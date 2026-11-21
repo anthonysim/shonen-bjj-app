@@ -21,7 +21,10 @@ export interface AgeGroup {
   ages: string;
   classLength: string;
   format: string;
+  /** Short line for the homepage and programs index cards */
   blurb: string;
+  /** Longer description on the kids page card */
+  description: string;
 }
 
 export interface Program {
@@ -106,23 +109,27 @@ export const programs: Program[] = [
     name: 'Kids',
     ages: 'Ages 4\u201313',
     blurb: 'Confidence, focus and fitness through play-based jiu-jitsu.',
-    facts: ['Ages 4\u201313', 'Two age groups', 'First class free'],
+    facts: ['5.0 \u2605 Google', 'Ages 4\u201313', 'First class free'],
     ageGroups: [
       {
         id: 'kids-4-7',
         name: 'Kids 4\u20137',
         ages: 'Ages 4\u20137',
-        classLength: '45 min',
-        format: 'Games, drills and gentle partner work',
+        classLength: '45 minutes',
+        format: 'gi',
         blurb: 'Coordination, listening and confidence, built through games and real technique.',
+        description:
+          'A playful, structured introduction to jiu jitsu. Younger students focus on mobility and coordination, combining jiu jitsu drills with games that build listening skills, confidence and the tools to handle a bully.',
       },
       {
         id: 'kids-8-13',
         name: 'Kids 8\u201313',
         ages: 'Ages 8\u201313',
-        classLength: '60 min',
-        format: 'Technique, drilling and supervised live rounds',
+        classLength: '45 minutes',
+        format: 'gi',
         blurb: 'Real grappling technique, focus and self-defense, alongside supportive teammates.',
+        description:
+          'Real grappling technique with a greater focus on the sport. Older students build focus, confidence and self-defense skills, and learn competition rules and strategy alongside supportive teammates.',
       },
     ],
   },
@@ -131,14 +138,14 @@ export const programs: Program[] = [
     name: 'Adults',
     ages: 'Ages 14+',
     blurb: 'Gi Basics for beginners and All-Levels classes for experienced grapplers.',
-    facts: ['Ages 14+', 'Gi classes', 'First class free'],
+    facts: ['5.0 \u2605 Google \u00b7 75 reviews', 'Gi & No-Gi', 'No sign-up fees'],
   },
   {
     slug: 'no-gi',
     name: 'No-Gi',
     ages: 'Ages 14+',
     blurb: 'Rash guard and shorts. Faster, closer to wrestling, just as technical.',
-    facts: ['Tue & Thu evenings', 'Ages 14+', 'First class free'],
+    facts: ['Tue & Thu \u00b7 6:00 PM', 'Ages 14+', 'First class free'],
   },
   {
     slug: 'birthday-parties',

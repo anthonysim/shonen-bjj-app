@@ -1,28 +1,38 @@
 ---
-import Button from '@/components/Button.astro';
+// One adult track, like the original's track card: label, name, blurb, bullets, then a spec list.
+// A single-category track shows "Class" and "When"; a mixed one shows a "Gi" and a "No-Gi" row.
 import type { Track } from '@/data/adults';
-import { categoryLabels, schedule, whenLabel } from '@/data/schedule';
+import { friendlyWhen, schedule, type Category } from '@/data/schedule';
 
 interface Props {
   track: Track;
-  /** Zero-based position, shown as "Track 01" */
-  index: number;
 }
 
-const { track, index } = Astro.props;
-const label = `Track ${String(index + 1).padStart(2, '0')}`;
+const { track } = Astro.props;
 
 // Resolve schedule classes in the track's own order, so times always come from the schedule
 const classes = track.classIds.flatMap((id) => schedule.filter((cls) => cls.id === id));
+const categories = [...new Set(classes.map((cls) => cls.category))];
+const shortLabels: Record<Category, string> = { kids: 'Kids', gi: 'Gi', 'no-gi': 'No-Gi' };
 
-const specs = [
-  { label: 'Class length', value: track.length },
-  { label: 'Attire', value: track.attire },
-];
+const specs =
+  categories.length === 1
+    ? [
+        ...(track.classInfo ? [{ label: 'Class', value: track.classInfo }] : []),
+        { label: 'When', value: friendlyWhen(classes, { range: true }) },
+      ]
+    : categories.map((category) => ({
+        label: shortLabels[category],
+        // Like the original: start times, with an end time only for the longer Saturday class
+        value: classes
+          .filter((cls) => cls.category === category)
+          .map((cls) => friendlyWhen([cls], { range: cls.durationMin !== 60 }))
+          .join(' · '),
+      }));
 ---
 
-<article class="rounded-card border border-line bg-surface p-6 text-body md:p-10">
-  <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">{label}</p>
+<article class="flex flex-col rounded-card border border-line bg-surface p-6 text-body md:p-10">
+  <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">{track.label}</p>
   <h3 class="mt-2 text-h2">{track.name}</h3>
   <p class="mt-3 text-lede">{track.blurb}</p>
 
@@ -37,24 +47,14 @@ const specs = [
     ))}
   </ul>
 
-  <dl class="mt-6">
+  <dl class="mt-auto pt-6">
     {specs.map((spec) => (
-      <div class="flex flex-col gap-1 border-b border-line py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-        <dt class="text-label font-medium tracking-[0.14em] text-muted uppercase">{spec.label}</dt>
-        <dd class="text-ink sm:text-right">{spec.value}</dd>
-      </div>
-    ))}
-    {classes.map((cls) => (
-      <div class="flex flex-col gap-1 border-b border-line py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-        <dt class="text-label font-medium tracking-[0.14em] text-muted uppercase">
-          {categoryLabels[cls.category]}
+      <div class="grid grid-cols-[88px_minmax(0,1fr)] gap-4 border-t border-line py-3 text-sm leading-normal">
+        <dt class="text-label leading-[1.8] font-medium tracking-[0.14em] text-muted uppercase">
+          {spec.label}
         </dt>
-        <dd class="text-ink sm:text-right">{whenLabel([cls])}</dd>
+        <dd class="text-ink">{spec.value}</dd>
       </div>
     ))}
   </dl>
-
-  <div class="mt-6">
-    <Button href="#book">Book a free class</Button>
-  </div>
 </article>

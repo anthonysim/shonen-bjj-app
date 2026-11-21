@@ -3,10 +3,12 @@
 interface Props {
   quote: string;
   author: string;
+  /** Caption after the name, e.g. "Student · Google review" */
+  label?: string;
   class?: string;
 }
 
-const { quote, author, class: className } = Astro.props;
+const { quote, author, label, class: className } = Astro.props;
 ---
 
 <figure class:list={['border-t border-line-strong pt-6', className]}>
@@ -15,5 +17,6 @@ const { quote, author, class: className } = Astro.props;
   </blockquote>
   <figcaption class="mt-4 text-label font-medium tracking-[0.14em] text-muted uppercase">
     {author}
+    {label ? <span class="text-muted/80"> · {label}</span> : null}
   </figcaption>
 </figure>

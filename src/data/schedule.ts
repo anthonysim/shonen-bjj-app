@@ -1,4 +1,4 @@
-// Weekly class schedule. Placeholder times.
+// Weekly class schedule, from shonenjiujitsu.com/schedule (client's permission).
 
 export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const;
 export type Day = (typeof DAYS)[number];
@@ -23,8 +23,8 @@ export interface ScheduleClass {
   start: string;
   durationMin: number;
   audience: string;
-  /** For kids classes: the age group id this class belongs to (see `programs` in site.ts) */
-  ageGroup?: string;
+  /** For kids classes: the age group ids that train in this slot (see `programs` in site.ts) */
+  ageGroups?: string[];
 }
 
 export const schedule: ScheduleClass[] = [
@@ -33,22 +33,22 @@ export const schedule: ScheduleClass[] = [
     name: 'Kids',
     category: 'kids',
     program: 'kids',
-    ageGroup: 'kids-4-7',
+    ageGroups: ['kids-4-7', 'kids-8-13'],
     days: ['Tue', 'Thu'],
     start: '17:00',
     durationMin: 45,
-    audience: 'Ages 4-7',
+    audience: 'Ages 4\u20137 & 8\u201313',
   },
   {
     id: 'kids-saturday',
     name: 'Kids',
     category: 'kids',
     program: 'kids',
-    ageGroup: 'kids-8-13',
+    ageGroups: ['kids-4-7', 'kids-8-13'],
     days: ['Sat'],
     start: '09:00',
-    durationMin: 60,
-    audience: 'Ages 8-13',
+    durationMin: 45,
+    audience: 'Ages 4\u20137 & 8\u201313',
   },
   {
     id: 'adults-basics',
@@ -190,7 +190,36 @@ export function classesByCategory(
 
 /** Classes for a kids age group, e.g. "kids-4-7". */
 export function classesForAgeGroup(ageGroupId: string, classes: ScheduleClass[] = schedule) {
-  return classes.filter((cls) => cls.ageGroup === ageGroupId);
+  return classes.filter((cls) => cls.ageGroups?.includes(ageGroupId));
+}
+
+/**
+ * Card-style "when" line, like the original: "Tue & Thu 5:00 PM · Sat 9:00 AM". `long` spells the
+ * days out ("Tuesday & Thursday 5:00 PM · Saturday 9:00 AM"); `range` shows end times
+ * ("Mon\u2013Thu 7:00\u20138:00 PM").
+ */
+export function friendlyWhen(
+  classes: readonly ScheduleClass[],
+  { long = false, range = false } = {},
+): string {
+  return classes
+    .map((cls) => {
+      const days = long
+        ? cls.days.length >= 3
+          ? formatDaysFriendly(cls.days)
+          : cls.days.map((day) => DAY_NAMES[day]).join(' & ')
+        : formatDaysFriendly(cls.days, { short: true });
+      return `${days} ${range ? compactRange(cls) : formatTime(cls.start)}`;
+    })
+    .join(' \u00b7 ');
+}
+
+/** "7:00\u20138:00 PM", or "11:30 AM\u201312:30 PM" when the range crosses noon. */
+export function compactRange(cls: Pick<ScheduleClass, 'start' | 'durationMin'>): string {
+  const start = formatTime(cls.start);
+  const end = formatTime(endTime(cls));
+  const [startClock, startSuffix] = start.split(' ');
+  return startSuffix === end.split(' ')[1] ? `${startClock}\u2013${end}` : `${start}\u2013${end}`;
 }
 
 /** "Tue, Thu at 5:00 PM", joined with " and " when a group meets at more than one time. */

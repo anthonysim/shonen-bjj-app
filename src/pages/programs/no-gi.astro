@@ -1,6 +1,7 @@
 ---
 import landscape from '@/assets/placeholders/landscape.jpg';
 import portrait from '@/assets/placeholders/portrait.jpg';
+import square from '@/assets/placeholders/square.jpg';
 import Button from '@/components/Button.astro';
 import CredentialList from '@/components/CredentialList.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
@@ -16,15 +17,22 @@ import SectionHead from '@/components/SectionHead.astro';
 import SpecList from '@/components/SpecList.astro';
 import { coach } from '@/data/coach';
 import { faqsFor } from '@/data/faqs';
-import { comparison, competitionBlurb, noGiDetails } from '@/data/no-gi';
-import { reviewsFor } from '@/data/reviews';
-import { schedule, whenLabel } from '@/data/schedule';
+import { comparison, noGiDetails } from '@/data/no-gi';
+import { reviewLabel, reviewsFor } from '@/data/reviews';
+import { DAY_NAMES, compactRange, schedule } from '@/data/schedule';
 import { programs, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const noGi = programs.find((program) => program.slug === 'no-gi')!;
 const noGiClasses = schedule.filter((cls) => cls.category === 'no-gi');
-const details = [{ label: 'When', value: whenLabel(noGiClasses) }, ...noGiDetails];
+// "Tuesday & Thursday, 6:00–7:00 PM (All-Levels)"
+const when = noGiClasses
+  .map((cls) => `${cls.days.map((day) => DAY_NAMES[day]).join(' & ')}, ${compactRange(cls)}`)
+  .join(' · ');
+const details = [{ label: 'When', value: `${when} (All-Levels)` }, ...noGiDetails];
+// The original's three credentials: national title, worlds bronze, then the ranking
+const [ranking, nationals, worlds] = coach.highlights;
+const credentials = [nationals, worlds, ranking];
 const [quote] = reviewsFor('no-gi', 1);
 ---
 
@@ -34,10 +42,10 @@ const [quote] = reviewsFor('no-gi', 1);
   breadcrumbs={[{ label: 'Programs', href: '/programs' }, { label: 'No-Gi' }]}
 >
   <Hero
-    eyebrow={`No-Gi · Ages 14+ · ${site.address.city}, ${site.address.region}`}
-    title="Fast, athletic grappling without the gi"
-    accent="without the gi"
-    deck="Quicker, closer to wrestling, and just as technical. Throw on a rash guard and shorts and come train."
+    eyebrow={`No-Gi Jiu Jitsu · Ages 14+ · ${site.address.city}`}
+    title="Faster, closer to wrestling, just as technical."
+    accent="just as technical."
+    deck="No-gi is trained in a rash guard and shorts. It’s faster paced and closely resembles wrestling, and it’s where Professor Lee won his No-Gi American National title."
     primary={{ label: 'Book a free class', href: '#book' }}
     secondary={{ label: 'When & what to wear', href: '#details' }}
     facts={noGi.facts}
@@ -55,14 +63,15 @@ const [quote] = reviewsFor('no-gi', 1);
   <Section tone="surface" id="gi-vs-no-gi">
     <SectionHead
       eyebrow="Gi vs no-gi"
-      heading="Gi or no-gi? Train both"
-      accent="Train both"
-      lede="Same art, two flavors. Many students train both, and you can switch any time."
+      heading="Gi or no-gi? Train both."
+      accent="Train both."
+      lede="The use of the uniform is the main difference. Both styles share the same fundamentals, and once you train with us you’ll find they complement each other greatly."
     />
     <div class="grid gap-6 md:grid-cols-2 md:gap-x-[clamp(16px,2vw,32px)]">
       {comparison.map((item) => (
         <article class="flex flex-col rounded-card border border-line-strong p-[clamp(24px,3vw,40px)]">
-          <h3 class="text-h3">{item.title}</h3>
+          <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">{item.label}</p>
+          <h3 class="mt-2 text-h3">{item.title}</h3>
           <p class="mt-4">{item.blurb}</p>
           <SpecList items={item.rows} class="mt-auto pt-8" />
         </article>
@@ -74,7 +83,7 @@ const [quote] = reviewsFor('no-gi', 1);
     <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(16px,2vw,32px)]">
       <header>
         <Eyebrow class="mb-4">The details</Eyebrow>
-        <Heading text="When and what to wear" accent="what to wear" />
+        <Heading text="When and what to wear." accent="what to wear." />
         <LinkArrow href="/schedule" class="mt-6 text-ink">
           Full schedule
         </LinkArrow>
@@ -98,10 +107,9 @@ const [quote] = reviewsFor('no-gi', 1);
       </div>
       <div class="px-(--spacing-gutter) py-[clamp(4.5rem,4rem+6vw,9.5rem)] lg:px-[clamp(32px,4vw,72px)] xl:pr-[max(var(--spacing-gutter),calc((100vw-1280px)/2))]">
         <Eyebrow class="text-white/55">On the competition mat</Eyebrow>
-        <Heading text="Taught by a no‑gi champion" accent="no‑gi champion" class="mt-4" />
-        <p class="mt-6 max-w-[56ch] text-white/72">{competitionBlurb}</p>
+        <Heading text="Taught by an IBJJF no‑gi champion." accent="no‑gi champion." class="mt-4" />
         <CredentialList
-          items={coach.competitionRecord.slice(0, 3)}
+          items={credentials}
           class="mt-8 [&_li]:border-white/16 [&_span]:text-white/55 [&_span+span]:text-white"
         />
         {quote ? (
@@ -109,24 +117,37 @@ const [quote] = reviewsFor('no-gi', 1);
             class="mt-10 border-white/36 [&_blockquote]:text-white/80"
             quote={quote.quote}
             author={quote.author}
+            label={reviewLabel(quote)}
           />
         ) : null}
         <div class="mt-10">
           <Button href={`/team/${coach.slug}`} variant="secondary" arrow>
-            Meet the coach
+            Meet the Coach
           </Button>
         </div>
       </div>
     </div>
   </section>
 
-  <FaqSection items={faqsFor('no-gi')} heading="No-gi, answered" accent="answered" />
+  {/* Two-photo strip, like the original's tight gallery section */}
+  <Section tone="surface" class="py-[clamp(2.5rem,2rem+3vw,5rem)]!">
+    <div class="grid grid-cols-2 gap-[clamp(8px,2vw,32px)]">
+      {[square, landscape].map((image) => (
+        <div class="aspect-4/3 overflow-hidden bg-paper-2">
+          <Photo
+            src={image}
+            alt=""
+            grade="mono"
+            sizes="(min-width: 1280px) 620px, 50vw"
+            widths={[320, 640, 960]}
+            class="h-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  </Section>
 
-  <FormBand
-    heading="Book your free no-gi class"
-    accent="free no-gi class"
-    body="Tell us a little about you and we will text you to set a time. No gi needed."
-    bullets={['First class is free', 'No sign-up fees', 'Just bring a rash guard and shorts']}
-    defaultProgram="adults"
-  />
+  <FaqSection items={faqsFor('no-gi')} heading="No-gi, answered." accent="answered." />
+
+  <FormBand heading="Your first no-gi class is on us." accent="is on us." defaultProgram="adults" />
 </BaseLayout>

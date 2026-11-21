@@ -37,7 +37,7 @@ const cardBg = tone === 'paper' ? 'bg-surface' : 'bg-paper';
       />
     </div>
     <div class="self-center p-[clamp(28px,2rem+2vw,72px)]">
-      <Eyebrow>Meet the coach</Eyebrow>
+      <Eyebrow>Meet the Coach</Eyebrow>
       <Heading text={coach.displayName} accent={coach.accent} class="mt-4" />
       <Eyebrow class="mt-4 text-body">{coach.title}</Eyebrow>
       {fullBio ? (
@@ -52,7 +52,7 @@ const cardBg = tone === 'paper' ? 'bg-surface' : 'bg-paper';
       <CredentialList items={highlights} class="mt-8" />
       <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
         <Button href={`/team/${coach.slug}`} variant="secondary" arrow>
-          {`${coach.shortName}'s story`}
+          {`${coach.shortName}\u2019s story`}
         </Button>
         <a
           href="#book"

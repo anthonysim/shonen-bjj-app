@@ -20,15 +20,18 @@ import VideoBlock from '@/components/VideoBlock.astro';
 import { faqsFor } from '@/data/faqs';
 import { classSteps, parentNote, safetyPoints, whyJiuJitsu } from '@/data/kids';
 import { reviewsFor } from '@/data/reviews';
-import { classesForAgeGroup, whenLabel } from '@/data/schedule';
+import { classesForAgeGroup, friendlyWhen, schedule } from '@/data/schedule';
 import { programs, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const kids = programs.find((program) => program.slug === 'kids')!;
 const ageGroups = kids.ageGroups ?? [];
 const groupImages = [landscape, square];
-// "Tue, Thu at 5:00 PM" for every kids class, for the line under the age cards
-const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group.id)));
+// "Tuesday & Thursday 5:00 PM · Saturday 9:00 AM", for the line under the age cards
+const kidsDays = friendlyWhen(
+  schedule.filter((cls) => cls.category === 'kids'),
+  { long: true },
+);
 ---
 
 <BaseLayout
@@ -37,10 +40,10 @@ const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group
   breadcrumbs={[{ label: 'Programs', href: '/programs' }, { label: 'Kids' }]}
 >
   <Hero
-    eyebrow={`Kids · Ages 4-13 · ${site.address.city}, ${site.address.region}`}
-    title="Jiu-jitsu your kid will love"
-    accent="love"
-    deck="Confidence, focus, and fitness through structured, play-based classes with coaches who know every child by name."
+    eyebrow={`Kids Brazilian Jiu Jitsu · Ages 4–13 · ${site.address.city}`}
+    title="Confidence that carries off the mat."
+    accent="off the mat."
+    deck="Our kids learn to stay calm under pressure, escape bad positions and handle a bully without throwing a punch, led by a black belt who helped coach five IBJJF Kids Pan American team titles."
     primary={{ label: 'Book a free kids class', href: '#book' }}
     secondary={{ label: 'Class times', href: '#age-groups' }}
     facts={kids.facts}
@@ -58,21 +61,21 @@ const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group
   <Section tone="surface" id="age-groups">
     <SectionHead
       eyebrow="Two age groups"
-      heading="The right class for their age"
-      accent="their age"
-      lede="Kids train with children their own age and size, so every class matches their energy and attention."
+      heading="The right class for their age."
+      accent="their age."
+      lede="Every child trains with partners close to their age and size. Both groups train at the same times, so brothers and sisters can come together."
     />
     <div class="grid gap-12 sm:grid-cols-2 sm:gap-x-[clamp(16px,2vw,32px)]">
       {ageGroups.map((group, index) => (
         <AgeGroupCard
           group={group}
           image={groupImages[index % groupImages.length]}
-          when={whenLabel(classesForAgeGroup(group.id))}
+          when={friendlyWhen(classesForAgeGroup(group.id))}
         />
       ))}
     </div>
     <div class="mt-12 flex flex-col gap-6 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
-      <Eyebrow>Kids train {kidsDays}</Eyebrow>
+      <Eyebrow>{kidsDays}</Eyebrow>
       <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
         <Button href="#book" arrow>
           Book a free kids class
@@ -86,10 +89,10 @@ const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group
 
   <Section id="why">
     <SectionHead
-      eyebrow="Why jiu-jitsu"
-      heading="Why jiu-jitsu over other martial arts?"
+      eyebrow="Why jiu jitsu"
+      heading="Why jiu jitsu over other martial arts?"
       accent="other martial arts?"
-      lede="It is one of the few sports where size and strength matter less than patience and problem-solving, which is why it works for so many kids."
+      lede="Jiu jitsu focuses on controlling situations as safely as possible. Without punches or kicks to the head, kids can practise against fully resisting partners safely, so if someone ever puts their hands on them, it won’t be the first time."
     />
     <div class="grid items-start gap-12 min-[1100px]:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] min-[1100px]:gap-[clamp(32px,5vw,96px)]">
       <NumberedRows items={whyJiuJitsu} />
@@ -110,9 +113,12 @@ const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group
     <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
       <div class="lg:col-start-7 lg:col-end-13 lg:row-start-1">
         <Eyebrow>Inside a class</Eyebrow>
-        <Heading text="What a kids class looks like" accent="looks like" class="mt-4" />
-        <p class="mt-6 max-w-[56ch] text-lede">{parentNote}</p>
+        <Heading text="What a kids class looks like." accent="looks like." class="mt-4" />
+        <p class="mt-6 max-w-[56ch] text-lede">
+          Forty-five minutes, structured from the first warm-up to the final game.
+        </p>
         <NumberedRows items={classSteps} compact class="mt-8" />
+        <p class="mt-6 text-muted">{parentNote}</p>
       </div>
       <div class="aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-1 lg:col-end-6 lg:row-start-1">
         <Photo
@@ -131,7 +137,7 @@ const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group
     <div class="grid items-center gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(32px,6vw,112px)]">
       <div>
         <Eyebrow>Parents ask us</Eyebrow>
-        <Heading text="Safe, clean and well supervised" accent="well supervised" class="mt-4" />
+        <Heading text="Safe, clean and well supervised." accent="well supervised." class="mt-4" />
         <ul class="mt-8">
           {safetyPoints.map((point) => (
             <li class="relative border-t border-line py-4 pl-8 last:border-b before:absolute before:left-0 before:text-muted before:content-['—']">
@@ -161,8 +167,8 @@ const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group
 
   <ReviewsBlock
     reviews={reviewsFor('kids', 3)}
-    heading="What parents say"
-    accent="parents"
+    heading="What parents say."
+    accent="say."
     tone="surface"
   />
 
@@ -170,10 +176,11 @@ const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group
     <div class="grid items-center gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-[clamp(32px,6vw,112px)]">
       <div>
         <Eyebrow>Watch a class</Eyebrow>
-        <Heading text="See a kids class in action" accent="in action" class="mt-4" />
+        <Heading text="See a kids class in action." accent="in action." class="mt-4" />
         <p class="mt-6 max-w-[56ch] text-lede">
-          Warm-up games, belt tying, big grins and real technique. The best way to see it is in
-          person, and the first class is free.
+          Agility drills, belt tying, big grins and real technique, filmed in a Shonen kids class
+          right here in Glen Burnie. The best way to see it is in person, and the first class is
+          free.
         </p>
         <div class="mt-8">
           <Button href="#book" arrow>
@@ -181,7 +188,7 @@ const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group
           </Button>
         </div>
         <MiniCoachCard
-          note="Kids classes are run by our head coach, a black belt who has taught children for years."
+          note="Kids classes are overseen by a Mendes Brothers black belt and former Art of Jiu Jitsu kids instructor."
           class="mt-12"
         />
       </div>
@@ -194,14 +201,12 @@ const kidsDays = whenLabel(ageGroups.flatMap((group) => classesForAgeGroup(group
     </div>
   </Section>
 
-  <FaqSection items={faqsFor('kids')} heading="Questions parents ask" accent="ask" />
+  <FaqSection items={faqsFor('kids')} heading="Questions parents ask." accent="ask." />
 
   <FormBand
-    heading="Book your child's free class"
-    accent="free"
-    body="Tell us about your child and we will text you to set a time. Parents are welcome to stay and watch."
-    bullets={['First class is free', 'No sign-up fees', 'We provide a gi for the first class']}
+    heading="Their first class is on us."
+    accent="on us."
+    body="Pick a program and we'll text you to lock in a time. Every class on the schedule is open to first-timers, and a clean gi will be waiting for your child."
     defaultProgram="kids"
-    submitLabel="Book my child's free class"
   />
 </BaseLayout>

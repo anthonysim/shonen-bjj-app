@@ -1,4 +1,4 @@
-// Placeholder FAQ content. Replace with the academy's real answers.
+// FAQ content. Program-page questions are from shonenjiujitsu.com (client's permission).
 
 export type FaqPage = 'kids' | 'bjj' | 'no-gi' | 'birthday' | 'free-trial';
 
@@ -25,8 +25,9 @@ export const faqGroups: FaqGroup[] = [
     title: 'Getting started',
     items: [
       {
-        question: 'Do I need experience?',
-        answer: 'No. Most students start with none, and our basics classes assume you are new.',
+        question: 'Do I need experience or to be in shape?',
+        answer:
+          'No. Most of our students walked in with zero grappling experience. Adults can start in Gi Basics, which runs Monday through Thursday at 7 PM and focuses on fundamentals, and your conditioning builds naturally as you train.',
         pages: ['bjj', 'free-trial'],
       },
       {
@@ -41,7 +42,6 @@ export const faqGroups: FaqGroup[] = [
       {
         question: 'How fit do I need to be?',
         answer: 'You will get fit by training. Go at your own pace and rest whenever you need to.',
-        pages: ['bjj'],
       },
       {
         question: 'Can I just watch first?',
@@ -58,11 +58,12 @@ export const faqGroups: FaqGroup[] = [
         question: 'What should I wear to my first class?',
         answer:
           'Athletic clothes with no zippers or pockets. We can lend you a gi for the first class.',
-        pages: ['bjj', 'free-trial'],
+        pages: ['free-trial'],
       },
       {
-        question: 'What do I wear for no-gi?',
-        answer: 'A fitted rash guard and athletic shorts with no pockets or zippers.',
+        question: 'What should I wear to no-gi class?',
+        answer:
+          'A rash guard with shorts that have no zippers or pockets, or leggings. Bring flip-flops or sandals for walking off the mat, and a water bottle.',
         pages: ['no-gi'],
       },
       {
@@ -76,25 +77,27 @@ export const faqGroups: FaqGroup[] = [
     title: 'Kids',
     items: [
       {
-        question: 'What age can my child start?',
-        answer: 'Kids can start at 4. We group classes by age so every child trains with peers.',
-        pages: ['kids'],
-      },
-      {
-        question: 'Is jiu-jitsu safe for kids?',
+        question: 'How old does my child need to be to start?',
         answer:
-          'Yes. Classes are supervised and structured, with a focus on control and respect rather than striking.',
+          'Kids can start at age 4. Our kids program has two age groups, 4\u20137 and 8\u201313, so every child trains with partners close to their age and size. Students 14 and older join our adult classes.',
         pages: ['kids'],
       },
       {
-        question: 'Can I stay and watch?',
-        answer: 'Yes. Parents are welcome to watch from the seating area.',
-        pages: ['kids'],
-      },
-      {
-        question: 'What if my child is shy?',
+        question: 'What should my child wear to the first class?',
         answer:
-          'That is common. Coaches ease new students in, and most kids open up within a few classes.',
+          'A clean gi is provided for the free class. Have your child wear athletic clothes to go under it, and bring flip-flops or sandals for walking off the mat, plus a water bottle.',
+        pages: ['kids'],
+      },
+      {
+        question: 'Will my child get hurt?',
+        answer:
+          'Safety comes first. Coaches supervise the whole class, kids train with partners their own age and size, and jiu jitsu is a control-first art with no punches or kicks. Mats are deep-cleaned and sanitized before every kids class.',
+        pages: ['kids'],
+      },
+      {
+        question: 'Can parents watch?',
+        answer:
+          'Yes. Parents are welcome to watch from the lounge. Per our academy etiquette, please let the coaches do the coaching and don\u2019t coach from the sideline.',
         pages: ['kids'],
       },
     ],
@@ -106,22 +109,35 @@ export const faqGroups: FaqGroup[] = [
       {
         question: 'What is the difference between gi and no-gi?',
         answer:
-          'Gi classes use a jacket and belt for grips. No-gi is faster and uses shorts and a rash guard.',
-        pages: ['bjj', 'no-gi'],
+          'The uniform is the main difference. In gi classes, the collar and sleeves can be used for grips, control and submissions, which rewards patient, technical play. No-gi, sometimes called submission grappling, is trained in a rash guard and shorts, so it\u2019s faster paced and closely resembles wrestling. Both share the same fundamentals, and training both makes you a more complete grappler.',
+        pages: ['bjj'],
       },
       {
-        question: 'Is jiu-jitsu good for self-defense?',
-        answer: 'It is one of the most effective ways to learn control against a larger opponent.',
+        question: 'Is jiu jitsu good for self-defense?',
+        answer:
+          'Yes. Brazilian Jiu Jitsu was developed as a way to defend yourself against an attacker who is larger, stronger, faster and more aggressive, using leverage, grappling and submission holds to level the playing field. Royce Gracie proved it at UFC 1, and BJJ has since been adopted into the defensive tactics curriculum of every major branch of the US Armed Forces. It\u2019s an excellent martial art for realistic self-defense.',
         pages: ['bjj'],
       },
       {
         question: 'Do women train here?',
         answer: 'Yes. Our classes are mixed, welcoming, and run with attention to safe partnering.',
+      },
+      {
+        question: 'Are students from other academies welcome?',
+        answer: 'Yes. We\u2019re focused on community, so everyone is welcome at Shonen.',
         pages: ['bjj'],
       },
       {
-        question: 'I train at another academy. Can I drop in?',
-        answer: 'Usually yes. Contact us first so we can plan for you.',
+        question: 'I\u2019m new. Can I start with no-gi?',
+        answer:
+          'Yes. Beginners are welcome in the No-Gi All-Levels class. We recommend pairing it with Gi Basics, Monday to Thursday at 7 PM, where you\u2019ll build the fundamentals both styles share.',
+        pages: ['no-gi'],
+      },
+      {
+        question: 'Do you compete?',
+        answer:
+          'Many of our members do, and Professor Lee is an active IBJJF black belt competitor. Competition is encouraged but never required. Plenty of students train purely for fitness, self-defense and fun.',
+        pages: ['no-gi'],
       },
       {
         question: 'What makes this academy different?',
@@ -131,7 +147,6 @@ export const faqGroups: FaqGroup[] = [
         question: 'What does it cost?',
         answer:
           'Your first class is free and there are no sign-up fees. Ask us about current membership options.',
-        pages: ['bjj', 'no-gi', 'kids'],
       },
     ],
   },

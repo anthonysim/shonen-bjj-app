@@ -1,7 +1,9 @@
-// Copy for the no-gi program page. Placeholder text.
+// Copy for the no-gi program page, from shonenjiujitsu.com/programs/no-gi (client's permission).
 
 export interface Comparison {
   id: string;
+  /** Small label above the title, e.g. "The uniform" */
+  label: string;
   title: string;
   blurb: string;
   rows: { label: string; value: string }[];
@@ -10,30 +12,35 @@ export interface Comparison {
 export const comparison: Comparison[] = [
   {
     id: 'gi',
+    label: 'The uniform',
     title: 'Gi',
-    blurb: 'The traditional uniform. Grips on the jacket and belt shape the game.',
+    blurb: 'The uniform is used for grips and control, which rewards patient, technical play.',
     rows: [
-      { label: 'Wear', value: 'A gi (jacket, pants, belt). Loaners for your first class.' },
-      { label: 'Classes', value: 'Adults Basics and All-Levels, across the week.' },
+      { label: 'Wear', value: 'A white, black or royal-blue gi' },
+      { label: 'Classes', value: 'Gi Basics & All-Levels' },
     ],
   },
   {
     id: 'no-gi',
+    label: 'Submission grappling',
     title: 'No-Gi',
-    blurb: 'Fast, close to wrestling, and just as technical. Control comes from the body.',
+    blurb: 'No collar or sleeves, so the game is faster and more athletic.',
     rows: [
-      { label: 'Wear', value: 'A fitted rash guard and shorts with no pockets or zippers.' },
-      { label: 'Classes', value: 'No-Gi nights, plus a no-gi All-Levels option.' },
+      { label: 'Wear', value: 'Rash guard & shorts' },
+      { label: 'Classes', value: 'No-Gi All-Levels, Tue & Thu' },
     ],
   },
 ];
 
 /** Static rows for "The details". "When" is added from the schedule. */
 export const noGiDetails = [
-  { label: 'Wear', value: 'Rash guard and shorts, no pockets or zippers' },
-  { label: 'Level', value: 'All levels. We suggest a few Basics classes first.' },
+  {
+    label: 'Wear',
+    value: 'A rash guard and shorts without zippers or pockets, or leggings',
+  },
+  {
+    label: 'Level',
+    value: 'All levels. Beginners should also take Gi Basics, Monday to Thursday at 7 PM',
+  },
   { label: 'Ages', value: '14 and up' },
 ] as const;
-
-export const competitionBlurb =
-  'Our coaches compete at the highest level, and that experience shapes how we teach grappling. Here is a taste of the results.';
