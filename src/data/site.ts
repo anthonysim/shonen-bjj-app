@@ -81,6 +81,8 @@ export const site = {
     'Columbia',
     'Catonsville',
     'Baltimore',
+    'Baltimore Highlands',
+    'Patapsco',
   ],
   social: [
     { label: 'Instagram', href: 'https://www.instagram.com/shonenjiujitsu/' },

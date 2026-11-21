@@ -7,6 +7,7 @@ import {
   academyId,
   breadcrumbListJsonLd,
   coachProfileJsonLd,
+  contactPageJsonLd,
   faqPageJsonLd,
   localBusinessJsonLd,
   serializeJsonLd,
@@ -110,5 +111,13 @@ describe('faqPageJsonLd', () => {
     const etiquetteItem = faqPageGroups.at(-1)!.items[0];
     const q = data.mainEntity.find((m) => m.name === etiquetteItem.question)!;
     for (const rule of etiquetteItem.list ?? []) expect(q.acceptedAnswer.text).toContain(rule);
+  });
+});
+
+describe('contactPageJsonLd', () => {
+  it('is a ContactPage about the academy entity', () => {
+    const data = contactPageJsonLd('https://example.com/contact', 'https://example.com');
+    expect(data['@type']).toBe('ContactPage');
+    expect(data.mainEntity['@id']).toBe(academyId('https://example.com'));
   });
 });

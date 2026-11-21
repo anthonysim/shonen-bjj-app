@@ -12,9 +12,18 @@ import { mapsUrl } from '@/lib/maps';
 
 interface Props {
   tone?: 'paper' | 'surface';
+  heading?: string;
+  accent?: string;
+  /** Contact page: adds first-visit and social rows and an email button */
+  detailed?: boolean;
 }
 
-const { tone = 'paper' } = Astro.props;
+const {
+  tone = 'paper',
+  heading = 'Visit the academy.',
+  accent = 'the academy.',
+  detailed = false,
+} = Astro.props;
 const { address, hours, phone, email } = site;
 const fullAddress = `${address.street}, ${address.city}, ${address.region} ${address.postalCode}`;
 const directions = mapsUrl(address);
@@ -27,12 +36,7 @@ const link =
 <Section tone={tone} id="visit">
   <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
     <div class="lg:col-start-1 lg:col-end-7">
-      <SectionHead
-        eyebrow="Visit"
-        heading="Visit the academy."
-        accent="the academy."
-        split={false}
-      />
+      <SectionHead eyebrow="Visit" heading={heading} accent={accent} split={false} />
       <dl class="border-b border-line">
         <div class={row}>
           <dt class={label}>Address</dt>
@@ -72,14 +76,49 @@ const link =
             </dl>
           </dd>
         </div>
+        {detailed ? (
+          <>
+            <div class={row}>
+              <dt class={label}>First visit</dt>
+              <dd>
+                Arrive 15 minutes early for your first class to meet the staff, sign a waiver and
+                take a tour.
+              </dd>
+            </div>
+            <div class={row}>
+              <dt class={label}>Social</dt>
+              <dd class="flex flex-wrap gap-x-2">
+                {site.social.map((social, index) => (
+                  <>
+                    {index > 0 ? <span aria-hidden="true">·</span> : null}
+                    <a href={social.href} rel="noopener" class={link}>
+                      {social.label}
+                    </a>
+                  </>
+                ))}
+              </dd>
+            </div>
+          </>
+        ) : null}
       </dl>
       <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
         <Button href={directions} rel="noopener" variant="secondary" arrow>
           Get directions
         </Button>
-        <LinkArrow href={phone.href} class="text-ink">
-          Call the academy
-        </LinkArrow>
+        {detailed ? (
+          <>
+            <Button href={phone.href} variant="secondary">
+              Call us
+            </Button>
+            <Button href={`mailto:${email}`} variant="secondary">
+              Email us
+            </Button>
+          </>
+        ) : (
+          <LinkArrow href={phone.href} class="text-ink">
+            Call the academy
+          </LinkArrow>
+        )}
       </div>
     </div>
     <div class="hidden aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-8 lg:col-end-13 lg:block">

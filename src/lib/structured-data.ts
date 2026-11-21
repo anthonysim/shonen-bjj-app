@@ -115,3 +115,15 @@ export function faqPageJsonLd(groups: readonly FaqGroup[]) {
     ),
   };
 }
+
+/** schema.org ContactPage whose main entity is the academy (by @id). */
+export function contactPageJsonLd(pageUrl: string, origin: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: `Contact | ${site.name}`,
+    mainEntity: { '@id': academyId(origin) },
+  };
+}
