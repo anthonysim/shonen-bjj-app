@@ -213,3 +213,26 @@ export function dayFromDate(date: Date): Day {
   const order: Day[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   return order[date.getDay()];
 }
+
+/**
+ * The next class after `now` (browser local time), up to a week ahead: the class plus a label like
+ * "today at 9:00 AM", "tomorrow at 6:00 PM" or "Monday at 6:00 PM". Null if there are no classes.
+ */
+export function nextClass(now: Date, classes: ScheduleClass[] = schedule) {
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  for (let offset = 0; offset <= 7; offset++) {
+    const date = new Date(now);
+    date.setDate(now.getDate() + offset);
+    const day = dayFromDate(date);
+    const upcoming = classes
+      .filter((cls) => cls.days.includes(day))
+      .filter((cls) => offset > 0 || toMinutes(cls.start) > nowMinutes)
+      .toSorted((a, b) => toMinutes(a.start) - toMinutes(b.start));
+    if (upcoming.length > 0) {
+      const cls = upcoming[0];
+      const label = offset === 0 ? 'today' : offset === 1 ? 'tomorrow' : DAY_NAMES[day];
+      return { cls, day, when: `${label} at ${formatTime(cls.start)}` };
+    }
+  }
+  return null;
+}

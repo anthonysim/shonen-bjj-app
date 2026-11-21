@@ -6,6 +6,7 @@ import Hero from '@/components/Hero.astro';
 import NumberedCards from '@/components/NumberedCards.astro';
 import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
 import VisitBlock from '@/components/VisitBlock.astro';
 import { classGuide } from '@/data/class-guide';
 import {
@@ -28,9 +29,11 @@ const facts = [
   'First class free',
 ].filter((fact) => fact !== '');
 
+// Tab labels as on the original
+const tabLabels = { kids: 'Kids', gi: 'Adults (Gi)', 'no-gi': 'No-Gi' } as const;
 const filters = [
-  { id: 'all', label: 'All classes' },
-  ...CATEGORIES.map((c) => ({ id: c, label: categoryLabels[c] })),
+  { id: 'all', label: 'All' },
+  ...CATEGORIES.map((c) => ({ id: c, label: tabLabels[c] })),
 ];
 const legend = [
   { category: 'kids', note: 'Ages 4 to 13, grouped by age' },
@@ -64,12 +67,24 @@ const legend = [
   </Hero>
 
   <Section tone="surface" id="timetable">
-    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-      <Heading text="The timetable" accent="timetable" />
-      <p class="text-muted">Closed Sundays. Times are local to the academy.</p>
-    </div>
+    <SectionHead eyebrow="Timetable" heading="Find your class." accent="class.">
+      <Fragment slot="aside">
+        <p class="max-w-[56ch] text-lede">
+          Kids train Tuesday and Thursday evenings and Saturday mornings. Adults can train six days
+          a week.
+        </p>
+        {/* Filled in by the script: static HTML can't know the time */}
+        <div data-next-class hidden class="w-full border-t border-line pt-4">
+          <p class="flex items-center gap-2 text-label font-medium tracking-[0.14em] text-muted uppercase">
+            <span aria-hidden="true" class="size-1.5 rounded-full bg-ink"></span>
+            Next class
+          </p>
+          <p data-next-class-text class="mt-1 font-medium text-ink"></p>
+        </div>
+      </Fragment>
+    </SectionHead>
 
-    <div class="timetable mt-8">
+    <div class="timetable">
       <fieldset>
         <legend class="sr-only">Filter classes</legend>
         <div class="flex flex-wrap gap-2">
@@ -181,9 +196,18 @@ const legend = [
 </style>
 
 <script>
-  import { dayFromDate } from '@/data/schedule';
+  import { dayFromDate, nextClass } from '@/data/schedule';
 
   // Static HTML can't know today's date, so mark it in the browser.
   const today = document.querySelector(`[data-day="${dayFromDate(new Date())}"]`);
   today?.querySelector('[data-today]')?.removeAttribute('hidden');
+
+  // "Kids · Ages 4-7, today at 5:00 PM" in the timetable header
+  const next = nextClass(new Date());
+  const nextBox = document.querySelector<HTMLElement>('[data-next-class]');
+  const nextText = document.querySelector<HTMLElement>('[data-next-class-text]');
+  if (next && nextBox && nextText) {
+    nextText.textContent = `${next.cls.name} \u00b7 ${next.cls.audience}, ${next.when}`;
+    nextBox.hidden = false;
+  }
 </script>
