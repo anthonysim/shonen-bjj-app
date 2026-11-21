@@ -7,7 +7,6 @@ const valid = {
   name: 'Jordan Lee',
   phone: '(555) 555-0100',
   email: 'Jordan@Example.com ',
-  waiver: 'on',
 };
 
 describe('bookingSchema', () => {
@@ -20,7 +19,6 @@ describe('bookingSchema', () => {
       name: 'Jordan Lee',
       phone: '5555550100',
       email: 'jordan@example.com',
-      waiver: true,
     });
   });
 
@@ -43,11 +41,6 @@ describe('bookingSchema', () => {
     expect(bookingSchema.safeParse({ ...valid, when: 'someday' }).success).toBe(false);
   });
 
-  it('requires the waiver checkbox', () => {
-    expect(bookingSchema.safeParse({ ...valid, waiver: undefined }).success).toBe(false);
-    expect(bookingSchema.safeParse({ ...valid, waiver: 'off' }).success).toBe(false);
-  });
-
   it('requires the honeypot to stay empty', () => {
     expect(bookingSchema.safeParse({ ...valid, website: '' }).success).toBe(true);
     expect(bookingSchema.safeParse({ ...valid, website: 'spam.example' }).success).toBe(false);
@@ -56,10 +49,11 @@ describe('bookingSchema', () => {
 
 describe('fieldErrors', () => {
   it('returns the first message per field', () => {
-    const result = bookingSchema.safeParse({ ...valid, name: '', phone: '1', waiver: undefined });
+    const result = bookingSchema.safeParse({ ...valid, name: '', phone: '1', program: undefined });
     expect(result.success).toBe(false);
     const errors = fieldErrors(result.error!);
-    expect(Object.keys(errors).sort()).toEqual(['name', 'phone', 'waiver']);
+    expect(Object.keys(errors).sort()).toEqual(['name', 'phone', 'program']);
     expect(errors.phone).toBe('Enter a 10-digit phone number.');
+    expect(errors.program).toBe('Please pick one to continue.');
   });
 });

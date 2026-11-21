@@ -31,7 +31,6 @@ export function buildLeadEmail(data: BookingData, source = 'website') {
     ['When', labelOf(WHEN_CHOICES, data.when)],
     ['Phone', formatPhone(data.phone)],
     ['Email', data.email],
-    ['Waiver', data.waiver ? 'Agreed' : 'Not agreed'],
     ['Source', source],
   ];
   const subject = `New free class request: ${data.name} (${program})`;

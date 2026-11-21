@@ -38,7 +38,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
   >
     <fieldset>
       <legend class="mb-2 text-label font-medium tracking-[0.14em] text-muted uppercase">
-        I'm interested in
+        Which program?
       </legend>
       <div class="flex flex-wrap gap-2">
         {PROGRAM_CHOICES.map((choice) => (
@@ -66,7 +66,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
     <fieldset>
       <legend class="mb-2 text-label font-medium tracking-[0.14em] text-muted uppercase">
-        When would you like to come?
+        When would you like to come in?
       </legend>
       <div class="flex flex-wrap gap-2">
         {WHEN_CHOICES.map((choice) => (
@@ -92,7 +92,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
         for={id('name')}
         class="mb-1 block text-label font-medium tracking-[0.14em] text-muted uppercase"
       >
-        Name
+        Your name
       </label>
       <input
         id={id('name')}
@@ -155,27 +155,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
       </label>
     </div>
 
-    <div>
-      <label class="flex min-h-11 cursor-pointer items-start gap-3 text-sm">
-        <input
-          id={id('waiver')}
-          type="checkbox"
-          name="waiver"
-          required
-          class="accent-black mt-0.5 size-5 shrink-0"
-          aria-describedby={id('waiver-error')}
-        />
-        <span>
-          I have read and agree to the{' '}
-          <a href="/waiver" class="underline">
-            waiver
-          </a>
-          .
-        </span>
-      </label>
-      <p id={id('waiver-error')} data-error-for="waiver" class="text-error mt-1 text-sm" hidden></p>
-    </div>
-
     {turnstileSiteKey ? (
       <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />
     ) : null}
@@ -193,13 +172,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
       hidden
     ></p>
 
+    <p class="text-muted text-sm">
+      Your details stay private and are only used to confirm your class.
+    </p>
     <p class="text-muted text-xs">
-      By submitting you agree to receive text messages about your class (about one a week at most;
-      message and data rates may apply). Reply STOP to opt out. See our{' '}
-      <a href="/privacy-policy" class="underline">
-        privacy policy
-      </a>
-      .
+      By opting into the web form above you are providing consent for Shonen Jiu Jitsu to send you
+      periodic text messages. Standard rates may apply. You may opt-out anytime by replying STOP.
     </p>
   </form>
 
@@ -215,12 +193,11 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
 <script>
   const MESSAGES: Record<string, string> = {
-    program: 'Choose a program.',
-    when: 'Choose when you would like to come.',
+    program: 'Please pick one to continue.',
+    when: 'Please pick one to continue.',
     name: 'Please enter your name.',
     phone: 'Enter a 10-digit phone number.',
     email: 'Enter a valid email address.',
-    waiver: 'Please agree to the waiver to continue.',
   };
 
   function validatePhone(field: HTMLInputElement) {

@@ -1,8 +1,8 @@
 import { z } from 'astro/zod';
 
 export const PROGRAM_CHOICES = [
-  { value: 'kids', label: 'Kids 4-13' },
-  { value: 'adults', label: 'Adults 14+' },
+  { value: 'kids', label: 'Kids (4\u201313)' },
+  { value: 'adults', label: 'Adults (14+)' },
   { value: 'birthday', label: 'Birthday party' },
 ] as const;
 
@@ -15,17 +15,14 @@ export const WHEN_CHOICES = [
 export type ProgramChoice = (typeof PROGRAM_CHOICES)[number]['value'];
 export type WhenChoice = (typeof WHEN_CHOICES)[number]['value'];
 
-/** A checked HTML checkbox posts "on"; an unchecked one posts nothing. */
-const checkbox = z.preprocess((value) => value === 'on' || value === true, z.boolean());
-
 export const bookingSchema = z.object({
   program: z.enum(
     PROGRAM_CHOICES.map((c) => c.value),
-    { error: 'Choose a program.' },
+    { error: 'Please pick one to continue.' },
   ),
   when: z.enum(
     WHEN_CHOICES.map((c) => c.value),
-    { error: 'Choose when you would like to come.' },
+    { error: 'Please pick one to continue.' },
   ),
   name: z
     .string({ error: 'Please enter your name.' })
@@ -46,7 +43,6 @@ export const bookingSchema = z.object({
     .trim()
     .toLowerCase()
     .pipe(z.email('Enter a valid email address.')),
-  waiver: checkbox.refine((checked) => checked === true, 'Please agree to the waiver to continue.'),
   /** Honeypot. Hidden from people; bots fill it. Must stay empty. */
   website: z.string().max(0).optional(),
 });

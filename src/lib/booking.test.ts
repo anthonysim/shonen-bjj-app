@@ -7,7 +7,6 @@ const valid = {
   name: 'Sam Rivera',
   phone: '5555550100',
   email: 'sam@example.com',
-  waiver: 'on',
 };
 
 describe('handleBooking', () => {
@@ -16,7 +15,7 @@ describe('handleBooking', () => {
     const result = await handleBooking(valid, onValid);
     expect(result).toEqual({ status: 200, body: { ok: true } });
     expect(onValid).toHaveBeenCalledOnce();
-    expect(onValid.mock.calls[0][0]).toMatchObject({ phone: '5555550100', waiver: true });
+    expect(onValid.mock.calls[0][0]).toMatchObject({ phone: '5555550100' });
   });
 
   it('returns 422 with per-field errors and does not deliver', async () => {
