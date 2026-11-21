@@ -1,8 +1,101 @@
 ---
-import PageStub from '@/components/PageStub.astro';
+import landscape from '@/assets/placeholders/landscape.jpg';
+import portrait from '@/assets/placeholders/portrait.jpg';
+import square from '@/assets/placeholders/square.jpg';
+import CtaBand from '@/components/CtaBand.astro';
+import FormBand from '@/components/FormBand.astro';
+import Heading from '@/components/Heading.astro';
+import Hero from '@/components/Hero.astro';
+import PathwayList from '@/components/PathwayList.astro';
+import Photo from '@/components/Photo.astro';
+import ProgramBanner from '@/components/ProgramBanner.astro';
+import ProgramCard from '@/components/ProgramCard.astro';
+import ReviewsBlock from '@/components/ReviewsBlock.astro';
+import Section from '@/components/Section.astro';
+import { pathway } from '@/data/academy';
+import { rating, reviewsFor } from '@/data/reviews';
+import { programCards, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+
+// Birthday parties get their own wide banner; the rest are numbered cards.
+const classCards = programCards.filter((card) => card.id !== 'birthday-parties');
+const birthday = programCards.find((card) => card.id === 'birthday-parties')!;
+const cardImages = [landscape, portrait, square, landscape];
 ---
 
-<BaseLayout title="Programs">
-  <PageStub title="Programs" />
+<BaseLayout
+  title="Programs"
+  description="Kids, adults, and no-gi jiu-jitsu classes, plus birthday parties. Find the right class and book your first one free."
+  breadcrumbs={[{ label: 'Programs' }]}
+>
+  <Hero
+    eyebrow="Programs"
+    title="Find the right class for you"
+    accent="right"
+    deck="Kids, adults, and no-gi, all taught by the same coaches in the same welcoming room."
+    primary={site.cta}
+    secondary={{ label: 'See class times', href: '/schedule' }}
+    facts={[
+      `${rating.score.toFixed(1)} stars, ${rating.count} reviews`,
+      'Ages 4 and up',
+      'First class free',
+    ]}
+  >
+    <Photo
+      slot="media"
+      src={landscape}
+      alt="Placeholder photo of students training"
+      priority
+      sizes="(min-width: 1024px) 50vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section tone="surface" id="classes">
+    <div class="max-w-2xl">
+      <Heading text="Classes for every age" accent="every" />
+      <p class="text-muted mt-3 text-lg">
+        Pick a program to see what a class looks like, who it is for, and when it runs.
+      </p>
+    </div>
+    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {classCards.map((card, index) => (
+        <li class="flex">
+          <ProgramCard
+            card={card}
+            index={index}
+            image={cardImages[index % cardImages.length]}
+            class="w-full"
+          />
+        </li>
+      ))}
+    </ul>
+    <div class="mt-6">
+      <ProgramBanner card={birthday} image={square} />
+    </div>
+  </Section>
+
+  <CtaBand
+    heading="Not sure where to start?"
+    accent="start"
+    body="Book a free class and our coaches will help you find the right fit."
+    primary={{ label: 'Book a free class', href: '#book' }}
+    tone="dark"
+  />
+
+  <Section id="pathway">
+    <div class="max-w-2xl">
+      <Heading text="A path for every stage" accent="path" />
+      <p class="text-muted mt-3 text-lg">
+        Many students start as kids and keep training for years. Here is how it fits together.
+      </p>
+    </div>
+    <div class="mt-8">
+      <PathwayList stages={pathway} />
+    </div>
+  </Section>
+
+  <ReviewsBlock reviews={reviewsFor('general', 1)} tone="surface" />
+
+  <FormBand />
 </BaseLayout>

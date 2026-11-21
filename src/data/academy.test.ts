@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { firstClassSteps, values } from './academy';
+import { firstClassSteps, pathway, values } from './academy';
+import { programs } from './site';
 
 describe('academy copy', () => {
   it('has three values and three first-class steps', () => {
@@ -14,6 +15,23 @@ describe('academy copy', () => {
         expect(item.title.trim()).not.toBe('');
         expect(item.body.trim()).not.toBe('');
       }
+    }
+  });
+
+  it('has a four-stage pathway whose links point at real program pages', () => {
+    expect(pathway).toHaveLength(4);
+    const routes = programs.map((p) => `/programs/${p.slug}`);
+    for (const stage of pathway) {
+      expect(routes, stage.title).toContain(stage.href.split('#')[0]);
+    }
+  });
+
+  it('only links pathway anchors to real kids age groups', () => {
+    const kids = programs.find((p) => p.slug === 'kids');
+    const anchors = (kids?.ageGroups ?? []).map((g) => g.id);
+    for (const stage of pathway) {
+      const [, anchor] = stage.href.split('#');
+      if (anchor) expect(anchors, stage.title).toContain(anchor);
     }
   });
 });

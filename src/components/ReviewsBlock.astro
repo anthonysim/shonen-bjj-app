@@ -12,7 +12,7 @@ interface Props {
 
 const { reviews, heading = 'What students say', accent = 'say', tone = 'surface' } = Astro.props;
 
-const cols = ['', '', 'md:grid-cols-2', 'md:grid-cols-2 lg:grid-cols-3'] as const;
+const cols = ['', 'max-w-3xl', 'md:grid-cols-2', 'md:grid-cols-2 lg:grid-cols-3'] as const;
 const gridCols = cols[Math.min(reviews.length, 3)];
 // One string so formatters can't split the expressions and drop the space between them
 const reviewCount = `${rating.count} ${rating.source}`;
