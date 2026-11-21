@@ -276,14 +276,20 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
 </style>
 
 <script>
-  import { dayFromDate, nextClass, slotText } from '@/data/schedule';
+  import { dayFromDate, nextClass, slotText, zoneLabel } from '@/data/schedule';
 
-  // Static HTML can't know today's date, so mark it in the browser.
-  const today = document.querySelector(`[data-day="${dayFromDate(new Date())}"]`);
+  const now = new Date();
+  // Class times are Glen Burnie's. Today and the next class follow the academy's clock, not the
+  // viewer's, so a visitor in another time zone sees what is true at the academy right now.
+  // Static HTML can't know the date, so mark today in the browser.
+  const today = document.querySelector(`[data-day="${dayFromDate(now)}"]`);
   today?.querySelector('[data-today]')?.removeAttribute('hidden');
 
   // Next-class card: "Kids" / "Today · 9:00 AM" / "Ages 8-13 · 60 min"
-  const next = nextClass(new Date());
+  const next = nextClass(now);
+  // Name the zone only for visitors whose own zone differs ("9:00 AM EST")
+  const viewerZone = zoneLabel(now, Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const zoneNote = viewerZone === zoneLabel(now) ? '' : ` ${zoneLabel(now)}`;
   const set = (attr: string, text: string) => {
     const el = document.querySelector<HTMLElement>(`[${attr}]`);
     if (el) el.textContent = text;
@@ -292,7 +298,10 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
     const [day, time] = next.when.split(' at ');
     set('data-next-label', 'Next class');
     set('data-next-name', next.cls.name);
-    set('data-next-when', `${day.charAt(0).toUpperCase()}${day.slice(1)} \u00b7 ${time}`);
+    set(
+      'data-next-when',
+      `${day.charAt(0).toUpperCase()}${day.slice(1)} \u00b7 ${time}${zoneNote}`,
+    );
     set('data-next-meta', slotText(next.cls).meta);
   }
 </script>

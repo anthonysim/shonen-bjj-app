@@ -63,6 +63,8 @@ export const site = {
   },
   /** The academy's Google Maps listing (place ID), used for map, directions and review links */
   googlePlaceId: 'ChIJlRMV2Iv9t4kRTmSeyCYYSp8',
+  /** IANA time zone of the academy. Class times are in this zone, whatever the viewer's is */
+  timeZone: 'America/New_York',
   /** The county the academy serves, shown with the city in the hero */
   county: 'Anne Arundel County',
   hours: [

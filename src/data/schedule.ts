@@ -1,3 +1,5 @@
+import { site } from './site';
+
 // Weekly class schedule, from shonenjiujitsu.com/schedule (client's permission).
 
 export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const;
@@ -261,22 +263,54 @@ export const DAY_NAMES: Record<Day, string> = {
   Sun: 'Sunday',
 };
 
-/** The `Day` for a date, in the date's own (local) time zone. JS counts Sunday as 0. */
-export function dayFromDate(date: Date): Day {
-  const order: Day[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  return order[date.getDay()];
+/**
+ * The day and minutes since midnight at `date`'s instant on the academy's wall clock, not the
+ * viewer's. A visitor in California at 3:30 PM sees the Glen Burnie time, 6:30 PM.
+ */
+export function academyNow(
+  date: Date,
+  timeZone: string = site.timeZone,
+): { day: Day; minutes: number } {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    weekday: 'short',
+    hour: 'numeric',
+    minute: 'numeric',
+    // h23 so midnight is 0, not 24
+    hourCycle: 'h23',
+  }).formatToParts(date);
+  const get = (type: string) => parts.find((part) => part.type === type)?.value ?? '';
+  return { day: get('weekday') as Day, minutes: Number(get('hour')) * 60 + Number(get('minute')) };
+}
+
+/** The academy's `Day` at this instant. */
+export function dayFromDate(date: Date, timeZone: string = site.timeZone): Day {
+  return academyNow(date, timeZone).day;
+}
+
+/** Short zone name at an instant, e.g. "EST" or "EDT". */
+export function zoneLabel(date: Date, timeZone: string = site.timeZone): string {
+  const parts = new Intl.DateTimeFormat('en-US', { timeZone, timeZoneName: 'short' }).formatToParts(
+    date,
+  );
+  return parts.find((part) => part.type === 'timeZoneName')?.value ?? '';
 }
 
 /**
- * The next class after `now` (browser local time), up to a week ahead: the class plus a label like
- * "today at 9:00 AM", "tomorrow at 6:00 PM" or "Monday at 6:00 PM". Null if there are no classes.
+ * The next class after `now` by the academy's clock, up to a week ahead: the class plus a label
+ * like "today at 9:00 AM", "tomorrow at 6:00 PM" or "Monday at 6:00 PM". Null if there are no
+ * classes. "Today" is the academy's day, which can differ from the viewer's.
  */
-export function nextClass(now: Date, classes: ScheduleClass[] = schedule) {
-  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+export function nextClass(
+  now: Date,
+  classes: ScheduleClass[] = schedule,
+  timeZone: string = site.timeZone,
+) {
+  const { day: today, minutes: nowMinutes } = academyNow(now, timeZone);
+  const start = DAYS.indexOf(today);
   for (let offset = 0; offset <= 7; offset++) {
-    const date = new Date(now);
-    date.setDate(now.getDate() + offset);
-    const day = dayFromDate(date);
+    // Walk the week by name, so no date maths (and no daylight-saving edge cases)
+    const day = DAYS[(start + offset) % 7];
     const upcoming = classes
       .filter((cls) => cls.days.includes(day))
       .filter((cls) => offset > 0 || toMinutes(cls.start) > nowMinutes)
