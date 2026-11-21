@@ -92,6 +92,12 @@ export const site = {
   cta: { label: 'Book a free class', href: '/free-trial' },
 } as const;
 
+/**
+ * "Book a free class" inside a page: jumps to that page's booking form (the FormBand, #book),
+ * like the original. The header, footer and homepage hero use `site.cta` (the /free-trial page).
+ */
+export const bookOnPage = { label: site.cta.label, href: '#book' } as const;
+
 export const programs: Program[] = [
   {
     slug: 'kids',

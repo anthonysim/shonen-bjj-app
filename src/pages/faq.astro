@@ -11,7 +11,7 @@ import Hero from '@/components/Hero.astro';
 import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
 import { faqPageGroups } from '@/data/faqs';
-import { site } from '@/data/site';
+import { site, bookOnPage } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { faqPageJsonLd } from '@/lib/structured-data';
 ---
@@ -27,7 +27,7 @@ import { faqPageJsonLd } from '@/lib/structured-data';
     title="Questions, answered"
     accent="answered"
     deck={`Everything new students and parents ask us. Don't see yours? Call ${site.phone.display}.`}
-    primary={site.cta}
+    primary={bookOnPage}
     secondary={{ label: 'See class times', href: '/schedule' }}
   >
     <Photo

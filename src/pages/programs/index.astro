@@ -14,7 +14,7 @@ import ReviewsBlock from '@/components/ReviewsBlock.astro';
 import Section from '@/components/Section.astro';
 import { pathway } from '@/data/academy';
 import { rating, reviewsById } from '@/data/reviews';
-import { programCards, site } from '@/data/site';
+import { bookOnPage, programCards } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 // Birthday parties get their own wide banner; the rest are numbered cards.
@@ -33,7 +33,7 @@ const cardImages = [landscape, portrait, square, landscape];
     title="Find the right class for you"
     accent="class for you"
     deck="Kids, adults, and no-gi, all taught by the same coaches in the same welcoming room."
-    primary={site.cta}
+    primary={bookOnPage}
     secondary={{ label: 'See class times', href: '/schedule' }}
     facts={[
       `${rating.score.toFixed(1)} stars, ${rating.count} reviews`,
