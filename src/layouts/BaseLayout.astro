@@ -44,7 +44,7 @@ if (crumbs) Astro.locals.breadcrumbs = crumbs;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -78,6 +78,10 @@ if (crumbs) Astro.locals.breadcrumbs = crumbs;
       <script type="application/ld+json" set:html={serializeJsonLd(data)} />
     ))}
     <title>{fullTitle}</title>
+    {/* Before first paint: mark JS as running so scroll reveals can start hidden */}
+    <script is:inline>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
   </head>
   <body>
     <a
@@ -91,5 +95,9 @@ if (crumbs) Astro.locals.breadcrumbs = crumbs;
       <slot />
     </main>
     <Footer />
+    <script>
+      import { initReveals } from '@/lib/reveal';
+      initReveals();
+    </script>
   </body>
 </html>

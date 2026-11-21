@@ -26,7 +26,10 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
 {compact ? (
   <ol class:list={[className]}>
     {items.map((item, index) => (
-      <li class="grid grid-cols-[minmax(56px,80px)_minmax(0,1fr)] items-baseline gap-x-5 gap-y-2 border-t border-line py-4 last:border-b sm:grid-cols-[minmax(80px,120px)_minmax(0,1fr)]">
+      <li
+        data-reveal
+        class="grid grid-cols-[minmax(56px,80px)_minmax(0,1fr)] items-baseline gap-x-5 gap-y-2 border-t border-line py-4 last:border-b sm:grid-cols-[minmax(80px,120px)_minmax(0,1fr)]"
+      >
         <span class={label}>{num(index)}</span>
         <h3 class="leading-[1.45] font-medium text-ink">{item.title}</h3>
         <p class="col-start-2 text-sm">{item.body}</p>
@@ -37,6 +40,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
   <ol class:list={[className]}>
     {items.map((item, index) => (
       <li
+        data-reveal
         class:list={[
           'grid gap-3 border-t border-line py-8 last:border-b lg:items-baseline lg:gap-x-[clamp(16px,2vw,32px)]',
           narrow
