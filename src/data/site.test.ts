@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { footerLinks, nav, programCards, programs, site } from './site';
+import { footerLinks, legalLinks, nav, programCards, programs, site } from './site';
 
 const allNavHrefs = nav.flatMap((item) => [item.href, ...(item.children ?? []).map((c) => c.href)]);
 
@@ -9,7 +9,12 @@ describe('site data', () => {
   });
 
   it('uses root-relative internal hrefs', () => {
-    const hrefs = [...allNavHrefs, ...footerLinks.map((l) => l.href), site.cta.href];
+    const hrefs = [
+      ...allNavHrefs,
+      ...footerLinks.map((l) => l.href),
+      ...legalLinks.map((l) => l.href),
+      site.cta.href,
+    ];
     for (const href of hrefs) {
       expect(href.startsWith('/')).toBe(true);
     }

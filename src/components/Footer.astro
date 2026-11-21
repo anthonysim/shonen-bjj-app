@@ -1,80 +1,131 @@
 ---
-import { footerLinks, site } from '@/data/site';
+// Site footer, like the original: a wide brand column (wordmark, tagline, booking button), then
+// Visit, Hours and Academy columns; a collapsible "Proudly serving" row listing the towns; and a
+// bottom bar with the copyright, legal links and social links.
+import Button from '@/components/Button.astro';
+import LinkArrow from '@/components/LinkArrow.astro';
+import { footerLinks, legalLinks, site } from '@/data/site';
+import { mapsUrl } from '@/lib/maps';
 
 const { address } = site;
 const cityLine = `${address.city}, ${address.region} ${address.postalCode}`;
 const year = new Date().getFullYear();
+const [homeCity, ...otherTowns] = site.serviceArea;
+const towns = [homeCity, site.county, ...otherTowns].join(' · ');
+const label = 'mb-4 text-label font-medium tracking-[0.14em] text-white/55 uppercase';
+const link = 'transition-colors hover:text-white';
+// 44px tap targets on phones and tablets; compact rows from lg, like the original
+const tap = 'inline-flex min-h-11 items-center lg:min-h-0';
 ---
 
-<footer class="bg-ink text-white [--heading:#fff]">
-  <div class="page-container grid gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
-    <div>
-      <p class="font-display text-2xl font-light italic">{site.name}</p>
-      <p class="mt-2 text-sm text-white/80">{site.tagline}</p>
+<footer class="bg-ink pt-[clamp(64px,3rem+5vw,128px)] pb-8 text-sm text-white/72 [--heading:#fff]">
+  <div class="page-container grid gap-x-[clamp(16px,2vw,32px)] gap-y-12 pb-[clamp(48px,5vw,80px)] sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))]">
+    <div class="space-y-6 sm:col-span-2 lg:col-span-1 lg:pr-12">
+      <a
+        href="/"
+        class="inline-block font-display text-[clamp(1.75rem,1.4rem+1.2vw,2.25rem)] font-light italic text-white"
+      >
+        {site.name}
+      </a>
+      <p class="max-w-[30ch] font-display text-[clamp(1.125rem,1.07rem+0.25vw,1.25rem)] leading-[1.4] font-light text-white">
+        {site.tagline}.
+      </p>
+      <Button href={site.cta.href} variant="inverse" arrow class="mt-2">
+        {site.cta.label}
+      </Button>
     </div>
 
     <div>
-      <h2 class="font-sans text-label font-medium tracking-[0.14em] uppercase">Visit</h2>
-      <address class="mt-3 text-sm text-white/80 not-italic">
-        {address.street}
+      <p class={label}>Visit</p>
+      <address class="leading-[1.9] not-italic">
+        <a href={mapsUrl(address)} rel="noopener" class={link}>
+          {address.street}
+          <br />
+          {cityLine}
+        </a>
         <br />
-        {cityLine}
-      </address>
-      <p class="mt-3 flex flex-col text-sm">
-        <a href={site.phone.href} class="inline-flex min-h-11 items-center underline">
+        <a href={site.phone.href} class={link}>
           {site.phone.display}
         </a>
-        <a href={`mailto:${site.email}`} class="inline-flex min-h-11 items-center underline">
+        <br />
+        <a href={`mailto:${site.email}`} class={link}>
           {site.email}
         </a>
-      </p>
+      </address>
     </div>
 
     <div>
-      <h2 class="font-sans text-label font-medium tracking-[0.14em] uppercase">Hours</h2>
-      <dl class="mt-3 space-y-1 text-sm text-white/80">
+      <p class={label}>Hours</p>
+      <dl class="mb-5 max-w-xs space-y-1">
         {site.hours.map((h) => (
           <div class="flex justify-between gap-4">
-            <dt>{h.days}</dt>
-            <dd>{h.time}</dd>
+            <dt class="text-white/55">{h.days}</dt>
+            <dd class="text-white">{h.time}</dd>
           </div>
         ))}
       </dl>
+      <LinkArrow href="/schedule" class="text-white">
+        Class schedule
+      </LinkArrow>
     </div>
 
-    <div>
-      <h2 class="font-sans text-label font-medium tracking-[0.14em] uppercase">Serving</h2>
-      <p class="mt-3 text-sm text-white/80">{site.serviceArea.join(', ')}</p>
-      <ul class="mt-3 flex gap-2">
-        {site.social.map((s) => (
-          <li>
-            <a
-              href={s.href}
-              class="inline-flex min-h-11 items-center px-1 text-sm underline"
-              rel="noopener"
-            >
-              {s.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </div>
-
-  <div class="border-t border-white/15">
-    <div class="page-container flex flex-col gap-1 py-4 text-sm text-white/70 md:flex-row md:items-center md:justify-between">
-      <p>
-        &copy; {year} {site.name}
-      </p>
-      <ul class="flex flex-wrap gap-x-4">
+    <nav aria-label="Footer">
+      <p class={label}>Academy</p>
+      <ul class="grid lg:gap-1.5">
         {footerLinks.map((l) => (
           <li>
-            <a href={l.href} class="inline-flex min-h-11 items-center underline">
+            <a href={l.href} class:list={[link, tap]}>
               {l.label}
             </a>
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
+  </div>
+
+  <div class="page-container border-y border-white/16">
+    <details class="group">
+      <summary class="flex min-h-15 cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden">
+        <span class="text-label font-medium tracking-[0.14em] uppercase">
+          Proudly serving {site.address.city} &amp; {site.county}
+        </span>
+        <span
+          aria-hidden="true"
+          class="relative size-3.5 flex-none before:absolute before:top-1/2 before:left-0 before:h-px before:w-full before:bg-current after:absolute after:top-1/2 after:left-0 after:h-px after:w-full after:rotate-90 after:bg-current after:transition-transform group-open:after:rotate-0"
+        />
+      </summary>
+      <p class="max-w-[100ch] pb-5 leading-[1.9]">{towns}</p>
+    </details>
+  </div>
+
+  <div class="page-container flex flex-wrap items-center gap-x-6 gap-y-3 pt-8 text-[0.8125rem] text-white/55">
+    <p>
+      &copy; {year} {site.legalName}
+    </p>
+    <ul class="flex flex-wrap gap-x-5 gap-y-2">
+      {legalLinks.map((l) => (
+        <li>
+          <a
+            href={l.href}
+            class:list={[tap, 'underline-offset-4 hover:text-white hover:underline']}
+          >
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <ul class="flex flex-wrap gap-x-5 gap-y-2">
+      {site.social.map((s) => (
+        <li>
+          <a
+            href={s.href}
+            rel="noopener"
+            class:list={[tap, 'underline-offset-4 hover:text-white hover:underline']}
+          >
+            {s.label}
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </footer>
