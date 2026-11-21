@@ -1,4 +1,6 @@
 ---
+import { answerParts } from '@/data/faqs';
+
 // Questions as native <details>, like the original's .faq: hairline rows, a sans question, and a
 // thin plus that turns into an x when open. Items sharing `name` open one at a time. No JS.
 interface Item {
@@ -30,7 +32,19 @@ const { items, name = 'faq' } = Astro.props;
         />
       </summary>
       <div class="max-w-[64ch] space-y-4 pb-8">
-        <p>{item.answer}</p>
+        {answerParts(item.answer).map((paragraph) => (
+          <p>
+            {paragraph.map((part) =>
+              part.href ? (
+                <a href={part.href} class="text-ink underline underline-offset-4">
+                  {part.text}
+                </a>
+              ) : (
+                part.text
+              ),
+            )}
+          </p>
+        ))}
         {item.list?.length ? (
           <ul class="space-y-2">
             {item.list.map((entry) => (
