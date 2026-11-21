@@ -1,8 +1,189 @@
 ---
-import PageStub from '@/components/PageStub.astro';
+import landscape from '@/assets/placeholders/landscape.jpg';
+import FormBand from '@/components/FormBand.astro';
+import Heading from '@/components/Heading.astro';
+import Hero from '@/components/Hero.astro';
+import NumberedCards from '@/components/NumberedCards.astro';
+import Photo from '@/components/Photo.astro';
+import Section from '@/components/Section.astro';
+import VisitBlock from '@/components/VisitBlock.astro';
+import { classGuide } from '@/data/class-guide';
+import {
+  CATEGORIES,
+  DAY_NAMES,
+  categoryLabels,
+  classesByDay,
+  formatDays,
+  schedule,
+  timeRange,
+} from '@/data/schedule';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const days = classesByDay();
+const openDays = days.filter((d) => d.classes.length > 0).map((d) => d.day);
+const kidsDays = [...new Set(schedule.filter((c) => c.category === 'kids').flatMap((c) => c.days))];
+const facts = [
+  openDays.length > 1 ? `${openDays[0]}-${openDays[openDays.length - 1]}` : (openDays[0] ?? ''),
+  `Kids ${formatDays(kidsDays)}`,
+  'First class free',
+].filter((fact) => fact !== '');
+
+const filters = [
+  { id: 'all', label: 'All classes' },
+  ...CATEGORIES.map((c) => ({ id: c, label: categoryLabels[c] })),
+];
+const legend = [
+  { category: 'kids', note: 'Ages 4 to 13, grouped by age' },
+  { category: 'gi', note: 'Ages 14 and up, jacket and belt' },
+  { category: 'no-gi', note: 'Ages 14 and up, rash guard and shorts' },
+] as const;
 ---
 
-<BaseLayout title="Schedule">
-  <PageStub title="Schedule" />
+<BaseLayout
+  title="Class schedule"
+  description="Weekly class times for kids, adults, and no-gi jiu-jitsu. Find a class that fits your week and book your first one free."
+  breadcrumbs={[{ label: 'Schedule' }]}
+>
+  <Hero
+    eyebrow="Schedule"
+    title="Find a class that fits your week"
+    accent="fits your week"
+    deck="Classes for kids, adults, and no-gi, Monday through Saturday. Arrive 15 minutes early for your first class."
+    primary={{ label: 'See the timetable', href: '#timetable' }}
+    secondary={{ label: 'Book a free class', href: '#book' }}
+    facts={facts}
+  >
+    <Photo
+      slot="media"
+      src={landscape}
+      alt="Placeholder photo of the academy mats"
+      priority
+      sizes="(min-width: 1024px) 50vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section tone="surface" id="timetable">
+    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      <Heading text="The timetable" accent="timetable" />
+      <p class="text-muted">Closed Sundays. Times are local to the academy.</p>
+    </div>
+
+    <div class="timetable mt-8">
+      <fieldset>
+        <legend class="sr-only">Filter classes</legend>
+        <div class="flex flex-wrap gap-2">
+          {filters.map((filter) => (
+            <div class="relative">
+              <input
+                class="peer sr-only"
+                type="radio"
+                name="filter"
+                id={`filter-${filter.id}`}
+                value={filter.id}
+                checked={filter.id === 'all'}
+              />
+              <label
+                for={`filter-${filter.id}`}
+                class="flex min-h-11 cursor-pointer items-center rounded-card border border-line-strong bg-surface px-4 text-nav font-medium tracking-[0.1em] text-ink uppercase transition-colors peer-checked:border-ink peer-checked:bg-ink peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink"
+              >
+                {filter.label}
+              </label>
+            </div>
+          ))}
+        </div>
+      </fieldset>
+
+      <div class="mt-8 divide-y divide-line border-y border-line">
+        {days.map(({ day, classes }) => (
+          <section class="day grid gap-3 py-6 md:grid-cols-[13rem_1fr] md:gap-8" data-day={day}>
+            <h3 class="flex items-center gap-3 text-h3">
+              {DAY_NAMES[day]}
+              <span
+                hidden
+                data-today
+                class="rounded-card bg-ink px-2 py-1 font-sans text-label font-medium tracking-[0.14em] text-white uppercase"
+              >
+                Today
+              </span>
+            </h3>
+            {classes.length > 0 ? (
+              <ul class="divide-y divide-line">
+                {classes.map((cls) => (
+                  <li
+                    class="grid gap-1 py-3 first:pt-0 last:pb-0 sm:grid-cols-[12rem_1fr] sm:items-baseline"
+                    data-class
+                    data-category={cls.category}
+                  >
+                    <p class="font-medium text-ink">{timeRange(cls)}</p>
+                    <div>
+                      <p>
+                        <a
+                          href={`/programs/${cls.program}`}
+                          class="font-medium text-ink underline-offset-4 hover:underline"
+                        >
+                          {cls.name}
+                        </a>
+                        <span class="ml-2 text-label font-medium tracking-[0.14em] text-muted uppercase">
+                          {categoryLabels[cls.category]}
+                        </span>
+                      </p>
+                      <p class="text-sm text-muted">
+                        {cls.audience} · {cls.durationMin} min
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="text-muted">Closed</p>
+            )}
+          </section>
+        ))}
+      </div>
+    </div>
+
+    <ul class="mt-8 grid gap-3 text-sm md:grid-cols-3">
+      {legend.map((item) => (
+        <li>
+          <span class="font-medium text-ink">{categoryLabels[item.category]}</span>
+          <span class="text-muted"> · {item.note}</span>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="class-guide">
+    <div class="max-w-2xl">
+      <Heading text="Not sure which class?" accent="which class?" />
+      <p class="mt-3 text-lede text-muted">A quick guide to where most people start.</p>
+    </div>
+    <div class="mt-10">
+      <NumberedCards items={classGuide} columns={4} />
+    </div>
+  </Section>
+
+  <VisitBlock tone="surface" />
+
+  <FormBand />
 </BaseLayout>
+
+<style>
+  /* Filter tabs: pure CSS. Hide classes outside the chosen category, and days left with none. */
+  .timetable:has(#filter-kids:checked) [data-class]:not([data-category='kids']),
+  .timetable:has(#filter-gi:checked) [data-class]:not([data-category='gi']),
+  .timetable:has(#filter-no-gi:checked) [data-class]:not([data-category='no-gi']),
+  .timetable:has(#filter-kids:checked) .day:not(:has([data-category='kids'])),
+  .timetable:has(#filter-gi:checked) .day:not(:has([data-category='gi'])),
+  .timetable:has(#filter-no-gi:checked) .day:not(:has([data-category='no-gi'])) {
+    display: none;
+  }
+</style>
+
+<script>
+  import { dayFromDate } from '@/data/schedule';
+
+  // Static HTML can't know today's date, so mark it in the browser.
+  const today = document.querySelector(`[data-day="${dayFromDate(new Date())}"]`);
+  today?.querySelector('[data-today]')?.removeAttribute('hidden');
+</script>

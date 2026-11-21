@@ -5,6 +5,8 @@ import {
   DAYS,
   classesByCategory,
   classesForAgeGroup,
+  DAY_NAMES,
+  dayFromDate,
   classesByDay,
   formatDays,
   endTime,
@@ -130,5 +132,18 @@ describe('kids age groups', () => {
   it('formats when a group meets', () => {
     expect(whenLabel(classesForAgeGroup('kids-4-7'))).toBe('Tue, Thu at 5:00 PM');
     expect(whenLabel([])).toBe('');
+  });
+});
+
+describe('dayFromDate', () => {
+  it('maps JS weekdays (Sunday = 0) to our Day names', () => {
+    expect(dayFromDate(new Date(2026, 10, 22))).toBe('Sun');
+    expect(dayFromDate(new Date(2026, 10, 23))).toBe('Mon');
+    expect(dayFromDate(new Date(2026, 10, 20))).toBe('Fri');
+    expect(dayFromDate(new Date(2026, 10, 21))).toBe('Sat');
+  });
+
+  it('has a full name for every day', () => {
+    for (const day of DAYS) expect(DAY_NAMES[day].startsWith(day)).toBe(true);
   });
 });
