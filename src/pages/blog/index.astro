@@ -77,7 +77,7 @@ const summaries = posts.map((post) => ({
                   {post.data.title}
                 </a>
               </h2>
-              <p class="max-w-[60ch]">{post.data.description}</p>
+              <p class="max-w-[60ch]">{post.data.excerpt ?? post.data.description}</p>
               <LinkArrow href={`/blog/${post.id}`} class="text-ink">
                 Read the post
               </LinkArrow>

@@ -1,6 +1,8 @@
 ---
 title: "Starting jiu jitsu after 35: it's not too late."
 description: 'Thinking about starting Brazilian Jiu Jitsu in your 30s, 40s or 50s? What to expect in your first months at Shonen in Glen Burnie, and how to train smart.'
+excerpt: 'What to expect in your first months, how a class is structured and the habits that keep adults training for years.'
+crumb: 'Starting after 35'
 pubDate: 2026-10-26
 category: 'Adult jiu jitsu'
 lede: "Plenty of the adults who walk into Shonen for the first time have never grappled, and plenty of them are well past their twenties. Here's what starting later really looks like, and how to make your first few months count."

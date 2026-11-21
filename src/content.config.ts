@@ -8,6 +8,10 @@ const blog = defineCollection({
     z.object({
       title: z.string(),
       description: z.string().max(200),
+      /** Short summary on the blog index card (falls back to `description`) */
+      excerpt: z.string().optional(),
+      /** Short label for the last breadcrumb (falls back to `title`) */
+      crumb: z.string().optional(),
       pubDate: z.coerce.date(),
       /** Shown above the title and on the card, e.g. "Kids jiu jitsu" */
       category: z.string(),

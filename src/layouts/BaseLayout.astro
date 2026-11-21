@@ -7,6 +7,7 @@ import frauncesItalic from '@fontsource-variable/fraunces/files/fraunces-latin-o
 import frauncesNormal from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
 import Footer from '@/components/Footer.astro';
 import Header from '@/components/Header.astro';
+import { metaFor } from '@/data/seo';
 import { site } from '@/data/site';
 import {
   breadcrumbListJsonLd,
@@ -30,13 +31,16 @@ interface Props {
 
 const {
   title,
-  description = site.tagline,
+  description: pageDescription = site.tagline,
   noindex = false,
   breadcrumbs,
   overlayHeader = false,
   structuredData = [],
 } = Astro.props;
-const fullTitle = title ? `${title} | ${site.name}` : site.name;
+// The original site's own title and description win where it has the page
+const original = metaFor(Astro.url.pathname);
+const description = original?.description ?? pageDescription;
+const fullTitle = original?.title ?? (title ? `${title} | ${site.name}` : site.name);
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const crumbs: BreadcrumbItem[] | null = breadcrumbs ? withHome(breadcrumbs) : null;
 // The page's Hero shows the trail (it renders after this frontmatter runs)
