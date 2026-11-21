@@ -1,0 +1,55 @@
+---
+import type { ImageMetadata } from 'astro';
+import Button from '@/components/Button.astro';
+import Photo from '@/components/Photo.astro';
+import type { AgeGroup } from '@/data/site';
+
+interface Props {
+  group: AgeGroup;
+  image: ImageMetadata;
+  /** "Tue, Thu at 5:00 PM" */
+  when: string;
+  /** Put the photo on the right from md up, for an alternating layout. */
+  reverse?: boolean;
+  ctaHref?: string;
+}
+
+const { group, image, when, reverse = false, ctaHref = '#book' } = Astro.props;
+
+const specs = [
+  { label: 'Class length', value: group.classLength },
+  { label: 'Format', value: group.format },
+  { label: 'When', value: when },
+].filter((spec) => spec.value !== '');
+---
+
+<article
+  id={group.id}
+  class="border-line bg-paper text-ink rounded-card grid scroll-mt-24 overflow-hidden border md:grid-cols-2"
+>
+  <div class:list={['overflow-hidden', reverse && 'md:order-last']}>
+    <Photo
+      src={image}
+      alt=""
+      sizes="(min-width: 768px) 50vw, 100vw"
+      widths={[480, 720, 960, 1280]}
+      class="aspect-[4/3] object-cover md:aspect-auto md:h-full"
+    />
+  </div>
+  <div class="p-6 md:p-10">
+    <p class="text-brand-600 text-xs font-semibold tracking-[0.14em] uppercase">{group.ages}</p>
+    <h3 class="font-display mt-2 text-3xl font-extrabold md:text-4xl">{group.name}</h3>
+    <p class="text-muted mt-3 text-lg">{group.blurb}</p>
+    <dl class="mt-5">
+      {specs.map((spec) => (
+        <div class="border-line flex flex-col gap-1 border-b py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+          <dt class="text-muted text-sm font-semibold">{spec.label}</dt>
+          <dd class="font-semibold sm:text-right">{spec.value}</dd>
+        </div>
+      ))}
+    </dl>
+    <div class="mt-6">
+      <Button href={ctaHref}>Book a free {group.name} class</Button>
+    </div>
+  </div>
+</article>

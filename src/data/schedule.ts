@@ -23,6 +23,8 @@ export interface ScheduleClass {
   start: string;
   durationMin: number;
   audience: string;
+  /** For kids classes: the age group id this class belongs to (see `programs` in site.ts) */
+  ageGroup?: string;
 }
 
 export const schedule: ScheduleClass[] = [
@@ -31,20 +33,22 @@ export const schedule: ScheduleClass[] = [
     name: 'Kids',
     category: 'kids',
     program: 'kids',
+    ageGroup: 'kids-4-7',
     days: ['Tue', 'Thu'],
     start: '17:00',
     durationMin: 45,
-    audience: 'Ages 4-13',
+    audience: 'Ages 4-7',
   },
   {
     id: 'kids-saturday',
     name: 'Kids',
     category: 'kids',
     program: 'kids',
+    ageGroup: 'kids-8-13',
     days: ['Sat'],
     start: '09:00',
     durationMin: 60,
-    audience: 'Ages 4-13',
+    audience: 'Ages 8-13',
   },
   {
     id: 'adults-basics',
@@ -166,4 +170,14 @@ export function classesByCategory(
       .filter((cls) => cls.category === category)
       .toSorted((a, b) => firstDay(a) - firstDay(b) || toMinutes(a.start) - toMinutes(b.start)),
   }));
+}
+
+/** Classes for a kids age group, e.g. "kids-4-7". */
+export function classesForAgeGroup(ageGroupId: string, classes: ScheduleClass[] = schedule) {
+  return classes.filter((cls) => cls.ageGroup === ageGroupId);
+}
+
+/** "Tue, Thu at 5:00 PM", joined with " and " when a group meets at more than one time. */
+export function whenLabel(classes: readonly ScheduleClass[]): string {
+  return classes.map((cls) => `${formatDays(cls.days)} at ${formatTime(cls.start)}`).join(' and ');
 }
