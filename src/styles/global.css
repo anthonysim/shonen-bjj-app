@@ -113,6 +113,14 @@
     }
   }
 
+  /* Page sections carry ~150px of top padding. Jumping to one (#record, #book, #times) would leave
+     that as a blank gap under the header, so pull the scroll position down by the padding and
+     leave 1.5rem: the section's content lands just below the header. A section with its own top
+     padding sets --section-pt to that value (the default is Section's padding). */
+  main > section[id] {
+    scroll-margin-top: calc(1.5rem - var(--section-pt, clamp(4.5rem, 4rem + 6vw, 9.5rem)));
+  }
+
   html {
     /* Always reserve the scrollbar's space. Otherwise a page that starts shorter than the window
        and then grows (images, streamed HTML) gains a scrollbar and everything shifts sideways. */
