@@ -1,0 +1,204 @@
+---
+import landscape from '@/assets/placeholders/landscape.jpg';
+import portrait from '@/assets/placeholders/portrait.jpg';
+import square from '@/assets/placeholders/square.jpg';
+import AgeGroupCard from '@/components/AgeGroupCard.astro';
+import Button from '@/components/Button.astro';
+import CoachSpotlight from '@/components/CoachSpotlight.astro';
+import FaqList from '@/components/FaqList.astro';
+import FormBand from '@/components/FormBand.astro';
+import Heading from '@/components/Heading.astro';
+import Hero from '@/components/Hero.astro';
+import NumberedCards from '@/components/NumberedCards.astro';
+import NumberedSteps from '@/components/NumberedSteps.astro';
+import Photo from '@/components/Photo.astro';
+import ReviewsBlock from '@/components/ReviewsBlock.astro';
+import Section from '@/components/Section.astro';
+import VideoBlock from '@/components/VideoBlock.astro';
+import { faqsFor } from '@/data/faqs';
+import { classSteps, parentNote, safetyPoints, whyJiuJitsu } from '@/data/kids';
+import { reviewsFor } from '@/data/reviews';
+import { classesForAgeGroup, whenLabel } from '@/data/schedule';
+import { programs, site } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const kids = programs.find((program) => program.slug === 'kids')!;
+const ageGroups = kids.ageGroups ?? [];
+const groupImages = [landscape, square];
+---
+
+<BaseLayout
+  title="Kids jiu-jitsu (ages 4-13)"
+  description="Playful, structured jiu-jitsu classes for kids ages 4 to 13. Build confidence, focus, and fitness. First class free."
+  breadcrumbs={[{ label: 'Programs', href: '/programs' }, { label: 'Kids' }]}
+>
+  <Hero
+    eyebrow={`Kids · Ages 4-13 · ${site.address.city}, ${site.address.region}`}
+    title="Jiu-jitsu your kid will love"
+    accent="love"
+    deck="Confidence, focus, and fitness through structured, play-based classes with coaches who know every child by name."
+    primary={{ label: 'Book a free kids class', href: '#book' }}
+    secondary={{ label: 'Class times', href: '#age-groups' }}
+    facts={kids.facts}
+  >
+    <Photo
+      slot="media"
+      src={landscape}
+      alt="Placeholder photo of kids training"
+      priority
+      sizes="(min-width: 1024px) 50vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section tone="surface" id="age-groups">
+    <div class="max-w-2xl">
+      <Heading text="Two age groups" accent="age" />
+      <p class="text-muted mt-3 text-lg">
+        Kids train with children their own age, so every class matches their energy and attention.
+      </p>
+    </div>
+    <div class="mt-10 space-y-6">
+      {ageGroups.map((group, index) => (
+        <AgeGroupCard
+          group={group}
+          image={groupImages[index % groupImages.length]}
+          when={whenLabel(classesForAgeGroup(group.id))}
+          reverse={index % 2 === 1}
+        />
+      ))}
+    </div>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="#book" size="lg">
+        Book a free kids class
+      </Button>
+      <Button href={site.phone.href} size="lg" variant="secondary">
+        Call {site.phone.display}
+      </Button>
+    </div>
+  </Section>
+
+  <Section id="why">
+    <div class="max-w-2xl">
+      <Heading text="Why jiu-jitsu?" accent="Why" />
+      <p class="text-muted mt-3 max-w-prose text-lg">
+        It is one of the few sports where size and strength matter less than patience and
+        problem-solving, which is why it works for so many kids.
+      </p>
+    </div>
+    <div class="mt-8">
+      <NumberedCards items={whyJiuJitsu} columns={4} />
+    </div>
+  </Section>
+
+  <Section tone="surface" id="inside-a-class">
+    <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <Heading text="Inside a class" accent="Inside" />
+        <p class="text-muted mt-3 max-w-prose text-lg">{parentNote}</p>
+        <div class="mt-8">
+          <NumberedSteps items={classSteps} />
+        </div>
+      </div>
+      <div class="rounded-card overflow-hidden">
+        <Photo
+          src={portrait}
+          alt="Placeholder photo of a kids class in progress"
+          sizes="(min-width: 1024px) 40vw, 100vw"
+          widths={[480, 720, 1000]}
+          class="aspect-[4/5] object-cover"
+        />
+      </div>
+    </div>
+  </Section>
+
+  <Section id="safety">
+    <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <Heading text="Parents ask us" accent="ask" />
+        <ul class="mt-6 space-y-4">
+          {safetyPoints.map((point) => (
+            <li class="flex gap-3 text-lg">
+              <span aria-hidden="true" class="bg-brand-600 mt-2.5 size-2 shrink-0 rounded-full" />
+              {point}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="rounded-card overflow-hidden">
+          <Photo
+            src={square}
+            alt=""
+            sizes="(min-width: 1024px) 20vw, 50vw"
+            widths={[320, 480, 640]}
+            class="aspect-square object-cover"
+          />
+        </div>
+        <div class="rounded-card mt-8 overflow-hidden">
+          <Photo
+            src={portrait}
+            alt=""
+            sizes="(min-width: 1024px) 20vw, 50vw"
+            widths={[320, 480, 640]}
+            class="aspect-[4/5] object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <ReviewsBlock
+    reviews={reviewsFor('kids', 3)}
+    heading="What parents say"
+    accent="parents"
+    tone="surface"
+  />
+
+  <Section tone="dark" id="watch">
+    <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+      <div>
+        <Heading text="Watch a class" accent="Watch" />
+        <p class="mt-4 max-w-prose text-lg">
+          See the warm-up games, the technique, and the smiles for yourself before you book.
+        </p>
+        <div class="mt-6">
+          <Button href="#book" variant="inverse">
+            Book a free kids class
+          </Button>
+        </div>
+      </div>
+      <VideoBlock
+        poster={landscape}
+        sources={[{ src: '/videos/placeholder-hero.webm', type: 'video/webm' }]}
+        title="A kids class at the academy (placeholder video)"
+        caption="Watch a class (0:04)"
+      />
+    </div>
+  </Section>
+
+  <CoachSpotlight tone="surface" />
+
+  <Section id="faq">
+    <div class="grid gap-8 lg:grid-cols-[2fr_3fr] lg:gap-14">
+      <div>
+        <Heading text="Common questions" accent="questions" />
+        <div class="mt-6">
+          <Button href="/faq" variant="secondary">
+            All questions
+          </Button>
+        </div>
+      </div>
+      <FaqList items={faqsFor('kids')} />
+    </div>
+  </Section>
+
+  <FormBand
+    heading="Book your child's free class"
+    accent="free"
+    body="Tell us about your child and we will text you to set a time. Parents are welcome to stay and watch."
+    bullets={['First class is free', 'No sign-up fees', 'We provide a gi for the first class']}
+    defaultProgram="kids"
+    submitLabel="Book my child's free class"
+  />
+</BaseLayout>

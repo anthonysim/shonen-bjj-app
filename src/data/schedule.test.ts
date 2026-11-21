@@ -4,12 +4,14 @@ import {
   CATEGORIES,
   DAYS,
   classesByCategory,
+  classesForAgeGroup,
   classesByDay,
   formatDays,
   endTime,
   formatTime,
   schedule,
   timeRange,
+  whenLabel,
   toMinutes,
 } from './schedule';
 
@@ -107,5 +109,26 @@ describe('classesByCategory', () => {
     for (const g of grouped) {
       for (const cls of g.classes) expect(cls.category).toBe(g.category);
     }
+  });
+});
+
+describe('kids age groups', () => {
+  const kids = programs.find((p) => p.slug === 'kids');
+  const groupIds = (kids?.ageGroups ?? []).map((g) => g.id);
+
+  it('only tags classes with real age groups', () => {
+    for (const cls of schedule.filter((c) => c.ageGroup)) {
+      expect(groupIds, cls.id).toContain(cls.ageGroup);
+    }
+  });
+
+  it('gives every kids age group at least one class', () => {
+    expect(groupIds.length).toBeGreaterThan(0);
+    for (const id of groupIds) expect(classesForAgeGroup(id).length, id).toBeGreaterThan(0);
+  });
+
+  it('formats when a group meets', () => {
+    expect(whenLabel(classesForAgeGroup('kids-4-7'))).toBe('Tue, Thu at 5:00 PM');
+    expect(whenLabel([])).toBe('');
   });
 });

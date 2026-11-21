@@ -1,0 +1,37 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+
+interface Props {
+  poster: ImageMetadata;
+  /** Most to least preferred */
+  sources: { src: string; type: string }[];
+  /** Accessible name for the player */
+  title: string;
+  /** Caption, e.g. "Watch a class (0:46)" */
+  caption?: string;
+}
+
+const { poster, sources, title, caption } = Astro.props;
+const posterImage = await getImage({ src: poster, width: 1280, format: 'webp' });
+---
+
+<figure>
+  {/* preload="none" + poster: nothing downloads until someone presses play. No JS needed. */}
+  <video
+    controls
+    playsinline
+    preload="none"
+    poster={posterImage.src}
+    aria-label={title}
+    class="rounded-card aspect-video w-full bg-black object-cover"
+  >
+    {sources.map((source) => (
+      <source src={source.src} type={source.type} />
+    ))}
+    Your browser can't play this video.
+  </video>
+  {caption ? (
+    <figcaption class="mt-3 text-sm font-semibold opacity-80">{caption}</figcaption>
+  ) : null}
+</figure>
