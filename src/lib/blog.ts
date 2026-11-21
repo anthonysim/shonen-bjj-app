@@ -14,3 +14,9 @@ export function formatDate(date: Date) {
     timeZone: 'UTC',
   });
 }
+
+/** Minutes to read a post at about 160 words a minute (matches the original site), at least 1. */
+export function readingMinutes(body: string) {
+  const words = body.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 160));
+}

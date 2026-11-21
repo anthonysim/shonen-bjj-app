@@ -1,7 +1,17 @@
 ---
-import { getCollection, render } from 'astro:content';
+// One blog post, like the original: split hero (category, title, intro, date and reading time,
+// photo), the article in a 760px column, the post's call-to-action buttons, and the booking band.
+// JSON-LD: BlogPosting.
+import landscape from '@/assets/placeholders/landscape.jpg';
+import Button from '@/components/Button.astro';
+import FormBand from '@/components/FormBand.astro';
+import Hero from '@/components/Hero.astro';
+import Photo from '@/components/Photo.astro';
+import Section from '@/components/Section.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { formatDate } from '@/lib/blog';
+import { formatDate, readingMinutes } from '@/lib/blog';
+import { blogPostingJsonLd } from '@/lib/structured-data';
+import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -10,19 +20,58 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const { data } = post;
+const pageUrl = new URL(`/blog/${post.id}`, Astro.site).href;
+const image = data.image ?? landscape;
+const meta = `${formatDate(data.pubDate)} · ${readingMinutes(post.body ?? '')} min read`;
+const posting = blogPostingJsonLd(
+  {
+    url: pageUrl,
+    title: data.title,
+    description: data.description,
+    datePublished: data.pubDate,
+    imageUrl: new URL(image.src, Astro.site).href,
+  },
+  Astro.site!.origin,
+);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="page-container [--page-max:48rem] py-[clamp(4.5rem,4rem+6vw,9.5rem)]">
-    <a href="/blog" class="inline-flex min-h-11 items-center text-sm underline">
-      &larr; All posts
-    </a>
-    <h1 class="mt-2 text-h1">{post.data.title}</h1>
-    <time datetime={post.data.pubDate.toISOString()} class="mt-2 block text-sm text-black/60">
-      {formatDate(post.data.pubDate)}
-    </time>
-    <div class="prose md:prose-lg prose-a:text-ink mt-8 max-w-none prose-headings:font-display prose-headings:font-light prose-headings:text-ink prose-headings:tracking-tight">
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  breadcrumbs={[{ label: 'Blog', href: '/blog' }, { label: data.title }]}
+  structuredData={[posting]}
+>
+  <Hero eyebrow={data.category} title={data.title} deck={data.lede} facts={[meta]}>
+    <Photo
+      slot="media"
+      src={image}
+      alt={data.imageAlt}
+      priority
+      grade="mono"
+      sizes="(min-width: 1024px) 60vw, 100vw"
+      widths={[480, 800, 1200, 1600]}
+    />
+  </Hero>
+
+  <Section tone="surface" containerClass="[--page-max:760px]">
+    <article class="prose max-w-none text-body prose-headings:font-display prose-headings:font-light prose-headings:tracking-[-0.015em] prose-headings:text-ink prose-h2:mt-14 prose-h2:text-h3 prose-p:text-body prose-a:text-ink prose-a:underline-offset-[3px] prose-blockquote:border-line-strong prose-blockquote:font-display prose-blockquote:font-light prose-blockquote:text-ink prose-strong:text-ink prose-li:marker:text-muted md:prose-lg">
       <Content />
-    </div>
-  </article>
+    </article>
+    {data.ctas.length > 0 ? (
+      <div class="mt-12 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-line pt-8">
+        {data.ctas.map((cta, index) => (
+          <Button
+            href={cta.href}
+            variant={index === 0 ? 'primary' : 'secondary'}
+            arrow={index === 0}
+          >
+            {cta.label}
+          </Button>
+        ))}
+      </div>
+    ) : null}
+  </Section>
+
+  <FormBand />
 </BaseLayout>
