@@ -1,0 +1,27 @@
+---
+// Tracked uppercase text link with a hairline underline and an arrow that nudges on hover, like
+// the original's .link-arrow.
+interface Props {
+  href: string;
+  rel?: string;
+  class?: string;
+}
+
+const { href, rel, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  rel={rel}
+  class:list={[
+    'group inline-flex min-h-11 items-center gap-2 text-nav font-medium tracking-[0.12em] uppercase',
+    className,
+  ]}
+>
+  <span class="border-b border-current/30 pb-1 transition-colors group-hover:border-current">
+    <slot />
+  </span>
+  <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">
+    →
+  </span>
+</a>
