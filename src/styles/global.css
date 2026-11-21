@@ -410,6 +410,31 @@
   }
 }
 
+/* FAQ answers open with a height transition where the browser supports it (progressive). */
+@layer components {
+  .faq {
+    interpolate-size: allow-keywords;
+  }
+
+  .faq details::details-content {
+    height: 0;
+    overflow: clip;
+    transition:
+      height 320ms var(--ease-out-expo),
+      content-visibility 320ms allow-discrete;
+  }
+
+  .faq details[open]::details-content {
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq details::details-content {
+      transition: none;
+    }
+  }
+}
+
 /* Photography is graded to black and white, like the original look. Stack with Photo's `grade`. */
 @layer utilities {
   .grade-soft {
