@@ -23,11 +23,11 @@ Our own members say it better than we can:
 
 > "I started Jiu Jitsu at age 38, with trials at a few local gyms before I landed at Shonen. Easily the best decision I could have made!"
 >
-> — Joshua S., Google review
+> Joshua S., Google review
 
 > "I am 53 with zero experience and have been going for 3 months. The teaching and training has been extremely phenomenal and the students are extremely helpful and caring."
 >
-> — Rob S., Google review
+> Rob S., Google review
 
 ## You don't need to get in shape first
 
