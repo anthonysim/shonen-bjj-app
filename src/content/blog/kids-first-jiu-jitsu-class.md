@@ -67,11 +67,11 @@ Shy kids, quiet kids and kids who've never played a sport all do well in jiu jit
 
 > "My 10 year old has a quiet temperament… ever since she started training at Shonen she definitely gained confidence and became more secure."
 >
-> — Donna A., parent, Google review
+> Donna A., parent, Google review
 
 > "The kids classes are absolutely amazing. The coaches are very patient and kind."
 >
-> — Anna M., parent, Google review
+> Anna M., parent, Google review
 
 ## What to look for after a few weeks
 
