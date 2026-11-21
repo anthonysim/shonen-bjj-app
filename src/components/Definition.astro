@@ -1,25 +1,48 @@
 ---
 // Dictionary-style entry for the academy's name, like the original's .definition: a "Definition"
-// label, the word at display size, the pronunciation and part of speech, then the meaning under a
-// hairline. Homepage and About.
+// label, the word at display size with its syllable break and the pronunciation beside it, then
+// the numbered meaning under a hairline. Homepage and About.
 interface Props {
   word: string;
+  /** Visual form with a syllable break, e.g. "Shō·nen"; screen readers get `word` */
+  display?: string;
   pronunciation?: string;
   partOfSpeech?: string;
   meaning: string;
   class?: string;
 }
 
-const { word, pronunciation, partOfSpeech, meaning, class: className } = Astro.props;
+const { word, display, pronunciation, partOfSpeech, meaning, class: className } = Astro.props;
 const phonetic = [pronunciation && `/ ${pronunciation} /`, partOfSpeech]
   .filter(Boolean)
   .join(' · ');
 const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
+// Fraunces has no precomposed "ō", so draw the macron over a plain "o" (like the original)
+const parts = (display ?? word).split('\u014d');
+const macron =
+  'relative inline-block after:absolute after:inset-x-[0.1em] after:top-[0.2em] after:h-[max(0.05em,2px)] after:bg-current';
 ---
 
-<div class:list={['grid gap-3', className]}>
+<div class:list={[className]}>
   <p class={label}>Definition</p>
-  <p class="font-display text-display font-light text-ink">{word}</p>
-  {phonetic ? <p class={label}>{phonetic}</p> : null}
-  <p class="mt-3 max-w-[52ch] border-t border-line pt-6 text-lede">{meaning}</p>
+  <div class="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-2">
+    <p class="font-display text-display font-light text-ink">
+      <span class="sr-only">{word}</span>
+      <span aria-hidden="true">
+        {parts.map((part, index) => (
+          <>
+            {index > 0 ? <span class={macron}>o</span> : null}
+            {part}
+          </>
+        ))}
+      </span>
+    </p>
+    {phonetic ? <p class={label}>{phonetic}</p> : null}
+  </div>
+  <div class="mt-6 flex max-w-[60ch] gap-3 border-t border-line pt-6">
+    <span aria-hidden="true" class="font-display text-lede font-light text-muted italic">
+      1.
+    </span>
+    <p class="text-lede text-ink">{meaning}</p>
+  </div>
 </div>

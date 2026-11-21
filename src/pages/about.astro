@@ -19,7 +19,7 @@ import PullQuote from '@/components/PullQuote.astro';
 import ReviewsBlock from '@/components/ReviewsBlock.astro';
 import Section from '@/components/Section.astro';
 import SectionHead from '@/components/SectionHead.astro';
-import { academyFeatures, values } from '@/data/academy';
+import { academyFeatures, nameDefinition, values } from '@/data/academy';
 import { coach } from '@/data/coach';
 import { featuredReviews, rating, reviewsFor } from '@/data/reviews';
 import { site } from '@/data/site';
@@ -66,19 +66,17 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
 
   <Section id="the-name">
     <div class:list={['grid gap-12 lg:grid-cols-12 lg:gap-y-16', gutterX]}>
-      <Definition
-        word="Shonen"
-        pronunciation="SHOH-nen"
-        partOfSpeech="noun"
-        meaning="A young person full of determination; someone who keeps showing up and keeps getting better."
-        class="lg:col-start-1 lg:col-end-7"
-      />
+      <Definition {...nameDefinition} class="lg:col-start-1 lg:col-end-7" />
       <div class="lg:col-start-8 lg:col-end-13 lg:self-end">
-        <Heading text="At Shonen, you become the hero of your own story" accent="your own story" />
+        <Heading
+          text="At Shonen, you become the hero of your own story."
+          accent="your own story."
+        />
         <p class="mt-6">
-          In a good story the hero does not start out strong. They train, they get knocked down, and
-          they get back up a little better each time. That is what a jiu-jitsu journey looks like
-          here.
+          In a shōnen story, the hero doesn't start out strong. They train, they get knocked down
+          and they get back up a little better every time. That's jiu jitsu. Every class asks for a
+          little self-perfection and a little self-discipline, and gives back a team that shows up
+          for each other, on the mat and off it.
         </p>
       </div>
     </div>
