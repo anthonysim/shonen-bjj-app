@@ -1,6 +1,8 @@
 // Google reviews as shown on shonenjiujitsu.com (used with the client's permission).
 // Every entry is a real quote; a test fails if a placeholder is added.
 
+import { site } from '@/data/site';
+
 export type ReviewTopic = 'general' | 'kids' | 'adults' | 'no-gi' | 'birthday' | 'coach';
 
 export interface Review {
@@ -28,7 +30,7 @@ export const rating = {
   count: 75,
   source: 'Google',
   /** The academy's Google reviews */
-  url: 'https://search.google.com/local/reviews?placeid=ChIJlRMV2Iv9t4kRTmSeyCYYSp8',
+  url: `https://search.google.com/local/reviews?placeid=${site.googlePlaceId}`,
 } as const;
 
 export const reviews: Review[] = [
