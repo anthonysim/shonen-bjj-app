@@ -2,25 +2,27 @@
 import landscape from '@/assets/placeholders/landscape.jpg';
 import portrait from '@/assets/placeholders/portrait.jpg';
 import square from '@/assets/placeholders/square.jpg';
-import CtaBand from '@/components/CtaBand.astro';
+import Button from '@/components/Button.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
 import FormBand from '@/components/FormBand.astro';
-import Heading from '@/components/Heading.astro';
 import Hero from '@/components/Hero.astro';
-import PathwayList from '@/components/PathwayList.astro';
+import NumberedRows from '@/components/NumberedRows.astro';
 import Photo from '@/components/Photo.astro';
-import ProgramBanner from '@/components/ProgramBanner.astro';
 import ProgramCard from '@/components/ProgramCard.astro';
-import ReviewsBlock from '@/components/ReviewsBlock.astro';
+import ProgramRow from '@/components/ProgramRow.astro';
+import QuoteSolo from '@/components/QuoteSolo.astro';
 import Section from '@/components/Section.astro';
+import SectionHead from '@/components/SectionHead.astro';
 import { pathway } from '@/data/academy';
 import { rating, reviewsById } from '@/data/reviews';
-import { bookOnPage, programCards } from '@/data/site';
+import { bookOnPage, programCards, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-// Birthday parties get their own wide banner; the rest are numbered cards.
+// Four cards in the grid; birthday parties get the row underneath, like the original
 const classCards = programCards.filter((card) => card.id !== 'birthday-parties');
 const birthday = programCards.find((card) => card.id === 'birthday-parties')!;
-const cardImages = [landscape, portrait, square, landscape];
+const cardImages = [portrait, square, landscape, portrait];
+const [review] = reviewsById(['general-brent']);
 ---
 
 <BaseLayout
@@ -29,15 +31,15 @@ const cardImages = [landscape, portrait, square, landscape];
   breadcrumbs={[{ label: 'Programs' }]}
 >
   <Hero
-    eyebrow="Programs"
-    title="Find the right class for you"
-    accent="class for you"
-    deck="Kids, adults, and no-gi, all taught by the same coaches in the same welcoming room."
+    eyebrow={`Jiu Jitsu programs · ${site.address.city}, ${site.address.region}`}
+    title="Training for every stage."
+    accent="every stage."
+    deck="From four-year-olds learning to tumble to competitors chasing black belt, every student trains with partners their own size, in a class built for them."
     primary={bookOnPage}
     secondary={{ label: 'See class times', href: '/schedule' }}
     facts={[
-      `${rating.score.toFixed(1)} stars, ${rating.count} reviews`,
-      'Ages 4 and up',
+      `${rating.score.toFixed(1)} ★ ${rating.source} · ${rating.count} reviews`,
+      'Ages 4 to adult',
       'First class free',
     ]}
   >
@@ -52,13 +54,13 @@ const cardImages = [landscape, portrait, square, landscape];
   </Hero>
 
   <Section tone="surface" id="classes">
-    <div class="max-w-2xl">
-      <Heading text="Classes for every age" accent="every" />
-      <p class="text-muted mt-3 text-lg">
-        Pick a program to see what a class looks like, who it is for, and when it runs.
-      </p>
-    </div>
-    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <SectionHead
+      eyebrow="Our programs"
+      heading="Four paths, one standard."
+      accent="one standard."
+      lede="Classes are grouped by age, so every student trains with partners their own size. The first class is always free."
+    />
+    <ul class="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-[clamp(16px,2vw,32px)] sm:gap-y-12 xl:grid-cols-4">
       {classCards.map((card, index) => (
         <li class="flex">
           <ProgramCard
@@ -70,32 +72,46 @@ const cardImages = [landscape, portrait, square, landscape];
         </li>
       ))}
     </ul>
-    <div class="mt-6">
-      <ProgramBanner card={birthday} image={square} ctaLabel="Plan a party" />
+
+    <div class="mt-[clamp(40px,5vw,72px)] grid items-stretch gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-[clamp(16px,2vw,32px)]">
+      <ProgramRow
+        href={birthday.href}
+        label={`${birthday.ages} · Vol. 05`}
+        title={`${birthday.name} on the mat`}
+        accent="on the mat"
+        image={landscape}
+      />
+      <aside
+        data-reveal
+        aria-labelledby="place-title"
+        class="rounded-card bg-ink p-[clamp(24px,3vw,40px)] text-white [--heading:#fff] lg:row-span-2 lg:col-start-2 lg:row-start-1"
+      >
+        <Eyebrow class="text-white/55">Not sure?</Eyebrow>
+        <h3 id="place-title" class="mt-3 text-h2">
+          Not sure where to start? <em class="italic">We’ll place you.</em>
+        </h3>
+        <p class="mt-4 text-white/72">
+          Tell us a little about you or your child and we’ll recommend the right class. Every class
+          on the schedule is open to first-timers.
+        </p>
+        <Button href="#book" variant="inverse" arrow class="mt-6">
+          Get a recommendation
+        </Button>
+      </aside>
     </div>
   </Section>
-
-  <CtaBand
-    heading="Not sure where to start?"
-    accent="where to start?"
-    body="Book a free class and our coaches will help you find the right fit."
-    primary={{ label: 'Book a free class', href: '#book' }}
-    tone="dark"
-  />
 
   <Section id="pathway">
-    <div class="max-w-2xl">
-      <Heading text="A path for every stage" accent="every stage" />
-      <p class="text-muted mt-3 text-lg">
-        Many students start as kids and keep training for years. Here is how it fits together.
-      </p>
-    </div>
-    <div class="mt-8">
-      <PathwayList stages={pathway} />
-    </div>
+    <SectionHead
+      eyebrow="The pathway"
+      heading="How the classes fit together."
+      accent="fit together."
+      lede="Each class is built for a stage of the journey. Students move up as they grow, and adults progress from fundamentals to the full game at their own pace."
+    />
+    <NumberedRows items={pathway} />
   </Section>
 
-  <ReviewsBlock reviews={reviewsById(['general-brent'])} tone="surface" />
+  {review ? <QuoteSolo review={review} tone="surface" readAll /> : null}
 
   <FormBand />
 </BaseLayout>

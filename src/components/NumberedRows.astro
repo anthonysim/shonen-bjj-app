@@ -6,6 +6,10 @@
 interface Row {
   title: string;
   body: string;
+  /** Small line under the title (full layout only), e.g. "Games and fundamentals" */
+  sub?: string;
+  /** A link after the body text */
+  link?: { label: string; href: string };
 }
 
 interface Props {
@@ -49,8 +53,25 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
         ]}
       >
         <span class:list={[label, 'pt-[0.35em]']}>{num(index)}</span>
-        <h3 class="text-h3 tracking-[-0.01em]">{item.title}</h3>
-        <p class="max-w-[60ch]">{item.body}</p>
+        <h3 class="text-h3 tracking-[-0.01em]">
+          {item.title}
+          {item.sub ? (
+            <span class="mt-2 block font-sans text-sm font-normal tracking-normal text-muted">
+              {item.sub}
+            </span>
+          ) : null}
+        </h3>
+        <p class="max-w-[60ch]">
+          {item.body}
+          {item.link ? (
+            <>
+              {' '}
+              <a href={item.link.href} class="font-medium text-ink underline underline-offset-4">
+                {item.link.label}
+              </a>
+            </>
+          ) : null}
+        </p>
       </li>
     ))}
   </ol>

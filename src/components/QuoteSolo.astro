@@ -1,0 +1,54 @@
+---
+// One centered quote with the Google rating under it, like the original's .quote-solo (no section
+// heading). `readAll` adds the "Read all 75 reviews on Google" link.
+import Eyebrow from '@/components/Eyebrow.astro';
+import Section from '@/components/Section.astro';
+import { rating, reviewLabel, type Review } from '@/data/reviews';
+
+interface Props {
+  review: Review;
+  tone?: 'paper' | 'surface';
+  readAll?: boolean;
+}
+
+const { review, tone = 'paper', readAll = false } = Astro.props;
+---
+
+<Section tone={tone}>
+  <figure data-reveal class="mx-auto max-w-3xl text-center">
+    <blockquote>
+      <p class="font-display text-[clamp(1.75rem,1.2rem+2.1vw,3.125rem)] leading-[1.14] font-light tracking-[-0.015em] text-balance text-ink">
+        &ldquo;{review.quote}&rdquo;
+      </p>
+    </blockquote>
+    <figcaption class="mt-8 flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
+      <span class="text-[0.9375rem] font-medium text-ink">{review.author}</span>
+      <Eyebrow as="span">{reviewLabel(review)}</Eyebrow>
+    </figcaption>
+    <div class="mt-8 flex flex-col items-center gap-4">
+      <p class="inline-flex flex-wrap items-baseline justify-center gap-x-3.5 text-sm">
+        <span class="font-display text-[2rem] leading-none font-light text-ink">
+          {rating.score.toFixed(1)}
+        </span>
+        <span aria-hidden="true" class="tracking-[0.18em] text-ink">
+          ★★★★★
+        </span>
+        <span>{`${rating.count} ${rating.source} reviews`}</span>
+      </p>
+      {readAll ? (
+        <a
+          href={rating.url}
+          rel="noopener"
+          class="group inline-flex min-h-11 items-center gap-2 text-nav font-medium tracking-[0.12em] text-ink uppercase"
+        >
+          <span class="border-b border-line-strong pb-1 transition-colors group-hover:border-current">
+            {`Read all ${rating.count} reviews on ${rating.source}`}
+          </span>
+          <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">
+            →
+          </span>
+        </a>
+      ) : null}
+    </div>
+  </figure>
+</Section>
