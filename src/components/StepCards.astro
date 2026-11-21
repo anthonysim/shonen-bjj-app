@@ -28,7 +28,7 @@ const { steps, images, eyebrow, heading, accent, lede, cta, tone = 'surface', id
 ---
 
 <Section tone={tone} id={id}>
-  <div class="grid items-start lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(32px,5vw,96px)] xl:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
+  <div class="grid items-start lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(32px,5vw,96px)]">
     <div class="mb-12 lg:sticky lg:top-[calc(var(--spacing-header)+48px)] lg:mb-0">
       <SectionHead
         eyebrow={eyebrow}
@@ -57,7 +57,7 @@ const { steps, images, eyebrow, heading, accent, lede, cta, tone = 'surface', id
             <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">
               Step {String(index + 1).padStart(2, '0')}
             </p>
-            <h3 class="mt-3 text-h3">{step.title}</h3>
+            <h3 class="mt-3 text-h3 font-normal">{step.title}</h3>
             <p class="mt-4">{step.body}</p>
           </div>
           <div class="aspect-3/2 overflow-hidden bg-paper-2 sm:aspect-4/5 lg:aspect-auto">
