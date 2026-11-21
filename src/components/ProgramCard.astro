@@ -1,4 +1,6 @@
 ---
+// Program card, like the original's: the whole card is one link. 4:5 photo, "Vol. 0X" label,
+// title, short text and "Learn more". Phones show only the photo, label and title.
 import type { ImageMetadata } from 'astro';
 import Photo from '@/components/Photo.astro';
 import type { ProgramCard } from '@/data/site';
@@ -15,33 +17,32 @@ const { card, index, image, class: className } = Astro.props;
 const volume = `Vol. ${String(index + 1).padStart(2, '0')}`;
 ---
 
-<article
-  class:list={[
-    'group relative flex h-full flex-col focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-ink',
-    className,
-  ]}
+<a
+  href={card.href}
+  class:list={['group flex flex-col text-inherit focus-visible:outline-offset-[6px]', className]}
 >
-  <div class="overflow-hidden rounded-card">
+  <div class="relative aspect-4/5 overflow-hidden bg-paper-2">
     <Photo
       src={image}
       alt=""
-      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-      widths={[480, 720, 960]}
-      class="aspect-[4/5] object-cover transition-transform duration-700 motion-reduce:transition-none group-hover:scale-105"
+      grade="mono"
+      sizes="(min-width: 1280px) 25vw, 50vw"
+      widths={[320, 480, 720, 960]}
+      class="h-full object-cover transition-[filter,transform] duration-[1200ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none group-hover:scale-[1.03] group-hover:[filter:grayscale(0.15)_contrast(1.02)] group-focus-visible:scale-[1.03] motion-reduce:group-hover:scale-100"
     />
   </div>
-  <div class="flex flex-1 flex-col pt-5">
-    <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">
+  <div class="flex flex-1 flex-col items-start border-b border-line py-4 sm:py-6">
+    <p class="mb-2 text-[0.6875rem] font-medium tracking-[0.1em] text-muted uppercase sm:mb-3 sm:text-label sm:tracking-[0.14em]">
       {volume} · {card.ages}
     </p>
-    <h3 class="mt-2 text-h3">{card.name}</h3>
-    <p class="mt-2 flex-1">{card.blurb}</p>
-    <a
-      href={card.href}
-      class="mt-5 inline-flex min-h-11 items-center gap-2 self-start border-b border-current text-nav font-medium tracking-[0.12em] text-ink uppercase after:absolute after:inset-0 focus-visible:outline-none"
+    <h3 class="text-h3 sm:mb-3">{card.name}</h3>
+    <p class="mb-6 hidden flex-1 text-[0.9375rem] leading-[1.6] sm:block">{card.blurb}</p>
+    <span
+      aria-hidden="true"
+      class="hidden items-center gap-2 border-b border-line-strong pb-1 text-nav font-medium tracking-[0.12em] text-ink uppercase transition-colors group-hover:border-current sm:inline-flex"
     >
-      Learn more<span class="sr-only"> about {card.name}</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
+      Learn more
+      <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+    </span>
   </div>
-</article>
+</a>

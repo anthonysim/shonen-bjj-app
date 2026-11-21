@@ -1,0 +1,39 @@
+---
+// Section header, like the original's .section-head: eyebrow and H2 on the left; on desktop the
+// lede (or the `aside` slot) sits in columns 9-12, bottom-aligned with the heading.
+import Eyebrow from '@/components/Eyebrow.astro';
+import Heading from '@/components/Heading.astro';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  accent?: string;
+  lede?: string;
+  /** Lede/aside beside the heading on desktop. Off: everything stacks in one column. */
+  split?: boolean;
+  class?: string;
+}
+
+const { eyebrow, heading, accent, lede, split = true, class: className } = Astro.props;
+const hasAside = Astro.slots.has('aside');
+---
+
+<header
+  class:list={[
+    'mb-[clamp(40px,2rem+3vw,80px)] grid gap-6',
+    split && 'lg:grid-cols-12 lg:items-end lg:gap-x-[clamp(16px,2vw,32px)]',
+    !split && 'max-w-[820px]',
+    className,
+  ]}
+>
+  <div class:list={[split && 'lg:col-span-7']}>
+    {eyebrow ? <Eyebrow class="mb-4">{eyebrow}</Eyebrow> : null}
+    <Heading text={heading} accent={accent} />
+  </div>
+  {lede || hasAside ? (
+    <div class:list={['flex flex-col items-start gap-5', split && 'lg:col-start-9 lg:col-end-13']}>
+      {lede ? <p class="max-w-[56ch] text-lede">{lede}</p> : null}
+      <slot name="aside" />
+    </div>
+  ) : null}
+</header>
