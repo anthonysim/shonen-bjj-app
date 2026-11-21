@@ -1,5 +1,5 @@
 ---
-// Centered, padded content column. Mobile-first gutters.
+// Centered content column with the site gutters (see page-container in global.css).
 interface Props {
   size?: 'sm' | 'md' | 'lg';
   class?: string;
@@ -7,13 +7,14 @@ interface Props {
 
 const { size = 'lg', class: className } = Astro.props;
 
+// Content widths; page-container adds the gutters outside them
 const sizes = {
-  sm: 'max-w-2xl',
-  md: 'max-w-4xl',
-  lg: 'max-w-[1280px]',
+  sm: '[--page-max:42rem]',
+  md: '[--page-max:56rem]',
+  lg: '',
 } as const;
 ---
 
-<div class:list={['mx-auto w-full px-[clamp(1.25rem,4vw,3rem)]', sizes[size], className]}>
+<div class:list={['page-container', sizes[size], className]}>
   <slot />
 </div>

@@ -87,7 +87,7 @@ export default function MobileMenu({ nav, cta, phone, currentPath }: MobileMenuP
             <div ref={panelRef} id={MENU_ID} className="mobile-menu lg:hidden" inert={!open}>
               <nav
                 aria-label="Mobile"
-                className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col px-[clamp(1.25rem,4vw,3rem)] pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))]"
+                className="page-container flex flex-1 flex-col pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))]"
               >
                 <ul>
                   {primary.map((item) => (

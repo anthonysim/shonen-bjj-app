@@ -38,9 +38,8 @@ const {
   videoSources = [],
 } = Astro.props;
 const hasVideo = videoSources.length > 0;
-// Lines up with the content column's edge at every width (Container's gutter and 1280px cap)
-const gutter = 'clamp(1.25rem, 4vw, 3rem)';
-const edge = `max(${gutter}, calc((100% - 1280px) / 2 + ${gutter}))`;
+// Lines up with the content column's edge at every width (page-container: gutter, 1280px cap)
+const edge = 'max(var(--spacing-gutter), calc((100% - 1280px) / 2))';
 ---
 
 <section

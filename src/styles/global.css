@@ -72,8 +72,10 @@
 
   --radius-card: 2px;
 
-  /* Header bar height (h-header, pt-header) and the original's easing */
-  --spacing-header: 4.75rem;
+  /* Side gutter and header bar height (64px below lg, 76px from lg up; see base layer) */
+  --spacing-gutter: clamp(1.25rem, 4vw, 3rem);
+  --spacing-header: 4rem;
+  /* The original's easing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Fluid type scale, from the original's scale */
@@ -95,7 +97,22 @@
   --text-lede: clamp(1.0625rem, 1rem + 0.35vw, 1.3125rem);
 }
 
+/*
+ * Page column, like the original's .container: up to 1280px of content plus the gutters, so text
+ * lines up 73px from the edge at 1440. Narrower columns set --page-max (Container sm/md).
+ */
+@utility page-container {
+  width: min(100% - 2 * var(--spacing-gutter), var(--page-max, 1280px));
+  margin-inline: auto;
+}
+
 @layer base {
+  @media (width >= 64rem) {
+    :root {
+      --spacing-header: 4.75rem;
+    }
+  }
+
   html {
     /* Always reserve the scrollbar's space. Otherwise a page that starts shorter than the window
        and then grows (images, streamed HTML) gains a scrollbar and everything shifts sideways. */
