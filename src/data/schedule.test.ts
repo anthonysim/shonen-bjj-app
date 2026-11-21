@@ -9,7 +9,9 @@ import {
   friendlyWhen,
   slotText,
   DAY_NAMES,
+  academyNow,
   dayFromDate,
+  zoneLabel,
   classesByDay,
   formatDays,
   formatDaysFriendly,
@@ -167,12 +169,27 @@ describe('compactRange', () => {
   });
 });
 
-describe('dayFromDate', () => {
-  it('maps JS weekdays (Sunday = 0) to our Day names', () => {
-    expect(dayFromDate(new Date(2026, 10, 22))).toBe('Sun');
-    expect(dayFromDate(new Date(2026, 10, 23))).toBe('Mon');
-    expect(dayFromDate(new Date(2026, 10, 20))).toBe('Fri');
-    expect(dayFromDate(new Date(2026, 10, 21))).toBe('Sat');
+describe('academy clock', () => {
+  // All instants are absolute, so these pass in any machine time zone
+  it('reads the weekday and minutes on the academy wall clock', () => {
+    // 2026-11-22 is a Sunday; Eastern is UTC-5 in November
+    expect(academyNow(new Date('2026-11-22T12:00:00-05:00'))).toEqual({ day: 'Sun', minutes: 720 });
+    expect(academyNow(new Date('2026-11-23T00:05:00-05:00'))).toEqual({ day: 'Mon', minutes: 5 });
+    // 03:00 UTC on Saturday is still Friday evening in Glen Burnie
+    expect(academyNow(new Date('2026-11-21T03:00:00Z'))).toEqual({ day: 'Fri', minutes: 22 * 60 });
+  });
+
+  it('maps instants to our Day names', () => {
+    expect(dayFromDate(new Date('2026-11-22T12:00:00-05:00'))).toBe('Sun');
+    expect(dayFromDate(new Date('2026-11-23T12:00:00-05:00'))).toBe('Mon');
+    expect(dayFromDate(new Date('2026-11-20T12:00:00-05:00'))).toBe('Fri');
+    expect(dayFromDate(new Date('2026-11-21T12:00:00-05:00'))).toBe('Sat');
+  });
+
+  it('follows daylight saving', () => {
+    expect(zoneLabel(new Date('2026-11-21T12:00:00Z'))).toBe('EST');
+    expect(zoneLabel(new Date('2026-07-01T12:00:00Z'))).toBe('EDT');
+    expect(academyNow(new Date('2026-07-01T12:00:00-04:00')).minutes).toBe(720);
   });
 
   it('has a full name for every day', () => {
@@ -191,28 +208,46 @@ describe('formatDaysFriendly', () => {
 });
 
 describe('nextClass', () => {
-  // 2026-11-21 is a Saturday (local time)
-  const at = (iso: string) => new Date(iso);
+  // 2026-11-21 is a Saturday; times below are Glen Burnie (UTC-5) wall-clock times
+  const at = (time: string, date = '2026-11-21') => new Date(`${date}T${time}-05:00`);
 
   it('finds the next class later today', () => {
-    const next = nextClass(at('2026-11-21T08:00:00'));
+    const next = nextClass(at('08:00:00'));
     expect(next?.cls.id).toBe('kids-saturday');
     expect(next?.when).toBe('today at 9:00 AM');
   });
 
   it('skips classes that already started and rolls over to later days', () => {
-    expect(nextClass(at('2026-11-21T09:30:00'))?.cls.id).toBe('adults-all-levels-saturday');
+    expect(nextClass(at('09:30:00'))?.cls.id).toBe('adults-all-levels-saturday');
     // Saturday evening: nothing Sunday, so Monday's first class
-    const monday = nextClass(at('2026-11-21T20:00:00'));
+    const monday = nextClass(at('20:00:00'));
     expect(monday?.day).toBe('Mon');
     expect(monday?.when).toBe('Monday at 6:00 PM');
   });
 
   it('says tomorrow for the next day', () => {
-    expect(nextClass(at('2026-11-23T21:00:00'))?.when).toBe('tomorrow at 5:00 PM');
+    expect(nextClass(at('21:00:00', '2026-11-23'))?.when).toBe('tomorrow at 5:00 PM');
   });
 
   it('returns null with no classes', () => {
-    expect(nextClass(at('2026-11-21T08:00:00'), [])).toBeNull();
+    expect(nextClass(at('08:00:00'), [])).toBeNull();
+  });
+
+  it("uses the academy clock, not the viewer's", () => {
+    // 3:30 PM in California is 6:30 PM in Glen Burnie: Tuesday's 5:00 PM kids class is over
+    const californian = new Date('2026-11-24T15:30:00-08:00');
+    expect(nextClass(californian)?.cls.id).toBe(
+      'no-gi'.length ? nextClass(californian)?.cls.id : '',
+    );
+    expect(nextClass(californian)?.when).toBe('today at 7:00 PM');
+    // 11 PM in California on Tuesday is already 2 AM Wednesday in Glen Burnie
+    expect(nextClass(new Date('2026-11-24T23:00:00-08:00'))?.when).toBe('today at 6:00 PM');
+  });
+
+  it('can be pointed at another zone', () => {
+    // 6:30 PM Tuesday in Glen Burnie is 3:30 PM in Los Angeles
+    const instant = new Date('2026-11-24T23:30:00Z');
+    expect(nextClass(instant)?.when).toBe('today at 7:00 PM');
+    expect(nextClass(instant, schedule, 'America/Los_Angeles')?.when).toBe('today at 5:00 PM');
   });
 });
