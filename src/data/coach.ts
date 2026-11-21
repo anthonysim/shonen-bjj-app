@@ -24,7 +24,7 @@ export const coach = {
   jobTitle: 'Head Instructor, First Degree Brazilian Jiu Jitsu Black Belt',
   /** Homepage spotlight paragraph */
   summary:
-    "Professor Lee is a Brazilian Jiu Jitsu black belt under the legendary Mendes Brothers and a former kids and adults instructor at the world-renowned Art of Jiu Jitsu Academy in Costa Mesa, California. Still an active IBJJF black belt competitor, he's passionate about pushing himself and his students past their limits: the King Midas of teachers, turning his students' goals into gold.",
+    'Professor Lee is a Brazilian Jiu Jitsu black belt under the legendary Mendes Brothers and a former kids and adults instructor at the world-renowned Art of Jiu Jitsu Academy in Costa Mesa, California. Still an active IBJJF black belt competitor, he\u2019s passionate about pushing himself and his students past their limits: the King Midas of teachers, turning his students\u2019 goals into gold.',
   /** Coach page hero */
   intro:
     'First-degree black belt under the legendary Mendes Brothers. Former Art of Jiu Jitsu instructor. IBJJF ranked #2 black belt in 2021 and 2022.',

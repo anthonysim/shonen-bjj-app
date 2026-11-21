@@ -1,13 +1,15 @@
-// Copy for the adults program page. Placeholder text.
+// Copy for the adults program page, from shonenjiujitsu.com/programs/bjj (client's permission).
 import type { Titled } from './academy';
 
 export interface Track {
   id: string;
+  /** Small label above the name, e.g. "Start here" */
+  label: string;
   name: string;
   blurb: string;
   bullets: string[];
-  length: string;
-  attire: string;
+  /** "60 minutes, gi". Shown as a "Class" row when the track has one kind of class. */
+  classInfo?: string;
   /** Schedule class ids, in display order (see `schedule` in schedule.ts) */
   classIds: string[];
 }
@@ -15,32 +17,32 @@ export interface Track {
 export const tracks: Track[] = [
   {
     id: 'gi-basics',
+    label: 'Start here',
     name: 'Gi Basics',
-    blurb: 'A structured starting point. Learn the fundamentals in a patient, beginner-only room.',
+    blurb:
+      'A curriculum built to teach the core concepts of jiu jitsu. Perfect for new students, or anyone upgrading to the most modern, effective style.',
     bullets: [
-      'Built for brand-new students',
-      'Core positions, escapes, and submissions',
-      'Slow, clear instruction with lots of repetition',
-      'Light, optional positional drilling',
-      'A loaner gi for your first classes',
+      'Essential techniques & positions',
+      'Self-defense',
+      'Fitness, balance & flexibility',
+      'Positional and live sparring',
+      'Personalized instructor feedback',
     ],
-    length: '60 min',
-    attire: 'Gi (loaner available)',
+    classInfo: '60 minutes, gi',
     classIds: ['adults-basics'],
   },
   {
     id: 'all-levels',
+    label: 'Gi & No-Gi',
     name: 'All-Levels',
     blurb:
-      'Open to everyone. Beginners and experienced students train together, at their own pace.',
+      'For those with experience who want to go further: intricate technique, development of your individual game, and competition preparation and analysis.',
     bullets: [
-      'Technique that builds on the basics',
-      'Partner drilling and positional sparring',
-      'Live rounds when you are ready',
-      'Gi and no-gi options through the week',
+      'Modern and advanced jiu jitsu',
+      'Development of your individual game',
+      'Positional, situational and live sparring',
+      'Competition preparation and analysis',
     ],
-    length: '60-90 min',
-    attire: 'Gi or no-gi, depending on the class',
     classIds: [
       'adults-all-levels-evening',
       'adults-all-levels-noon',
@@ -51,31 +53,32 @@ export const tracks: Track[] = [
 ];
 
 export const adultClassSteps: Titled[] = [
-  { title: 'Warm-up', body: 'Easy movement drills loosen you up and get you breathing.' },
-  { title: 'Technique', body: 'The coach demonstrates one idea, step by step, from a few angles.' },
-  { title: 'Drilling', body: 'You practice it with a partner while coaches correct and help.' },
+  { title: 'Warm-up', body: 'Movement drills that prepare your body for grappling.' },
+  { title: 'Technique', body: 'The position of the day, broken down in detail.' },
+  { title: 'Drilling', body: 'Reps with a partner, with instructor feedback as you go.' },
   {
     title: 'Positional sparring',
-    body: 'Start from a set position and work on just that part of the game.',
+    body: 'Start from the day’s position and work it against resistance.',
   },
-  { title: 'Live rounds', body: 'Optional, controlled sparring. Sit out any round you like.' },
-  { title: 'Q&A', body: 'We close with questions, a bow, and a plan for next time.' },
+  {
+    title: 'Live rounds',
+    body: 'Timed rounds against a resisting partner, at the level you’re ready for.',
+  },
+  { title: 'Q&A', body: 'Ask questions and get personal feedback on your game.' },
 ];
 
 export const neverTrained = {
-  heading: 'Never trained? Start here.',
-  accent: 'Start here.',
+  heading: 'Most of our members started from zero.',
+  accent: 'started from zero.',
   body: [
-    'Most of our students walked in with no experience at all. Nobody expects you to know anything, and nobody is keeping score.',
-    'Come to a Basics class, borrow a gi, and take it at your own speed. We will show you where to stand and what to do.',
+    'You don’t need experience or to be in shape. Adults start in Gi Basics, your conditioning builds naturally, and your training partners want to see you succeed.',
   ],
 };
 
 export const womens = {
-  heading: 'Women are welcome here.',
-  accent: 'welcome here.',
+  heading: 'A safe place for women to train and compete.',
+  accent: 'train and compete.',
   body: [
-    'Our adult classes are mixed, respectful, and run with careful attention to how people partner up.',
-    'Many of our newest students are women who wanted a confident, practical way to train. You will find training partners at every size and level.',
+    'Shonen offers a safe environment for women to learn and feel empowered: learn to protect yourself, build awareness and grow your confidence, while taking your fitness to the next level. The women’s jiu jitsu community is growing fast. If you’ve tried jiu jitsu elsewhere and had a negative experience, give our program a chance. We’re confident it will win you back to the mat.',
   ],
 };

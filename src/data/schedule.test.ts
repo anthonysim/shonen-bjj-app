@@ -5,6 +5,8 @@ import {
   DAYS,
   classesByCategory,
   classesForAgeGroup,
+  compactRange,
+  friendlyWhen,
   DAY_NAMES,
   dayFromDate,
   classesByDay,
@@ -121,8 +123,8 @@ describe('kids age groups', () => {
   const groupIds = (kids?.ageGroups ?? []).map((g) => g.id);
 
   it('only tags classes with real age groups', () => {
-    for (const cls of schedule.filter((c) => c.ageGroup)) {
-      expect(groupIds, cls.id).toContain(cls.ageGroup);
+    for (const cls of schedule.filter((c) => c.ageGroups)) {
+      for (const id of cls.ageGroups ?? []) expect(groupIds, cls.id).toContain(id);
     }
   });
 
@@ -132,8 +134,23 @@ describe('kids age groups', () => {
   });
 
   it('formats when a group meets', () => {
-    expect(whenLabel(classesForAgeGroup('kids-4-7'))).toBe('Tue, Thu at 5:00 PM');
+    expect(whenLabel(classesForAgeGroup('kids-4-7'))).toBe(
+      'Tue, Thu at 5:00 PM and Sat at 9:00 AM',
+    );
+    expect(friendlyWhen(classesForAgeGroup('kids-8-13'))).toBe(
+      'Tue & Thu 5:00 PM \u00b7 Sat 9:00 AM',
+    );
+    expect(friendlyWhen(classesForAgeGroup('kids-8-13'), { long: true })).toBe(
+      'Tuesday & Thursday 5:00 PM \u00b7 Saturday 9:00 AM',
+    );
     expect(whenLabel([])).toBe('');
+  });
+});
+
+describe('compactRange', () => {
+  it('shares the suffix within a half of the day and keeps both across noon', () => {
+    expect(compactRange({ start: '19:00', durationMin: 60 })).toBe('7:00\u20138:00 PM');
+    expect(compactRange({ start: '11:30', durationMin: 60 })).toBe('11:30 AM\u201312:30 PM');
   });
 });
 

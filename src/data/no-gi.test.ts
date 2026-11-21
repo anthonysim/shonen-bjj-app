@@ -16,6 +16,6 @@ describe('no-gi page data', () => {
 
   it('has a scheduled no-gi class for the "When" row, and enough credentials to show three', () => {
     expect(schedule.some((c) => c.category === 'no-gi')).toBe(true);
-    expect(coach.competitionRecord.length).toBeGreaterThanOrEqual(3);
+    expect(coach.highlights.length).toBeGreaterThanOrEqual(3);
   });
 });
