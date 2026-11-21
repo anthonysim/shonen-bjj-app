@@ -80,3 +80,14 @@ export const academyFeatures: Feature[] = [
   { tag: 'Lounge', title: 'A seating area where parents can watch class' },
   { tag: 'Day one', title: 'A clean loaner gi for your first class' },
 ];
+
+/** The academy's name as a dictionary entry. Homepage and About. */
+export const nameDefinition = {
+  word: 'Shōnen',
+  /** Shown with a syllable break; screen readers hear `word` */
+  display: 'Shō·nen',
+  pronunciation: 'show-nuhn',
+  partOfSpeech: 'noun',
+  meaning:
+    'High-action narratives that focus on competitions or fights to decide their storylines. These stories stress values such as self-perfection, self-discipline, and honorable service to community, family, and friends.',
+} as const;

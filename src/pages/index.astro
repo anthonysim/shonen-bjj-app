@@ -18,7 +18,7 @@ import ProgramRow from '@/components/ProgramRow.astro';
 import NumberedRows from '@/components/NumberedRows.astro';
 import VideoHero from '@/components/VideoHero.astro';
 import VisitBlock from '@/components/VisitBlock.astro';
-import { firstClassSteps, values } from '@/data/academy';
+import { firstClassSteps, nameDefinition, values } from '@/data/academy';
 import { coach } from '@/data/coach';
 import { featuredReviews, rating } from '@/data/reviews';
 import { programCards, site } from '@/data/site';
@@ -54,22 +54,20 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
     </ul>
   </VideoHero>
 
+  {/* The name: the definition on its own row, then the statement below, like the original */}
   <Section tone="paper">
-    <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
-      <div data-reveal>
-        <Definition
-          word="Sh\u014dnen"
-          pronunciation="show-nuhn"
-          partOfSpeech="noun"
-          meaning="High-action narratives that focus on competitions or fights to decide their storylines. These stories stress values such as self-perfection, self-discipline, and honorable service to community, family, and friends."
-        />
-      </div>
-      <div data-reveal style={{ '--i': 1 }}>
+    <div data-reveal class="lg:max-w-[58%]">
+      <Definition {...nameDefinition} />
+    </div>
+    <div class="mt-16 grid items-start gap-8 lg:mt-24 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+      <div data-reveal class="lg:col-span-5">
         <Heading
           text="Superior to your average martial arts academy."
           accent="martial arts academy."
         />
-        <p class="mt-6">
+      </div>
+      <div data-reveal style={{ '--i': 1 }} class="lg:col-start-7 lg:col-end-11 lg:pt-2">
+        <p class="text-[0.9375rem] leading-[1.7]">
           Shonen was built to offer world-class instruction that specializes in jiu jitsu, instead
           of following the trend of being a sub-par MMA school. Every class is organized, supervised
           and taught with the same attention to detail, whether it's your first day or your
