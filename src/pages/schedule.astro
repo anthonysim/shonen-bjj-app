@@ -1,32 +1,36 @@
 ---
 import landscape from '@/assets/placeholders/landscape.jpg';
+import Button from '@/components/Button.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import FormBand from '@/components/FormBand.astro';
 import Heading from '@/components/Heading.astro';
 import Hero from '@/components/Hero.astro';
 import LinkArrow from '@/components/LinkArrow.astro';
-import NumberedCards from '@/components/NumberedCards.astro';
 import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
-import VisitBlock from '@/components/VisitBlock.astro';
+import SectionHead from '@/components/SectionHead.astro';
 import { classGuide } from '@/data/class-guide';
 import {
   CATEGORIES,
   DAY_NAMES,
-  categoryLabels,
   classesByDay,
-  formatDays,
+  compactRange,
   schedule,
-  timeRange,
+  slotText,
 } from '@/data/schedule';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-const days = classesByDay();
-const openDays = days.filter((d) => d.classes.length > 0).map((d) => d.day);
+// Sunday has no classes; like the original it gets one line under the week instead of a day block
+const days = classesByDay().filter((d) => d.classes.length > 0);
+const openDays = days.map((d) => d.day);
 const kidsDays = [...new Set(schedule.filter((c) => c.category === 'kids').flatMap((c) => c.days))];
+// "Tue, Thu & Sat"
+const kidsDayList =
+  kidsDays.length > 1 ? `${kidsDays.slice(0, -1).join(', ')} & ${kidsDays.at(-1)}` : kidsDays[0];
 const facts = [
-  openDays.length > 1 ? `${openDays[0]}-${openDays[openDays.length - 1]}` : (openDays[0] ?? ''),
-  `Kids ${formatDays(kidsDays)}`,
+  openDays.length > 1 ? `${openDays[0]}\u2013${openDays.at(-1)}` : (openDays[0] ?? ''),
+  `Kids ${kidsDayList}`,
   'First class free',
 ].filter((fact) => fact !== '');
 
@@ -36,11 +40,8 @@ const filters = [
   { id: 'all', label: 'All' },
   ...CATEGORIES.map((c) => ({ id: c, label: tabLabels[c] })),
 ];
-const legend = [
-  { category: 'kids', note: 'Ages 4 to 13, grouped by age' },
-  { category: 'gi', note: 'Ages 14 and up, jacket and belt' },
-  { category: 'no-gi', note: 'Ages 14 and up, rash guard and shorts' },
-] as const;
+const legend = ['Kids, ages 4\u201313', 'Adults, gi', 'Adults, no-gi'];
+const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
 ---
 
 <BaseLayout
@@ -49,10 +50,10 @@ const legend = [
   breadcrumbs={[{ label: 'Schedule' }]}
 >
   <Hero
-    eyebrow="Schedule"
-    title="Find a class that fits your week"
-    accent="fits your week"
-    deck="Classes for kids, adults, and no-gi, Monday through Saturday. Arrive 15 minutes early for your first class."
+    eyebrow={`Class schedule · ${site.address.city}, ${site.address.region}`}
+    title="The week at Shonen."
+    accent="Shonen."
+    deck="Every class on the schedule is open to first-timers. Pick one and your first class is free."
     primary={{ label: 'See the timetable', href: '#timetable' }}
     secondary={{ label: 'Book a free class', href: '#book' }}
     facts={facts}
@@ -165,22 +166,17 @@ const legend = [
                     data-class
                     data-category={cls.category}
                   >
-                    <p class="font-medium text-ink">{timeRange(cls)}</p>
+                    <p class="font-medium text-ink">{compactRange(cls)}</p>
                     <div>
                       <p>
                         <a
                           href={`/programs/${cls.program}`}
                           class="font-medium text-ink underline-offset-4 hover:underline"
                         >
-                          {cls.name}
+                          {slotText(cls).name}
                         </a>
-                        <span class="ml-2 text-label font-medium tracking-[0.14em] text-muted uppercase">
-                          {categoryLabels[cls.category]}
-                        </span>
                       </p>
-                      <p class="text-sm text-muted">
-                        {cls.audience} · {cls.durationMin} min
-                      </p>
+                      <p class="text-sm text-muted">{slotText(cls).meta}</p>
                     </div>
                   </li>
                 ))}
@@ -193,27 +189,76 @@ const legend = [
       </div>
     </div>
 
-    <ul class="mt-8 grid gap-3 text-sm md:grid-cols-3">
-      {legend.map((item) => (
-        <li>
-          <span class="font-medium text-ink">{categoryLabels[item.category]}</span>
-          <span class="text-muted"> · {item.note}</span>
-        </li>
-      ))}
-    </ul>
+    <p class="mt-6">
+      <span class={label}>Sunday</span>
+      <span class="ml-3">Closed. See you Monday.</span>
+    </p>
+
+    <div class="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm" aria-label="Key">
+        {legend.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <Button href="#book" arrow>
+        Book a free class
+      </Button>
+    </div>
   </Section>
 
+  {/* Class guide rows, with the academy hours beside them on desktop, like the original */}
   <Section id="class-guide">
-    <div class="max-w-2xl">
-      <Heading text="Not sure which class?" accent="which class?" />
-      <p class="mt-3 text-lede text-muted">A quick guide to where most people start.</p>
-    </div>
-    <div class="mt-10">
-      <NumberedCards items={classGuide} columns={4} />
+    <div class="grid items-start gap-16 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-[clamp(32px,6vw,112px)]">
+      <div>
+        <SectionHead
+          eyebrow="Class guide"
+          heading="Which class is for me?"
+          accent="is for me?"
+          split={false}
+        />
+        <ol>
+          {classGuide.map((item) => (
+            <li
+              data-reveal
+              class="grid grid-cols-[minmax(72px,120px)_minmax(0,1fr)] items-baseline gap-x-5 gap-y-2 border-t border-line py-5 last:border-b"
+            >
+              <span class={label}>{item.tag}</span>
+              <h3 class="leading-[1.45] font-medium text-ink">{item.title}</h3>
+              <p class="col-start-2 text-sm">
+                {item.body}{' '}
+                <a href={item.href} class="font-medium text-ink underline underline-offset-4">
+                  {item.link}
+                </a>
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <aside
+        data-reveal
+        aria-label="Academy hours"
+        class="rounded-card border border-line p-[clamp(24px,3vw,40px)] lg:mt-[calc(var(--text-label)*2)]"
+      >
+        <Eyebrow>Visit</Eyebrow>
+        <Heading text="Academy hours" accent="hours" size="md" class="mt-3" />
+        <dl class="mt-6 text-sm">
+          {site.hours.map((row) => (
+            <div class="flex justify-between gap-4 border-t border-line py-3 last:border-b">
+              <dt>{row.days}</dt>
+              <dd class="text-ink">{row.time}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="mt-6 text-sm">
+          Arrive 15 minutes early for your first class to meet the staff, sign a quick waiver and
+          take a tour. {site.address.street}, {site.address.city}.
+        </p>
+        <LinkArrow href="/contact" class="mt-6 text-ink">
+          Directions
+        </LinkArrow>
+      </aside>
     </div>
   </Section>
-
-  <VisitBlock tone="surface" />
 
   <FormBand />
 </BaseLayout>
@@ -231,7 +276,7 @@ const legend = [
 </style>
 
 <script>
-  import { dayFromDate, nextClass } from '@/data/schedule';
+  import { dayFromDate, nextClass, slotText } from '@/data/schedule';
 
   // Static HTML can't know today's date, so mark it in the browser.
   const today = document.querySelector(`[data-day="${dayFromDate(new Date())}"]`);
@@ -248,6 +293,6 @@ const legend = [
     set('data-next-label', 'Next class');
     set('data-next-name', next.cls.name);
     set('data-next-when', `${day.charAt(0).toUpperCase()}${day.slice(1)} \u00b7 ${time}`);
-    set('data-next-meta', `${next.cls.audience} \u00b7 ${next.cls.durationMin} min`);
+    set('data-next-meta', slotText(next.cls).meta);
   }
 </script>

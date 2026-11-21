@@ -22,7 +22,10 @@ export interface ScheduleClass {
   /** 24h "HH:MM" start time */
   start: string;
   durationMin: number;
+  /** "Adults 14+", or the kids age groups ("Ages 4–7 & 8–13") */
   audience: string;
+  /** Shown after the length on the schedule, e.g. "Rash guard" */
+  attire?: string;
   /** For kids classes: the age group ids that train in this slot (see `programs` in site.ts) */
   ageGroups?: string[];
 }
@@ -30,7 +33,7 @@ export interface ScheduleClass {
 export const schedule: ScheduleClass[] = [
   {
     id: 'kids-weekday',
-    name: 'Kids',
+    name: 'Kids BJJ',
     category: 'kids',
     program: 'kids',
     ageGroups: ['kids-4-7', 'kids-8-13'],
@@ -38,10 +41,11 @@ export const schedule: ScheduleClass[] = [
     start: '17:00',
     durationMin: 45,
     audience: 'Ages 4\u20137 & 8\u201313',
+    attire: 'Gi',
   },
   {
     id: 'kids-saturday',
-    name: 'Kids',
+    name: 'Kids BJJ',
     category: 'kids',
     program: 'kids',
     ageGroups: ['kids-4-7', 'kids-8-13'],
@@ -49,58 +53,78 @@ export const schedule: ScheduleClass[] = [
     start: '09:00',
     durationMin: 45,
     audience: 'Ages 4\u20137 & 8\u201313',
+    attire: 'Gi',
   },
   {
     id: 'adults-basics',
-    name: 'Adults Basics',
+    name: 'Gi Basics',
     category: 'gi',
     program: 'bjj',
     days: ['Mon', 'Tue', 'Wed', 'Thu'],
     start: '19:00',
     durationMin: 60,
-    audience: 'Ages 14+, all new students',
+    audience: 'Adults 14+',
   },
   {
     id: 'adults-all-levels-evening',
-    name: 'Adults All-Levels',
+    name: 'Gi All-Levels',
     category: 'gi',
     program: 'bjj',
     days: ['Mon', 'Wed'],
     start: '18:00',
     durationMin: 60,
-    audience: 'Ages 14+',
+    audience: 'Adults 14+',
   },
   {
     id: 'adults-all-levels-noon',
-    name: 'Adults All-Levels',
+    name: 'Gi All-Levels',
     category: 'gi',
     program: 'bjj',
     days: ['Fri'],
     start: '12:00',
     durationMin: 60,
-    audience: 'Ages 14+',
+    audience: 'Adults 14+',
   },
   {
     id: 'adults-all-levels-saturday',
-    name: 'Adults All-Levels',
+    name: 'Gi All-Levels',
     category: 'gi',
     program: 'bjj',
     days: ['Sat'],
     start: '10:00',
     durationMin: 90,
-    audience: 'Ages 14+',
+    audience: 'Adults 14+',
   },
   {
     id: 'no-gi',
-    name: 'No-Gi',
+    name: 'No-Gi All-Levels',
     category: 'no-gi',
     program: 'no-gi',
     days: ['Tue', 'Thu'],
     start: '18:00',
     durationMin: 60,
-    audience: 'Ages 14+',
+    audience: 'Adults 14+',
+    attire: 'Rash guard',
   },
 ];
+
+/**
+ * A class's two schedule lines, like the original: kids put the ages in the name ("Kids BJJ · Ages
+ * 4–7 & 8–13" / "45 min · Gi"); adult classes put them in the meta ("Adults 14+ · 60 min").
+ */
+export function slotText(cls: ScheduleClass): { name: string; meta: string } {
+  const length = `${cls.durationMin} min`;
+  if (cls.category === 'kids') {
+    return {
+      name: `${cls.name} \u00b7 ${cls.audience}`,
+      meta: [length, cls.attire].filter(Boolean).join(' \u00b7 '),
+    };
+  }
+  return {
+    name: cls.name,
+    meta: [cls.audience, length, cls.attire].filter(Boolean).join(' \u00b7 '),
+  };
+}
 
 export interface DayClass extends ScheduleClass {
   day: Day;

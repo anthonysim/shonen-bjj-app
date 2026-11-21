@@ -33,7 +33,7 @@ const cards: Record<Category, { label: string; title: string; link: string; href
 // Adult gi classes say which class it is ("Basics · Mon–Thu"); the others just give the days
 function rowLabel(cls: ScheduleClass) {
   if (cls.category !== 'gi') return formatDaysFriendly(cls.days);
-  const name = cls.name.replace(/^Adults\s+/, '');
+  const name = cls.name.replace(/^Gi\s+/, '');
   return `${name} · ${formatDaysFriendly(cls.days, { short: true })}`;
 }
 
