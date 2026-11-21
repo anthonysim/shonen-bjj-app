@@ -59,6 +59,13 @@ export default defineConfig({
     plugins: [tailwindcss(), cacheFontsInDev()],
   },
 
-  integrations: [react(), mdx(), sitemap({ filter: (page) => !page.includes('/styleguide') })],
+  integrations: [
+    react(),
+    mdx(),
+    sitemap({
+      // Keep the styleguide and the form's thanks/error pages out of the sitemap
+      filter: (page) => !/\/(styleguide|free-trial\/thanks|free-trial\/error)/.test(page),
+    }),
+  ],
   adapter: vercel(),
 });

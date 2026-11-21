@@ -1,0 +1,28 @@
+---
+// Where the booking form lands without JavaScript when a request could not be sent. Not indexed.
+import Button from '@/components/Button.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
+import Heading from '@/components/Heading.astro';
+import Section from '@/components/Section.astro';
+import { site } from '@/data/site';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="We couldn't send that" noindex>
+  <Section containerClass="[--page-max:760px] text-center">
+    <Eyebrow>Something went wrong</Eyebrow>
+    <Heading level={1} size="xl" text="We couldn't send that." accent="send that." class="mt-4" />
+    <p class="mx-auto mt-6 max-w-[52ch] text-lede">
+      Please check that every field is filled in and try again, or call us and we'll book your free
+      class over the phone.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+      <Button href="/free-trial#book" arrow>
+        Try again
+      </Button>
+      <Button href={site.phone.href} variant="secondary">
+        Call {site.phone.display}
+      </Button>
+    </div>
+  </Section>
+</BaseLayout>

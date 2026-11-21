@@ -23,6 +23,8 @@ const input =
   'border-line min-h-12 w-full rounded-card border bg-white px-3 text-ink aria-[invalid=true]:border-error';
 const chip =
   'border-line bg-white text-ink peer-checked:border-ink peer-checked:bg-ink peer-focus-visible:outline-ink flex min-h-11 cursor-pointer items-center rounded-card border px-4 text-nav font-medium tracking-[0.1em] uppercase transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-checked:text-white';
+// Optional Cloudflare Turnstile widget; the server checks it only when its secret is set
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
 
 <div data-booking-root>
@@ -174,6 +176,10 @@ const chip =
       <p id={id('waiver-error')} data-error-for="waiver" class="text-error mt-1 text-sm" hidden></p>
     </div>
 
+    {turnstileSiteKey ? (
+      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />
+    ) : null}
+
     <Button type="submit" size="lg" class="w-full sm:w-auto" data-submit>
       {submitLabel}
     </Button>
@@ -202,6 +208,10 @@ const chip =
     <p class="text-muted mt-2">Thanks. We will text you shortly to confirm your class time.</p>
   </div>
 </div>
+
+{turnstileSiteKey ? (
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+) : null}
 
 <script>
   const MESSAGES: Record<string, string> = {
@@ -287,8 +297,11 @@ const chip =
           return;
         }
         if (data?.errors) {
+          // `form` is a whole-form problem (rate limit, spam check, delivery), not a field
+          const { form: formMessage, ...fields } = data.errors as Record<string, string>;
+          if (formMessage) showStatus(form, formMessage);
           let first: HTMLElement | null = null;
-          for (const [name, message] of Object.entries<string>(data.errors)) {
+          for (const [name, message] of Object.entries(fields)) {
             setError(form, name, message);
             first ??= form.querySelector<HTMLElement>(`[name="${name}"]`);
           }
