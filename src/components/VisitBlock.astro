@@ -122,11 +122,10 @@ const link =
         )}
       </div>
     </div>
-    {/* Greyscale like the rest of the site; full colour on hover or focus so the pin is readable */}
     <div
       data-reveal
       style={{ '--i': 1 }}
-      class="group relative aspect-4/3 overflow-hidden bg-paper-2 lg:col-start-8 lg:col-end-13 lg:aspect-4/5"
+      class="relative aspect-4/3 overflow-hidden bg-paper-2 lg:col-start-8 lg:col-end-13 lg:aspect-4/5"
     >
       <iframe
         title={`Map to ${site.name}, ${address.street}, ${address.city}`}
@@ -134,7 +133,7 @@ const link =
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         allowfullscreen
-        class="absolute inset-0 size-full border-0 [filter:grayscale(1)_contrast(1.05)] transition-[filter] duration-500 group-focus-within:filter-none group-hover:filter-none motion-reduce:transition-none"
+        class="absolute inset-0 size-full border-0"
       ></iframe>
     </div>
   </div>
