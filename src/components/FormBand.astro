@@ -39,8 +39,8 @@ const {
 
 <Section tone="dark" id={id}>
   {/* Like the original's trial band: text in columns 1-5 (sticky on desktop), form card in 7-12 */}
-  <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
-    <div class="lg:sticky lg:top-[120px] lg:col-span-5 lg:pt-4">
+  <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)]">
+    <div class="lg:sticky lg:top-[7.5rem] lg:col-span-5 lg:pt-4">
       {eyebrow ? <Eyebrow class="mb-4 text-white/55">{eyebrow}</Eyebrow> : null}
       <Heading text={heading} accent={accent} size="lg" class="max-w-[12em]" />
       <p class="mt-6 max-w-prose text-lede text-white/72">{body}</p>
@@ -72,7 +72,7 @@ const {
         )}
       </div>
     </div>
-    <div class="relative rounded-card bg-surface p-[clamp(24px,3vw,44px)] text-body shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] [--heading:var(--color-ink)] lg:col-span-6 lg:col-start-7">
+    <div class="relative rounded-card bg-surface p-[clamp(1.5rem,3vw,2.75rem)] text-body shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] [--heading:var(--color-ink)] lg:col-span-6 lg:col-start-7">
       <BookingForm submitLabel={submitLabel} defaultProgram={defaultProgram} idPrefix={id} />
     </div>
   </div>

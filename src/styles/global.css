@@ -50,6 +50,9 @@
  *   md    = 768px  (iPad portrait)
  *   lg    = 1024px (iPad landscape / laptop)
  *   xl    = 1280px (desktop)
+ *   Past 1536px nothing new kicks in: the rem itself grows (see html in the base layer), so the
+ *   whole layout scales up. Size things in rem, not px, or they stay small on big screens.
+ *   Keep px for hairlines, shadows and media queries.
  *
  * Look: editorial and monochrome. Black ink on warm paper, a light serif for headings with an
  * italic tail phrase, uppercase tracked labels, hairline rules, near-square corners.
@@ -98,11 +101,12 @@
 }
 
 /*
- * Page column, like the original's .container: up to 1280px of content plus the gutters, so text
- * lines up 73px from the edge at 1440. Narrower columns set --page-max (Container sm/md).
+ * Page column, like the original's .container: up to 80rem of content plus the gutters (1280px, so
+ * text lines up 73px from the edge at 1440; wider on big screens, where the rem grows). Narrower
+ * columns set --page-max (Container sm/md).
  */
 @utility page-container {
-  width: min(100% - 2 * var(--spacing-gutter), var(--page-max, 1280px));
+  width: min(100% - 2 * var(--spacing-gutter), var(--page-max, 80rem));
   margin-inline: auto;
 }
 
@@ -122,6 +126,11 @@
   }
 
   html {
+    /* Big screens: the rem grows past 1536px wide (16px, then about 18px at 1920, 22px at 2560 and
+       30px at 3840), and the column, type and spacing with it. Height counts too, so a short,
+       ultrawide window does not get type that fills the whole screen. Percentages keep the
+       visitor's own browser font size as the base. */
+    font-size: clamp(100%, 100% + (min(100vw, 200vh) - 96rem) * 0.00625, 200%);
     /* Always reserve the scrollbar's space. Otherwise a page that starts shorter than the window
        and then grows (images, streamed HTML) gains a scrollbar and everything shifts sideways. */
     scrollbar-gutter: stable;
@@ -203,7 +212,7 @@
     z-index: 60;
     height: var(--spacing-header);
     background: rgb(245 242 235 / 0.96);
-    backdrop-filter: blur(10px) saturate(1.2);
+    backdrop-filter: blur(0.625rem) saturate(1.2);
     box-shadow: 0 1px 0 var(--color-line);
     color: var(--color-ink);
     transition:
@@ -221,7 +230,7 @@
   .site-header[data-overlay]::before {
     content: '';
     position: absolute;
-    inset: 0 0 -40px;
+    inset: 0 0 -2.5rem;
     z-index: -1;
     pointer-events: none;
     background: linear-gradient(180deg, rgb(0 0 0 / 0.45), rgb(0 0 0 / 0));
@@ -264,7 +273,7 @@
   .site-nav__link {
     position: relative;
     display: inline-block;
-    padding-block: 10px;
+    padding-block: 0.625rem;
     font: 500 var(--text-nav) / 1 var(--font-sans);
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -293,8 +302,8 @@
   .site-header__cta {
     align-items: center;
     justify-content: center;
-    min-height: 44px;
-    padding-inline: 20px;
+    min-height: 2.75rem;
+    padding-inline: 1.25rem;
     border: 1px solid var(--color-ink);
     border-radius: var(--radius-card);
     background: var(--color-ink);
@@ -323,9 +332,9 @@
   /* Two hairlines that cross into an X */
   .menu-toggle {
     position: relative;
-    width: 44px;
-    height: 44px;
-    margin-right: -10px;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-right: -0.625rem;
     color: inherit;
   }
 
@@ -334,8 +343,8 @@
   .menu-toggle__bars::after {
     position: absolute;
     left: 50%;
-    width: 24px;
-    margin-left: -12px;
+    width: 1.5rem;
+    margin-left: -0.75rem;
   }
 
   .menu-toggle__bars {
@@ -383,7 +392,7 @@
     overscroll-behavior: contain;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-8px);
+    transform: translateY(-0.5rem);
     transition:
       opacity 320ms var(--ease-out-expo),
       transform 320ms var(--ease-out-expo),
@@ -402,7 +411,7 @@
 
   .mobile-menu__item {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(0.625rem);
     transition:
       opacity 320ms var(--ease-out-expo),
       transform 320ms var(--ease-out-expo);
@@ -459,7 +468,7 @@
 @keyframes hero-rise {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(1rem);
   }
   to {
     opacity: 1;
@@ -475,7 +484,7 @@
 
   html.js [data-reveal] {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(1.25rem);
     transition:
       opacity 700ms var(--ease-out-expo),
       transform 700ms var(--ease-out-expo);

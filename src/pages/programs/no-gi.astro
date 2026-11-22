@@ -67,9 +67,9 @@ const [quote] = reviewsFor('no-gi', 1);
       accent="Train both."
       lede="The use of the uniform is the main difference. Both styles share the same fundamentals, and once you train with us you’ll find they complement each other greatly."
     />
-    <div class="grid gap-6 md:grid-cols-2 md:gap-x-[clamp(16px,2vw,32px)]">
+    <div class="grid gap-6 md:grid-cols-2 md:gap-x-[clamp(1rem,2vw,2rem)]">
       {comparison.map((item) => (
-        <article class="flex flex-col rounded-card border border-line-strong p-[clamp(24px,3vw,40px)]">
+        <article class="flex flex-col rounded-card border border-line-strong p-[clamp(1.5rem,3vw,2.5rem)]">
           <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">{item.label}</p>
           <h3 class="mt-2 text-h3">{item.title}</h3>
           <p class="mt-4">{item.blurb}</p>
@@ -80,7 +80,7 @@ const [quote] = reviewsFor('no-gi', 1);
   </Section>
 
   <Section id="details">
-    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(16px,2vw,32px)]">
+    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(1rem,2vw,2rem)]">
       <header>
         <Eyebrow class="mb-4">The details</Eyebrow>
         <Heading text="When and what to wear." accent="what to wear." />
@@ -105,7 +105,7 @@ const [quote] = reviewsFor('no-gi', 1);
           class="h-full object-cover"
         />
       </div>
-      <div class="px-(--spacing-gutter) py-[clamp(4.5rem,4rem+6vw,9.5rem)] lg:px-[clamp(32px,4vw,72px)] xl:pr-[max(var(--spacing-gutter),calc((100vw-1280px)/2))]">
+      <div class="px-(--spacing-gutter) py-[clamp(4.5rem,4rem+6vw,9.5rem)] lg:px-[clamp(2rem,4vw,4.5rem)] xl:pr-[max(var(--spacing-gutter),calc((100vw-80rem)/2))]">
         <Eyebrow class="text-white/55">On the competition mat</Eyebrow>
         <Heading text="Taught by an IBJJF no‑gi champion." accent="no‑gi champion." class="mt-4" />
         <CredentialList
@@ -131,14 +131,14 @@ const [quote] = reviewsFor('no-gi', 1);
 
   {/* Two-photo strip, like the original's tight gallery section */}
   <Section tone="surface" class="py-[clamp(2.5rem,2rem+3vw,5rem)]!">
-    <div class="grid grid-cols-2 gap-[clamp(8px,2vw,32px)]">
+    <div class="grid grid-cols-2 gap-[clamp(0.5rem,2vw,2rem)]">
       {[square, landscape].map((image) => (
         <div class="aspect-4/3 overflow-hidden bg-paper-2">
           <Photo
             src={image}
             alt=""
             grade="mono"
-            sizes="(min-width: 1280px) 620px, 50vw"
+            sizes="(min-width: 1536px) 41vw, (min-width: 1280px) 620px, 50vw"
             widths={[320, 640, 960]}
             class="h-full object-cover"
           />

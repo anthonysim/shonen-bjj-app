@@ -61,7 +61,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
     />
   </Hero>
 
-  <Section tone="surface" id="story" containerClass="[--page-max:760px]">
+  <Section tone="surface" id="story" containerClass="[--page-max:47.5rem]">
     <Eyebrow>The story</Eyebrow>
     <Heading text="A teacher who still competes." accent="still competes." class="mt-4 mb-12" />
     <div class="space-y-[1.1em]">
@@ -72,7 +72,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
         <p>{paragraph}</p>
       ))}
     </div>
-    <figure class="mt-[clamp(56px,7vw,112px)] border-y border-line py-[clamp(32px,4vw,56px)] text-center">
+    <figure class="mt-[clamp(3.5rem,7vw,7rem)] border-y border-line py-[clamp(2rem,4vw,3.5rem)] text-center">
       <blockquote>
         <p class="mx-auto max-w-[20ch] font-display text-h2 font-light text-balance text-ink">
           {quote ? (
@@ -96,8 +96,8 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
       accent="at the highest level."
       lede={`${coach.shortName} still competes as an IBJJF black belt, so what he teaches in class has been tested against the best in the world.`}
     />
-    <div class="grid items-start gap-16 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
-      <figure class="md:max-w-[520px] lg:sticky lg:top-[calc(var(--spacing-header)+32px)] lg:col-start-1 lg:col-end-6 lg:max-w-none">
+    <div class="grid items-start gap-16 lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)]">
+      <figure class="md:max-w-[32.5rem] lg:sticky lg:top-[calc(var(--spacing-header)+2rem)] lg:col-start-1 lg:col-end-6 lg:max-w-none">
         <div class="aspect-square overflow-hidden bg-paper-2">
           <Photo
             src={square}
@@ -124,7 +124,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
   </Section>
 
   <Section tone="surface" id="lineage">
-    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)]">
       <div class="lg:col-start-7 lg:col-end-13 lg:row-start-1">
         <Eyebrow>Lineage</Eyebrow>
         <Heading text="Modern, detailed, technical." accent="technical." class="mt-4" />
@@ -137,7 +137,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
           Explore the programs
         </LinkArrow>
       </div>
-      <figure class="md:max-w-[520px] lg:col-start-1 lg:col-end-6 lg:row-start-1 lg:max-w-none">
+      <figure class="md:max-w-[32.5rem] lg:col-start-1 lg:col-end-6 lg:row-start-1 lg:max-w-none">
         <div class="aspect-4/5 overflow-hidden bg-paper-2">
           <Photo
             src={landscape}

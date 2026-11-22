@@ -65,7 +65,7 @@ const kidsDays = friendlyWhen(
       accent="their age."
       lede="Every child trains with partners close to their age and size. Both groups train at the same times, so brothers and sisters can come together."
     />
-    <div class="grid gap-12 sm:grid-cols-2 sm:gap-x-[clamp(16px,2vw,32px)]">
+    <div class="grid gap-12 sm:grid-cols-2 sm:gap-x-[clamp(1rem,2vw,2rem)]">
       {ageGroups.map((group, index) => (
         <AgeGroupCard
           group={group}
@@ -94,9 +94,9 @@ const kidsDays = friendlyWhen(
       accent="other martial arts?"
       lede="Jiu jitsu focuses on controlling situations as safely as possible. Without punches or kicks to the head, kids can practise against fully resisting partners safely, so if someone ever puts their hands on them, it won’t be the first time."
     />
-    <div class="grid items-start gap-12 min-[1100px]:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] min-[1100px]:gap-[clamp(32px,5vw,96px)]">
+    <div class="grid items-start gap-12 min-[1100px]:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] min-[1100px]:gap-[clamp(2rem,5vw,6rem)]">
       <NumberedRows items={whyJiuJitsu} />
-      <div class="max-h-[70svh] overflow-hidden bg-paper-2 min-[1100px]:sticky min-[1100px]:top-[calc(var(--spacing-header)+32px)] min-[1100px]:max-h-none">
+      <div class="max-h-[70svh] overflow-hidden bg-paper-2 min-[1100px]:sticky min-[1100px]:top-[calc(var(--spacing-header)+2rem)] min-[1100px]:max-h-none">
         <Photo
           src={portrait}
           alt="Placeholder photo of kids drilling a technique"
@@ -110,7 +110,7 @@ const kidsDays = friendlyWhen(
   </Section>
 
   <Section tone="surface" id="inside-a-class">
-    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)]">
       <div class="lg:col-start-7 lg:col-end-13 lg:row-start-1">
         <Eyebrow>Inside a class</Eyebrow>
         <Heading text="What a kids class looks like." accent="looks like." class="mt-4" />
@@ -134,7 +134,7 @@ const kidsDays = friendlyWhen(
   </Section>
 
   <Section id="safety">
-    <div class="grid items-center gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(32px,6vw,112px)]">
+    <div class="grid items-center gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(2rem,6vw,7rem)]">
       <div>
         <Eyebrow>Parents ask us</Eyebrow>
         <Heading text="Safe, clean and well supervised." accent="well supervised." class="mt-4" />
@@ -146,7 +146,7 @@ const kidsDays = friendlyWhen(
           ))}
         </ul>
       </div>
-      <div class="grid grid-cols-2 items-start gap-x-[clamp(16px,2vw,32px)]">
+      <div class="grid grid-cols-2 items-start gap-x-[clamp(1rem,2vw,2rem)]">
         {[portrait, landscape].map((image, index) => (
           <div
             class:list={['aspect-4/5 overflow-hidden bg-paper-2', index === 1 && 'mt-16 lg:mt-32']}
@@ -173,7 +173,7 @@ const kidsDays = friendlyWhen(
   />
 
   <Section id="watch">
-    <div class="grid items-center gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-[clamp(32px,6vw,112px)]">
+    <div class="grid items-center gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-[clamp(2rem,6vw,7rem)]">
       <div>
         <Eyebrow>Watch a class</Eyebrow>
         <Heading text="See a kids class in action." accent="in action." class="mt-4" />

@@ -21,7 +21,7 @@ const at = accent ? title.lastIndexOf(accent) : -1;
   href={href}
   data-reveal
   class:list={[
-    'group grid grid-cols-[120px_minmax(0,1fr)_auto] items-center gap-x-[clamp(16px,3vw,40px)] gap-y-4 border-y border-line py-4 text-inherit sm:grid-cols-[220px_minmax(0,1fr)_auto]',
+    'group grid grid-cols-[7.5rem_minmax(0,1fr)_auto] items-center gap-x-[clamp(1rem,3vw,2.5rem)] gap-y-4 border-y border-line py-4 text-inherit sm:grid-cols-[13.75rem_minmax(0,1fr)_auto]',
     className,
   ]}
 >
@@ -30,8 +30,8 @@ const at = accent ? title.lastIndexOf(accent) : -1;
       src={image}
       alt=""
       grade="mono"
-      sizes="220px"
-      widths={[240, 440]}
+      sizes="(min-width: 1536px) 15vw, 220px"
+      widths={[240, 440, 800]}
       class="h-full object-cover transition-[filter,transform] duration-[1200ms] motion-reduce:transition-none group-hover:scale-[1.03] group-hover:[filter:grayscale(0.15)_contrast(1.02)] motion-reduce:group-hover:scale-100"
     />
   </div>

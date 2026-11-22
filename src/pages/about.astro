@@ -35,7 +35,7 @@ const facts = [
   'No sign-up fees',
 ];
 const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
-const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
+const gutterX = 'gap-x-[clamp(1rem,2vw,2rem)]';
 ---
 
 <BaseLayout
@@ -105,7 +105,7 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
           Meet the Coach
         </LinkArrow>
       </div>
-      <figure class="md:max-w-[520px] lg:col-start-1 lg:col-end-6 lg:row-start-1 lg:max-w-none">
+      <figure class="md:max-w-[32.5rem] lg:col-start-1 lg:col-end-6 lg:row-start-1 lg:max-w-none">
         <div class="aspect-4/5 overflow-hidden bg-paper-2">
           <Photo
             src={portrait}
@@ -148,7 +148,7 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
       <CredentialList items={academyFeatures} class="lg:col-start-7 lg:col-end-13" />
     </div>
     {/* Swipeable row on phones; three equal photos side by side from lg */}
-    <div class="-mx-(--spacing-gutter) grid snap-x snap-mandatory auto-cols-[78%] grid-flow-col gap-3 overflow-x-auto scroll-px-(--spacing-gutter) px-(--spacing-gutter) pb-3 lg:mx-0 lg:grid-flow-row lg:grid-cols-3 lg:gap-[clamp(16px,2vw,32px)] lg:overflow-visible lg:p-0">
+    <div class="-mx-(--spacing-gutter) grid snap-x snap-mandatory auto-cols-[78%] grid-flow-col gap-3 overflow-x-auto scroll-px-(--spacing-gutter) px-(--spacing-gutter) pb-3 lg:mx-0 lg:grid-flow-row lg:grid-cols-3 lg:gap-[clamp(1rem,2vw,2rem)] lg:overflow-visible lg:p-0">
       {[portrait, square, landscape].map((image) => (
         <div class="aspect-4/5 snap-start overflow-hidden bg-paper-2">
           <Photo
@@ -177,8 +177,8 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
           src={landscape}
           alt="Placeholder photo of the whole team together"
           grade="mono"
-          sizes="(min-width: 1376px) 1280px, 100vw"
-          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width: 1536px) 84vw, (min-width: 1376px) 1280px, 100vw"
+          widths={[640, 960, 1280, 1600, 2560]}
           class="h-full object-cover"
         />
       </div>
@@ -189,12 +189,12 @@ const gutterX = 'gap-x-[clamp(16px,2vw,32px)]';
         quote={communityQuote.quote}
         author={communityQuote.author}
         label="Google review"
-        class="mt-16 ml-auto max-w-[760px]"
+        class="mt-16 ml-auto max-w-[47.5rem]"
       />
     ) : null}
   </Section>
 
-  <Section tone="surface" id="promise" containerClass="[--page-max:760px] text-center">
+  <Section tone="surface" id="promise" containerClass="[--page-max:47.5rem] text-center">
     <Eyebrow>Our promise</Eyebrow>
     <Heading text="No sign-up fees. Ever." accent="Ever." class="mt-4" />
     <p class="mx-auto mt-6 max-w-[56ch] text-lede">

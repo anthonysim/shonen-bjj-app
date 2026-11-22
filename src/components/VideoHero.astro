@@ -38,13 +38,13 @@ const {
   videoSources = [],
 } = Astro.props;
 const hasVideo = videoSources.length > 0;
-// Lines up with the content column's edge at every width (page-container: gutter, 1280px cap)
-const edge = 'max(var(--spacing-gutter), calc((100% - 1280px) / 2))';
+// Lines up with the content column's edge at every width (page-container: gutter, 80rem cap)
+const edge = 'max(var(--spacing-gutter), calc((100% - 80rem) / 2))';
 ---
 
 <section
   data-video-hero
-  class="group/hero relative isolate flex min-h-[max(640px,min(100svh,940px))] flex-col justify-end overflow-hidden bg-ink pt-[calc(var(--spacing-header)+48px)] pb-[clamp(40px,8vh,96px)] text-white [--heading:#fff]"
+  class="group/hero relative isolate flex min-h-[max(40rem,min(100svh,58.75rem))] flex-col justify-end overflow-hidden bg-ink pt-[calc(var(--spacing-header)+3rem)] pb-[clamp(2.5rem,8vh,6rem)] text-white [--heading:#fff]"
 >
   <Photo
     src={poster}
@@ -52,7 +52,7 @@ const edge = 'max(var(--spacing-gutter), calc((100% - 1280px) / 2))';
     priority
     grade="hero"
     sizes="100vw"
-    widths={[640, 1024, 1600]}
+    widths={[640, 1024, 1600, 2560]}
     class="absolute inset-0 -z-20 h-full object-cover object-[50%_40%] opacity-45 transition-opacity duration-1000 group-has-[video[data-playing]]/hero:opacity-0"
   />
   {hasVideo ? (
@@ -80,7 +80,7 @@ const edge = 'max(var(--spacing-gutter), calc((100% - 1280px) / 2))';
   {meta ? (
     <p
       style={{ right: edge }}
-      class="hero-rise absolute top-[calc(var(--spacing-header)+40px)] hidden [--rise-delay:750ms] items-center gap-3.5 text-label font-medium tracking-[0.14em] text-white/55 uppercase before:h-px before:w-10 before:bg-white/35 lg:flex"
+      class="hero-rise absolute top-[calc(var(--spacing-header)+2.5rem)] hidden [--rise-delay:750ms] items-center gap-3.5 text-label font-medium tracking-[0.14em] text-white/55 uppercase before:h-px before:w-10 before:bg-white/35 lg:flex"
     >
       {meta}
     </p>
@@ -95,15 +95,15 @@ const edge = 'max(var(--spacing-gutter), calc((100% - 1280px) / 2))';
       size="display"
       text={title}
       accent={accent}
-      class="hero-rise mt-[clamp(20px,2.4vw,32px)] max-w-[1040px] [--rise-delay:270ms]"
+      class="hero-rise mt-[clamp(1.25rem,2.4vw,2rem)] max-w-[65rem] [--rise-delay:270ms]"
     />
     {deck ? (
-      <p class="hero-rise mt-[clamp(20px,2.2vw,32px)] max-w-[46ch] text-lede text-white/72 [--rise-delay:390ms]">
+      <p class="hero-rise mt-[clamp(1.25rem,2.2vw,2rem)] max-w-[46ch] text-lede text-white/72 [--rise-delay:390ms]">
         {deck}
       </p>
     ) : null}
     {primary || secondary ? (
-      <div class="hero-rise mt-[clamp(28px,3vw,44px)] flex flex-wrap gap-x-6 gap-y-4 [--rise-delay:510ms]">
+      <div class="hero-rise mt-[clamp(1.75rem,3vw,2.75rem)] flex flex-wrap gap-x-6 gap-y-4 [--rise-delay:510ms]">
         {primary ? (
           <Button href={primary.href} size="lg" variant="inverse" arrow>
             {primary.label}
@@ -116,7 +116,7 @@ const edge = 'max(var(--spacing-gutter), calc((100% - 1280px) / 2))';
         ) : null}
       </div>
     ) : null}
-    <div class="hero-rise mt-[clamp(36px,5vw,72px)] [--rise-delay:630ms]">
+    <div class="hero-rise mt-[clamp(2.25rem,5vw,4.5rem)] [--rise-delay:630ms]">
       <slot />
     </div>
   </Container>
@@ -128,7 +128,7 @@ const edge = 'max(var(--spacing-gutter), calc((100% - 1280px) / 2))';
       hidden
       aria-label="Pause background video"
       style={{ right: edge }}
-      class="absolute top-[calc(var(--spacing-header)+16px)] z-[2] inline-flex size-11 items-center justify-center rounded-full border border-white/35 bg-black/20 text-white transition-colors duration-300 hover:border-white hover:bg-black/40 lg:top-auto lg:bottom-[clamp(40px,8vh,96px)]"
+      class="absolute top-[calc(var(--spacing-header)+1rem)] z-[2] inline-flex size-11 items-center justify-center rounded-full border border-white/35 bg-black/20 text-white transition-colors duration-300 hover:border-white hover:bg-black/40 lg:top-auto lg:bottom-[clamp(2.5rem,8vh,6rem)]"
     >
       <svg
         data-icon="pause"

@@ -43,10 +43,10 @@ const faqJsonLd = faqPageJsonLd([
   structuredData={[faqJsonLd]}
 >
   <section id="book" class="bg-paper text-body">
-    <div class="page-container grid items-start gap-10 py-[clamp(28px,5vw,72px)] lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+    <div class="page-container grid items-start gap-10 py-[clamp(1.75rem,5vw,4.5rem)] lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)]">
       <div class="lg:col-start-1 lg:col-end-6 lg:pt-6">
         <Breadcrumbs crumbs={withHome(breadcrumbs)} />
-        <Eyebrow class="mt-[clamp(28px,4vw,56px)] mb-[clamp(16px,2vw,24px)]">
+        <Eyebrow class="mt-[clamp(1.75rem,4vw,3.5rem)] mb-[clamp(1rem,2vw,1.5rem)]">
           {`Free Brazilian Jiu Jitsu class · ${site.address.city}, ${site.address.region}`}
         </Eyebrow>
         <Heading level={1} size="xl" text="Your first class is on us." accent="on us." />
@@ -56,7 +56,7 @@ const faqJsonLd = faqPageJsonLd([
         </p>
       </div>
 
-      <div class="rounded-card bg-surface p-[clamp(24px,3vw,44px)] shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] lg:col-start-7 lg:col-end-13 lg:row-span-2">
+      <div class="rounded-card bg-surface p-[clamp(1.5rem,3vw,2.75rem)] shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] lg:col-start-7 lg:col-end-13 lg:row-span-2">
         <Eyebrow class="mb-6">Step 1 of 2 · Pick your class</Eyebrow>
         <BookingForm idPrefix="trial" />
       </div>
