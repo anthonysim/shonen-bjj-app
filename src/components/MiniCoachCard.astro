@@ -18,7 +18,7 @@ const firstPart = coach.displayName.slice(0, coach.displayName.length - coach.ac
 
 <article
   class:list={[
-    'grid grid-cols-[96px_minmax(0,1fr)] items-center gap-5 rounded-card border border-line p-4 sm:grid-cols-[160px_minmax(0,1fr)] sm:gap-8 sm:p-6',
+    'grid grid-cols-[6rem_minmax(0,1fr)] items-center gap-5 rounded-card border border-line p-4 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-8 sm:p-6',
     className,
   ]}
 >
@@ -27,8 +27,8 @@ const firstPart = coach.displayName.slice(0, coach.displayName.length - coach.ac
       src={portrait}
       alt={`Placeholder portrait of ${coach.displayName}`}
       grade="mono"
-      sizes="160px"
-      widths={[160, 320]}
+      sizes="(min-width: 1536px) 11vw, 160px"
+      widths={[160, 320, 640]}
       class="h-full object-cover"
     />
   </div>

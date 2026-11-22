@@ -28,14 +28,14 @@ const fullAddress = `${address.street}, ${address.city}, ${address.region} ${add
 // The address opens the academy's Maps listing; the button opens directions to it
 const listing = mapsUrl();
 const directions = directionsUrl();
-const row = 'grid grid-cols-[88px_minmax(0,1fr)] gap-4 border-t border-line py-4';
+const row = 'grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 border-t border-line py-4';
 const label = 'text-label leading-[1.8] font-medium tracking-[0.14em] text-muted uppercase';
 const link =
   'text-ink underline decoration-line-strong underline-offset-4 hover:decoration-current';
 ---
 
 <Section tone={tone} id="visit">
-  <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+  <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)]">
     <div data-reveal class="lg:col-start-1 lg:col-end-7">
       <SectionHead eyebrow="Visit" heading={heading} accent={accent} split={false} />
       <dl class="border-b border-line">

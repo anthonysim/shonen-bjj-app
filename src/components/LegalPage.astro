@@ -23,23 +23,23 @@ const { Content } = await render(entry);
 const effective = `Effective ${formatDate(entry.data.effective)} · ${site.legalName} · ${site.address.city}, Maryland`;
 ---
 
-<section class="bg-paper py-[clamp(56px,3rem+4vw,104px)]">
-  <div class="page-container [--page-max:760px]">
+<section class="bg-paper py-[clamp(3.5rem,3rem+4vw,6.5rem)]">
+  <div class="page-container [--page-max:47.5rem]">
     <Breadcrumbs crumbs={crumbs} />
-    <Eyebrow class="mt-[clamp(28px,4vw,56px)] mb-[clamp(16px,2vw,24px)]">Legal</Eyebrow>
+    <Eyebrow class="mt-[clamp(1.75rem,4vw,3.5rem)] mb-[clamp(1rem,2vw,1.5rem)]">Legal</Eyebrow>
     <Heading level={1} size="xl" text={entry.data.title} />
     <p class="mt-6 text-lede">{entry.data.summary}</p>
     <Eyebrow class="mt-6">{effective}</Eyebrow>
   </div>
 </section>
 
-<Section tone="surface" containerClass="[--page-max:760px]">
+<Section tone="surface" containerClass="[--page-max:47.5rem]">
   <article class="prose max-w-[68ch] text-body prose-headings:font-display prose-headings:font-light prose-headings:tracking-[-0.015em] prose-headings:text-ink prose-h2:mt-16 prose-h2:text-h3 prose-h2:first:mt-0 prose-p:text-body prose-a:text-ink prose-a:underline-offset-[3px] prose-strong:text-ink prose-li:marker:text-muted">
     <Content />
   </article>
 </Section>
 
-<section class="bg-paper py-[clamp(56px,3rem+4vw,104px)]">
+<section class="bg-paper py-[clamp(3.5rem,3rem+4vw,6.5rem)]">
   <div class="page-container flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
     <div>
       <Eyebrow>Questions about this page?</Eyebrow>

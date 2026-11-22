@@ -72,7 +72,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
   <Section
     tone="surface"
     id="timetable"
-    class="pt-(--section-pt)! [--section-pt:clamp(56px,3rem+4vw,104px)]"
+    class="pt-(--section-pt)! [--section-pt:clamp(3.5rem,3rem+4vw,6.5rem)]"
   >
     {/*
       Header: title and intro on the left, a "next class" card on the right. The card ships a
@@ -81,7 +81,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
     */}
     <header
       data-reveal
-      class="mb-[clamp(40px,2rem+3vw,72px)] flex flex-col gap-10 lg:flex-row lg:items-stretch lg:gap-[clamp(40px,5vw,80px)]"
+      class="mb-[clamp(2.5rem,2rem+3vw,4.5rem)] flex flex-col gap-10 lg:flex-row lg:items-stretch lg:gap-[clamp(2.5rem,5vw,5rem)]"
     >
       {/* Same vertical padding as the card, so the label and the last line line up with it */}
       <div class="flex flex-col lg:max-w-[34rem] lg:justify-between lg:pt-3 lg:pb-6">
@@ -97,7 +97,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
 
       <aside
         aria-label="Next class"
-        class="flex flex-col rounded-card border border-line bg-paper p-5 sm:p-6 lg:w-[300px] lg:flex-none"
+        class="flex flex-col rounded-card border border-line bg-paper p-5 sm:p-6 lg:w-[18.75rem] lg:flex-none"
       >
         <p class="flex items-center gap-2.5 text-label font-medium tracking-[0.14em] text-muted uppercase">
           <span aria-hidden="true" class="relative flex size-2">
@@ -212,7 +212,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
 
   {/* Class guide rows, with the academy hours beside them on desktop, like the original */}
   <Section id="class-guide">
-    <div class="grid items-start gap-16 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-[clamp(32px,6vw,112px)]">
+    <div class="grid items-start gap-16 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-[clamp(2rem,6vw,7rem)]">
       <div>
         <SectionHead
           eyebrow="Class guide"
@@ -224,7 +224,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
           {classGuide.map((item) => (
             <li
               data-reveal
-              class="grid grid-cols-[minmax(72px,120px)_minmax(0,1fr)] items-baseline gap-x-5 gap-y-2 border-t border-line py-5 last:border-b"
+              class="grid grid-cols-[minmax(4.5rem,7.5rem)_minmax(0,1fr)] items-baseline gap-x-5 gap-y-2 border-t border-line py-5 last:border-b"
             >
               <span class={label}>{item.tag}</span>
               <h3 class="leading-[1.45] font-medium text-ink">{item.title}</h3>
@@ -241,7 +241,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
       <aside
         data-reveal
         aria-label="Academy hours"
-        class="rounded-card border border-line p-[clamp(24px,3vw,40px)] lg:mt-[calc(var(--text-label)*2)]"
+        class="rounded-card border border-line p-[clamp(1.5rem,3vw,2.5rem)] lg:mt-[calc(var(--text-label)*2)]"
       >
         <Eyebrow>Visit</Eyebrow>
         <Heading text="Academy hours" accent="hours" size="md" class="mt-3" />

@@ -33,4 +33,5 @@ Editorial and monochrome, matched to the original site: black ink on warm paper 
 - Never commit secrets. Real credentials live only in `.env.local` and Vercel; `.env.example` holds placeholders
 - The academy is a client and has given permission to reuse its site's copy and business details (shonenjiujitsu.com). Use the real text, names, reviews, and contact details from the original. Photos and video are still placeholders until the client supplies files
 - Mobile-first: must work on phones and iPads (375 / 768 / 1024 / 1280 widths). Use base styles for phone, `md:` for iPad portrait, `lg:` for iPad landscape
+- Big screens: past 1536px the root font size grows with the window (`html` in `global.css`), so the whole layout scales. Size in rem, not px (px only for hairlines, shadows, media queries and `sizes`), and check 1920 / 2560 too
 - Work lands in small PRs, one at a time

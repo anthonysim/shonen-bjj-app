@@ -133,13 +133,13 @@ export default function MobileMenu({ nav, cta, phone, currentPath }: MobileMenuP
                   <a
                     href={cta.href}
                     onClick={close}
-                    className="site-header__cta min-h-[52px] w-full"
+                    className="site-header__cta min-h-[3.25rem] w-full"
                   >
                     {cta.label}
                   </a>
                   <a
                     href={phone.href}
-                    className="inline-flex min-h-[52px] w-full items-center justify-center rounded-card border border-line-strong text-nav font-medium tracking-[0.12em] text-ink uppercase transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-white"
+                    className="inline-flex min-h-[3.25rem] w-full items-center justify-center rounded-card border border-line-strong text-nav font-medium tracking-[0.12em] text-ink uppercase transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-white"
                   >
                     Call {phone.display}
                   </a>

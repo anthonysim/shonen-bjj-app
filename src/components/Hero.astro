@@ -28,20 +28,20 @@ const { eyebrow, title, accent, deck, primary, secondary, facts } = Astro.props;
 const crumbs = Astro.locals.breadcrumbs;
 const hasMedia = Astro.slots.has('media');
 // Distance from the content column's right edge to the screen edge (page-container's margin)
-const bleed = 'max(var(--spacing-gutter), calc((100vw - 1280px) / 2))';
+const bleed = 'max(var(--spacing-gutter), calc((100vw - 80rem) / 2))';
 ---
 
 <section class="relative overflow-hidden bg-paper text-body">
-  <div class="page-container grid gap-8 pt-[clamp(28px,5vw,56px)] lg:min-h-[min(88svh,820px)] lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)] lg:pt-0">
+  <div class="page-container grid gap-8 pt-[clamp(1.75rem,5vw,3.5rem)] lg:min-h-[min(88svh,51.25rem)] lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)] lg:pt-0">
     <div
       class:list={[
-        'relative z-[1] flex flex-col items-start pb-2 lg:col-start-1 lg:row-start-1 lg:self-center lg:py-[clamp(48px,6vw,96px)]',
+        'relative z-[1] flex flex-col items-start pb-2 lg:col-start-1 lg:row-start-1 lg:self-center lg:py-[clamp(3rem,6vw,6rem)]',
         hasMedia ? 'lg:col-end-8 xl:col-end-7' : 'lg:col-end-10',
       ]}
     >
       {crumbs ? <Breadcrumbs crumbs={crumbs} /> : null}
-      <div class:list={[crumbs && 'mt-[clamp(28px,4vw,56px)]']}>
-        {eyebrow ? <Eyebrow class="mb-[clamp(16px,2vw,24px)]">{eyebrow}</Eyebrow> : null}
+      <div class:list={[crumbs && 'mt-[clamp(1.75rem,4vw,3.5rem)]']}>
+        {eyebrow ? <Eyebrow class="mb-[clamp(1rem,2vw,1.5rem)]">{eyebrow}</Eyebrow> : null}
         <Heading level={1} size="xl" text={title} accent={accent} />
       </div>
       {deck ? <p class="mt-6 max-w-[56ch] text-lede">{deck}</p> : null}
@@ -66,7 +66,7 @@ const bleed = 'max(var(--spacing-gutter), calc((100vw - 1280px) / 2))';
     {hasMedia ? (
       <div
         style={{ '--bleed': bleed }}
-        class="relative -mx-(--spacing-gutter) aspect-4/5 max-h-[70svh] overflow-hidden bg-paper-2 lg:col-start-7 lg:col-end-13 lg:row-start-1 lg:mx-0 lg:mr-[calc(-1*var(--bleed))] lg:aspect-auto lg:max-h-none lg:min-h-[min(88svh,820px)] lg:[mask-image:linear-gradient(90deg,transparent_0%,#000_22%)] xl:col-start-6 [&_img]:absolute [&_img]:inset-0 [&_img]:h-full [&_img]:object-cover"
+        class="relative -mx-(--spacing-gutter) aspect-4/5 max-h-[70svh] overflow-hidden bg-paper-2 lg:col-start-7 lg:col-end-13 lg:row-start-1 lg:mx-0 lg:mr-[calc(-1*var(--bleed))] lg:aspect-auto lg:max-h-none lg:min-h-[min(88svh,51.25rem)] lg:[mask-image:linear-gradient(90deg,transparent_0%,#000_22%)] xl:col-start-6 [&_img]:absolute [&_img]:inset-0 [&_img]:h-full [&_img]:object-cover"
       >
         <slot name="media" />
       </div>

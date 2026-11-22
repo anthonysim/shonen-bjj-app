@@ -31,10 +31,12 @@ const summaries = posts.map((post) => ({
   breadcrumbs={breadcrumbs}
   structuredData={[blogJsonLd(blogUrl, Astro.site!.origin, summaries)]}
 >
-  <section class="bg-paper py-[clamp(56px,3rem+4vw,104px)]">
+  <section class="bg-paper py-[clamp(3.5rem,3rem+4vw,6.5rem)]">
     <div class="page-container">
       <Breadcrumbs crumbs={withHome(breadcrumbs)} />
-      <Eyebrow class="mt-[clamp(28px,4vw,56px)] mb-[clamp(16px,2vw,24px)]">The Shonen blog</Eyebrow>
+      <Eyebrow class="mt-[clamp(1.75rem,4vw,3.5rem)] mb-[clamp(1rem,2vw,1.5rem)]">
+        The Shonen blog
+      </Eyebrow>
       <Heading level={1} size="xl" text="Notes from the mat." accent="from the mat." />
       <p class="mt-6 max-w-[56ch] text-lede">
         Training advice, beginner guides and tips for parents from our academy in
@@ -47,7 +49,7 @@ const summaries = posts.map((post) => ({
     {posts.length > 0 ? (
       <ul class="border-t border-line">
         {posts.map((post) => (
-          <li class="grid gap-6 border-b border-line py-10 md:grid-cols-12 md:gap-x-[clamp(16px,2vw,32px)]">
+          <li class="grid gap-6 border-b border-line py-10 md:grid-cols-12 md:gap-x-[clamp(1rem,2vw,2rem)]">
             {post.data.image ? (
               <a
                 href={`/blog/${post.id}`}

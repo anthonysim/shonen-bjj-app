@@ -59,7 +59,7 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
     <div data-reveal class="lg:max-w-[58%]">
       <Definition {...nameDefinition} />
     </div>
-    <div class="mt-16 grid items-start gap-8 lg:mt-24 lg:grid-cols-12 lg:gap-x-[clamp(16px,2vw,32px)]">
+    <div class="mt-16 grid items-start gap-8 lg:mt-24 lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)]">
       <div data-reveal class="lg:col-span-5">
         <Heading
           text="Superior to your average martial arts academy."
@@ -87,7 +87,7 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
       accent="every stage."
       lede="Classes are grouped by age, so every student trains with partners their own size. The first class is always free."
     />
-    <ul class="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-[clamp(16px,2vw,32px)] sm:gap-y-12 xl:grid-cols-4">
+    <ul class="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-[clamp(1rem,2vw,2rem)] sm:gap-y-12 xl:grid-cols-4">
       {mainCards.map((card, index) => (
         <li class="flex">
           <ProgramCard
@@ -106,7 +106,7 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
         title={`${birthdayCard.name} on the mat`}
         accent="on the mat"
         image={landscape}
-        class="mt-[clamp(40px,5vw,72px)]"
+        class="mt-[clamp(2.5rem,5vw,4.5rem)]"
       />
     ) : null}
   </Section>
@@ -131,9 +131,9 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
       accent="matter."
       lede="It's the phrase our members use most, and it's the standard behind every class, every mat and every interaction."
     />
-    <div class="grid items-start gap-12 xl:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] xl:gap-x-[clamp(40px,5vw,96px)]">
+    <div class="grid items-start gap-12 xl:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] xl:gap-x-[clamp(2.5rem,5vw,6rem)]">
       <NumberedRows items={values} narrow />
-      <figure class="hidden xl:sticky xl:top-[calc(var(--spacing-header)+48px)] xl:block">
+      <figure class="hidden xl:sticky xl:top-[calc(var(--spacing-header)+3rem)] xl:block">
         <div class="aspect-4/5 overflow-hidden bg-paper-2">
           <Photo
             src={portrait}

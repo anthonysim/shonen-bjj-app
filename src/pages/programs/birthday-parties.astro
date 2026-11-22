@@ -57,9 +57,9 @@ const [review] = reviewsFor('birthday', 1);
   </Section>
 
   {/* Two photos, wide and tall, bottom-aligned like the original's photo strip */}
-  <section class="bg-paper py-[clamp(56px,3rem+4vw,104px)]">
-    <div class="page-container grid items-end gap-[clamp(16px,2vw,32px)] lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
-      <div class="aspect-3/2 overflow-hidden bg-paper-2 lg:aspect-auto lg:h-[clamp(360px,40vw,600px)]">
+  <section class="bg-paper py-[clamp(3.5rem,3rem+4vw,6.5rem)]">
+    <div class="page-container grid items-end gap-[clamp(1rem,2vw,2rem)] lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+      <div class="aspect-3/2 overflow-hidden bg-paper-2 lg:aspect-auto lg:h-[clamp(22.5rem,40vw,37.5rem)]">
         <Photo
           src={landscape}
           alt=""
@@ -69,7 +69,7 @@ const [review] = reviewsFor('birthday', 1);
           class="h-full object-cover"
         />
       </div>
-      <div class="aspect-4/5 overflow-hidden bg-paper-2 lg:aspect-auto lg:h-[clamp(420px,46vw,680px)]">
+      <div class="aspect-4/5 overflow-hidden bg-paper-2 lg:aspect-auto lg:h-[clamp(26.25rem,46vw,42.5rem)]">
         <Photo
           src={portrait}
           alt=""
@@ -83,8 +83,8 @@ const [review] = reviewsFor('birthday', 1);
   </section>
 
   <Section tone="surface" id="how">
-    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(16px,2vw,32px)]">
-      <header class="lg:sticky lg:top-[calc(var(--spacing-header)+48px)] lg:pr-8">
+    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(1rem,2vw,2rem)]">
+      <header class="lg:sticky lg:top-[calc(var(--spacing-header)+3rem)] lg:pr-8">
         <Eyebrow class="mb-4">How it works</Eyebrow>
         <Heading text="Three steps to party day." accent="party day." />
         <p class="mt-6 text-lede">

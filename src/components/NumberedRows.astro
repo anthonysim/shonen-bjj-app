@@ -32,7 +32,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
     {items.map((item, index) => (
       <li
         data-reveal
-        class="grid grid-cols-[minmax(56px,80px)_minmax(0,1fr)] items-baseline gap-x-5 gap-y-2 border-t border-line py-4 last:border-b sm:grid-cols-[minmax(80px,120px)_minmax(0,1fr)]"
+        class="grid grid-cols-[minmax(3.5rem,5rem)_minmax(0,1fr)] items-baseline gap-x-5 gap-y-2 border-t border-line py-4 last:border-b sm:grid-cols-[minmax(5rem,7.5rem)_minmax(0,1fr)]"
       >
         <span class={label}>{num(index)}</span>
         <h3 class="leading-[1.45] font-medium text-ink">{item.title}</h3>
@@ -46,10 +46,10 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
       <li
         data-reveal
         class:list={[
-          'grid gap-3 border-t border-line py-8 last:border-b lg:items-baseline lg:gap-x-[clamp(16px,2vw,32px)]',
+          'grid gap-3 border-t border-line py-8 last:border-b lg:items-baseline lg:gap-x-[clamp(1rem,2vw,2rem)]',
           narrow
-            ? 'lg:grid-cols-[64px_minmax(0,3fr)_minmax(0,5fr)]'
-            : 'lg:grid-cols-[80px_minmax(0,4fr)_minmax(0,7fr)]',
+            ? 'lg:grid-cols-[4rem_minmax(0,3fr)_minmax(0,5fr)]'
+            : 'lg:grid-cols-[5rem_minmax(0,4fr)_minmax(0,7fr)]',
         ]}
       >
         <span class:list={[label, 'pt-[0.35em]']}>{num(index)}</span>

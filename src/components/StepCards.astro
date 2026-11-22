@@ -28,8 +28,8 @@ const { steps, images, eyebrow, heading, accent, lede, cta, tone = 'surface', id
 ---
 
 <Section tone={tone} id={id}>
-  <div class="grid items-start lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(32px,5vw,96px)]">
-    <div class="mb-12 lg:sticky lg:top-[calc(var(--spacing-header)+48px)] lg:mb-0">
+  <div class="grid items-start lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(2rem,5vw,6rem)]">
+    <div class="mb-12 lg:sticky lg:top-[calc(var(--spacing-header)+3rem)] lg:mb-0">
       <SectionHead
         eyebrow={eyebrow}
         heading={heading}
@@ -51,9 +51,9 @@ const { steps, images, eyebrow, heading, accent, lede, cta, tone = 'surface', id
       {steps.map((step, index) => (
         <li
           style={{ '--n': index }}
-          class="grid overflow-hidden rounded-card border border-line bg-surface sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:sticky lg:top-[calc(var(--spacing-header)+32px+var(--n)*28px)] lg:mb-[18vh] lg:min-h-[420px] lg:grid-cols-2 lg:shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] lg:last:mb-0"
+          class="grid overflow-hidden rounded-card border border-line bg-surface sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:sticky lg:top-[calc(var(--spacing-header)+2rem+var(--n)*1.75rem)] lg:mb-[18vh] lg:min-h-[26.25rem] lg:grid-cols-2 lg:shadow-[0_18px_50px_-20px_rgb(0_0_0/0.25)] lg:last:mb-0"
         >
-          <div class="flex flex-col p-[clamp(24px,3vw,44px)]">
+          <div class="flex flex-col p-[clamp(1.5rem,3vw,2.75rem)]">
             <p class="text-label font-medium tracking-[0.14em] text-muted uppercase">
               Step {String(index + 1).padStart(2, '0')}
             </p>
