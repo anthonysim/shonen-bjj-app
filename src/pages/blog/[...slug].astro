@@ -42,6 +42,7 @@ const posting = blogPostingJsonLd(
   description={data.description}
   breadcrumbs={[{ label: 'Blog', href: '/blog' }, { label: data.crumb ?? data.title }]}
   structuredData={[posting]}
+  ogType="article"
 >
   <Hero eyebrow={data.category} title={data.title} deck={data.lede} facts={[meta]}>
     <Photo

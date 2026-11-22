@@ -27,6 +27,10 @@ interface Props {
   overlayHeader?: boolean;
   /** Extra JSON-LD objects for this page (e.g. the coach's ProfilePage). */
   structuredData?: readonly unknown[];
+  /** Link-preview image: a path under /public or a full URL. Defaults to the site's share image. */
+  image?: string;
+  /** Open Graph type: blog posts use "article". */
+  ogType?: 'website' | 'article';
 }
 
 const {
@@ -36,12 +40,18 @@ const {
   breadcrumbs,
   overlayHeader = false,
   structuredData = [],
+  image,
+  ogType = 'website',
 } = Astro.props;
 // The original site's own title and description win where it has the page
 const original = metaFor(Astro.url.pathname);
 const description = original?.description ?? pageDescription;
 const fullTitle = original?.title ?? (title ? `${title} | ${site.name}` : site.name);
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+// Link previews need an absolute image URL. Only the default image has known dimensions.
+const { shareImage } = site;
+const ogImage = new URL(image ?? shareImage.path, Astro.site).href;
+const ogImageIsDefault = image === undefined;
 const crumbs: BreadcrumbItem[] | null = breadcrumbs ? withHome(breadcrumbs) : null;
 // The page's Hero shows the trail (it renders after this frontmatter runs)
 if (crumbs) Astro.locals.breadcrumbs = crumbs;
@@ -62,12 +72,21 @@ if (crumbs) Astro.locals.breadcrumbs = crumbs;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="canonical" href={canonical} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={ogImage} />
+    {ogImageIsDefault ? (
+      <>
+        <meta property="og:image:width" content={String(shareImage.width)} />
+        <meta property="og:image:height" content={String(shareImage.height)} />
+        <meta property="og:image:alt" content={shareImage.alt} />
+      </>
+    ) : null}
+    <meta name="twitter:card" content="summary_large_image" />
     <script
       type="application/ld+json"
       set:html={serializeJsonLd(localBusinessJsonLd(new URL('/', Astro.site).href))}
