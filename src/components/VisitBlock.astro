@@ -1,14 +1,13 @@
 ---
 // "Visit the academy", like the original: label/value rows (address with a parking note, phone,
-// email, hours) and two links on the left, a photo on the right from lg up.
-import square from '@/assets/placeholders/square.jpg';
+// email, hours) and two links on the left, the academy's Google Map on the right from lg up and
+// below the text on phones.
 import Button from '@/components/Button.astro';
 import LinkArrow from '@/components/LinkArrow.astro';
-import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
 import SectionHead from '@/components/SectionHead.astro';
 import { site } from '@/data/site';
-import { directionsUrl, mapsUrl } from '@/lib/maps';
+import { directionsUrl, embedMapUrl, mapsUrl } from '@/lib/maps';
 
 interface Props {
   tone?: 'paper' | 'surface';
@@ -123,19 +122,20 @@ const link =
         )}
       </div>
     </div>
+    {/* Greyscale like the rest of the site; full colour on hover or focus so the pin is readable */}
     <div
       data-reveal
       style={{ '--i': 1 }}
-      class="hidden aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-8 lg:col-end-13 lg:block"
+      class="group relative aspect-4/3 overflow-hidden bg-paper-2 lg:col-start-8 lg:col-end-13 lg:aspect-4/5"
     >
-      <Photo
-        src={square}
-        alt="Placeholder photo of the academy entrance"
-        grade="mono"
-        sizes="40vw"
-        widths={[480, 720, 960]}
-        class="h-full object-cover"
-      />
+      <iframe
+        title={`Map to ${site.name}, ${address.street}, ${address.city}`}
+        src={embedMapUrl()}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+        class="absolute inset-0 size-full border-0 [filter:grayscale(1)_contrast(1.05)] transition-[filter] duration-500 group-focus-within:filter-none group-hover:filter-none motion-reduce:transition-none"
+      ></iframe>
     </div>
   </div>
 </Section>

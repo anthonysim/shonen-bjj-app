@@ -15,6 +15,20 @@ export function mapsUrl(place: Place = academy) {
   return `https://www.google.com/maps/search/?${params}`;
 }
 
+/**
+ * Embeddable Google Map of the academy for an iframe. Uses the plain embed (no API key), searched
+ * by name and street address so the pin lands on the business.
+ */
+export function embedMapUrl() {
+  const { street, city, region, postalCode } = site.address;
+  const params = new URLSearchParams({
+    q: `${site.name}, ${street}, ${city}, ${region} ${postalCode}`,
+    z: '15',
+    output: 'embed',
+  });
+  return `https://maps.google.com/maps?${params}`;
+}
+
 /** Google Maps directions to the academy's listing from wherever the person is. */
 export function directionsUrl(place: Place = academy) {
   const params = new URLSearchParams({
