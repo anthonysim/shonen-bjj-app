@@ -65,6 +65,16 @@ export const site = {
   googlePlaceId: 'ChIJlRMV2Iv9t4kRTmSeyCYYSp8',
   /** IANA time zone of the academy. Class times are in this zone, whatever the viewer's is */
   timeZone: 'America/New_York',
+  /**
+   * Default share image for link previews (og:image). Borrowed from shonenjiujitsu.com until the
+   * client sends their own file: replace public/og-default.jpg, keep 1200x630.
+   */
+  shareImage: {
+    path: '/og-default.jpg',
+    width: 1200,
+    height: 630,
+    alt: 'Shonen Jiu Jitsu, Brazilian Jiu Jitsu in Glen Burnie, MD',
+  },
   /** The county the academy serves, shown with the city in the hero */
   county: 'Anne Arundel County',
   hours: [
