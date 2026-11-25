@@ -292,29 +292,23 @@
     }
 
     &:hover::after,
-    &[aria-current='page']::after {
+    &[aria-current='page']::after,
+    &[data-active]::after,
+    &[aria-expanded='true']::after {
       transform: scaleX(1);
       transform-origin: left center;
     }
   }
 
-  /* Desktop dropdown panel for nav items with children (e.g. Programs). Always dark ink on paper
+  /* Desktop dropdown panel for nav items with children (e.g. Programs). Click-toggled via
+     [data-open] so hovering or navigating never causes flash/jump. Always dark ink on paper
      so it stays readable even when the header is in overlay mode over the dark homepage hero. */
   .site-nav__dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 0.5rem);
     left: -1rem;
     z-index: 70;
     min-width: 17.5rem;
-    padding-top: 0.75rem;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-0.25rem);
-    pointer-events: none;
-    transition:
-      opacity 220ms var(--ease-out-expo),
-      transform 220ms var(--ease-out-expo),
-      visibility 0s linear 220ms;
 
     & > ul {
       overflow: hidden;
@@ -326,20 +320,7 @@
     }
   }
 
-  .site-nav__group:hover .site-nav__dropdown,
-  .site-nav__group:focus-within .site-nav__dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    pointer-events: auto;
-    transition:
-      opacity 220ms var(--ease-out-expo),
-      transform 220ms var(--ease-out-expo),
-      visibility 0s linear 0s;
-  }
-
-  .site-nav__group:hover .site-nav__chevron,
-  .site-nav__group:focus-within .site-nav__chevron {
+  .site-nav__group[data-open] .site-nav__chevron {
     transform: rotate(180deg);
   }
 

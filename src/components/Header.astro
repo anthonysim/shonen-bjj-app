@@ -31,11 +31,14 @@ const desktopNav = nav.filter((item) => !item.mobileOnly);
       <ul class="flex items-center gap-[clamp(1.25rem,2.2vw,2.25rem)]">
         {desktopNav.map((item) =>
           item.children?.length ? (
-            <li class="site-nav__group relative">
-              <a
-                href={item.href}
-                class="site-nav__link inline-flex items-center gap-1.5"
-                aria-current={isActive(item.href) ? 'page' : undefined}
+            <li class="site-nav__group relative" data-nav-dropdown>
+              <button
+                type="button"
+                class="site-nav__link inline-flex cursor-pointer items-center gap-1.5"
+                aria-expanded="false"
+                aria-haspopup="true"
+                data-nav-trigger
+                data-active={isActive(item.href) ? '' : undefined}
               >
                 {item.label}
                 <svg
@@ -52,8 +55,8 @@ const desktopNav = nav.filter((item) => !item.mobileOnly);
                     stroke-linejoin="round"
                   />
                 </svg>
-              </a>
-              <div class="site-nav__dropdown">
+              </button>
+              <div class="site-nav__dropdown" data-nav-panel hidden>
                 <ul class="divide-y divide-line">
                   {item.children.map((child) => (
                     <li>
@@ -74,6 +77,7 @@ const desktopNav = nav.filter((item) => !item.mobileOnly);
                   <li>
                     <a
                       href={item.href}
+                      aria-current={currentPath === item.href ? 'page' : undefined}
                       class="flex items-center justify-between gap-4 bg-paper-2/40 px-4 py-2.5 text-label font-medium tracking-[0.12em] text-ink uppercase transition-colors hover:bg-paper-2"
                     >
                       <span>Compare all programs</span>
@@ -142,3 +146,38 @@ const desktopNav = nav.filter((item) => !item.mobileOnly);
     })();
   </script>
 ) : null}
+
+<script>
+  const groups = document.querySelectorAll<HTMLElement>('[data-nav-dropdown]');
+
+  for (const group of groups) {
+    const trigger = group.querySelector<HTMLButtonElement>('[data-nav-trigger]');
+    const panel = group.querySelector<HTMLElement>('[data-nav-panel]');
+    if (!trigger || !panel) continue;
+
+    const setOpen = (open: boolean) => {
+      trigger.setAttribute('aria-expanded', String(open));
+      group.toggleAttribute('data-open', open);
+      panel.hidden = !open;
+    };
+
+    trigger.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const next = trigger.getAttribute('aria-expanded') !== 'true';
+      setOpen(next);
+    });
+
+    document.addEventListener('click', (event) => {
+      if (trigger.getAttribute('aria-expanded') !== 'true') return;
+      if (event.target instanceof Node && !group.contains(event.target)) {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || trigger.getAttribute('aria-expanded') !== 'true') return;
+      setOpen(false);
+      trigger.focus();
+    });
+  }
+</script>
