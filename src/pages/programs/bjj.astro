@@ -2,12 +2,12 @@
 import landscape from '@/assets/placeholders/landscape.jpg';
 import portrait from '@/assets/placeholders/portrait.jpg';
 import square from '@/assets/placeholders/square.jpg';
-import CoachSpotlight from '@/components/CoachSpotlight.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import FaqSection from '@/components/FaqSection.astro';
 import FormBand from '@/components/FormBand.astro';
 import Heading from '@/components/Heading.astro';
 import Hero from '@/components/Hero.astro';
+import MiniCoachCard from '@/components/MiniCoachCard.astro';
 import NumberedRows from '@/components/NumberedRows.astro';
 import Photo from '@/components/Photo.astro';
 import ProgramRow from '@/components/ProgramRow.astro';
@@ -156,6 +156,10 @@ const [womensQuote] = reviewsFor('general', 2).slice(1);
           Every class follows a clear structure, so you always know what comes next.
         </p>
         <NumberedRows items={adultClassSteps} compact class="mt-8" />
+        <MiniCoachCard
+          note="Adult classes are led by an active IBJJF black belt competitor and Mendes Brothers black belt."
+          class="mt-10"
+        />
       </div>
       <div class="aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-1 lg:col-end-6 lg:row-start-1">
         <Photo
@@ -170,13 +174,11 @@ const [womensQuote] = reviewsFor('general', 2).slice(1);
     </div>
   </Section>
 
-  <CoachSpotlight tone="surface" />
-
   <FaqSection
     items={faqsFor('bjj')}
     heading="Before your first class."
     accent="first class."
-    tone="paper"
+    tone="surface"
   />
 
   <FormBand heading="Your first class is on us." accent="is on us." defaultProgram="adults" />

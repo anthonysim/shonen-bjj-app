@@ -6,8 +6,8 @@ import landscape from '@/assets/placeholders/landscape.jpg';
 import portrait from '@/assets/placeholders/portrait.jpg';
 import square from '@/assets/placeholders/square.jpg';
 import CredentialList from '@/components/CredentialList.astro';
+import CtaBand from '@/components/CtaBand.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
-import FormBand from '@/components/FormBand.astro';
 import Heading from '@/components/Heading.astro';
 import Hero from '@/components/Hero.astro';
 import LinkArrow from '@/components/LinkArrow.astro';
@@ -17,6 +17,7 @@ import Section from '@/components/Section.astro';
 import SectionHead from '@/components/SectionHead.astro';
 import { coach } from '@/data/coach';
 import { reviewsFor } from '@/data/reviews';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { coachProfileJsonLd } from '@/lib/structured-data';
 import { accentTail } from '@/lib/text';
@@ -46,7 +47,7 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
     title={coach.displayName}
     accent={coach.accent}
     deck={coach.intro}
-    primary={{ label: `Book a class with ${firstName}`, href: '#book' }}
+    primary={{ label: `Book a class with ${firstName}`, href: site.cta.href }}
     secondary={{ label: 'The competition record', href: '#record' }}
     facts={coach.facts}
   >
@@ -161,9 +162,11 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
     tone="paper"
   />
 
-  <FormBand
+  <CtaBand
     heading={`Train with ${coach.shortName}.`}
     accent={`${coach.shortName}.`}
-    body="Pick a program and we'll text you to lock in a time. Every class on the schedule is open to first-timers, kids and adults, and a clean gi is waiting for you."
+    body="Every class on the schedule is open to first-timers, kids and adults, and a clean gi is waiting for you."
+    primary={site.cta}
+    secondary={{ label: 'See class times', href: '/schedule' }}
   />
 </BaseLayout>

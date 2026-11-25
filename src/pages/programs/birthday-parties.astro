@@ -82,9 +82,13 @@ const [review] = reviewsFor('birthday', 1);
     </div>
   </section>
 
-  <Section tone="surface" id="how">
-    <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(1rem,2vw,2rem)]">
-      <header class="lg:sticky lg:top-[calc(var(--spacing-header)+3rem)] lg:pr-8">
+  <Section
+    tone="surface"
+    id="how"
+    class="scroll-mt-0! lg:flex lg:min-h-[calc(100svh-var(--spacing-header))] lg:items-center"
+  >
+    <div class="grid items-center gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-x-[clamp(1rem,2vw,2rem)]">
+      <header class="lg:pr-8">
         <Eyebrow class="mb-4">How it works</Eyebrow>
         <Heading text="Three steps to party day." accent="party day." />
         <p class="mt-6 text-lede">

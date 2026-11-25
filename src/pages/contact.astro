@@ -1,12 +1,10 @@
 ---
-// Contact, laid out like the original: split hero, directions and hours (with first-visit and
-// social rows), the booking band, and the towns students come from. JSON-LD: ContactPage.
+// Contact: split hero, directions and hours (with first-visit and social rows), and the booking
+// band. The service-area towns live in the footer directly below. JSON-LD: ContactPage.
 import landscape from '@/assets/placeholders/landscape.jpg';
 import FormBand from '@/components/FormBand.astro';
 import Hero from '@/components/Hero.astro';
 import Photo from '@/components/Photo.astro';
-import Section from '@/components/Section.astro';
-import SectionHead from '@/components/SectionHead.astro';
 import VisitBlock from '@/components/VisitBlock.astro';
 import { site, bookOnPage } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -16,9 +14,6 @@ import { contactPageJsonLd } from '@/lib/structured-data';
 const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
 const { address } = site;
 const cityLine = `${address.city}, ${address.region} ${address.postalCode}`;
-// The county sits second, after the home city, like the original's list
-const [homeCity, ...otherTowns] = site.serviceArea;
-const towns = [homeCity, site.county, ...otherTowns];
 ---
 
 <BaseLayout
@@ -54,18 +49,4 @@ const towns = [homeCity, site.county, ...otherTowns];
     accent="ask us anything."
     body="Fill this in and we'll be in touch shortly. Every class on the schedule is open to first-timers, and a clean gi is waiting for you."
   />
-
-  <Section tone="surface" id="service-area">
-    <SectionHead
-      eyebrow="Where our students come from"
-      heading="Serving Anne Arundel County and beyond."
-      accent="and beyond."
-      lede="Students train with us from across Anne Arundel County and nearby Baltimore and Howard County communities."
-    />
-    <ul class="grid grid-cols-2 gap-x-[clamp(1rem,2vw,2rem)] sm:grid-cols-3 lg:grid-cols-4">
-      {towns.map((town) => (
-        <li class="border-t border-line py-3">{town}</li>
-      ))}
-    </ul>
-  </Section>
 </BaseLayout>

@@ -7,9 +7,9 @@ import portrait from '@/assets/placeholders/portrait.jpg';
 import square from '@/assets/placeholders/square.jpg';
 import Button from '@/components/Button.astro';
 import CredentialList from '@/components/CredentialList.astro';
+import CtaBand from '@/components/CtaBand.astro';
 import Definition from '@/components/Definition.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
-import FormBand from '@/components/FormBand.astro';
 import Heading from '@/components/Heading.astro';
 import Hero from '@/components/Hero.astro';
 import LinkArrow from '@/components/LinkArrow.astro';
@@ -22,7 +22,7 @@ import SectionHead from '@/components/SectionHead.astro';
 import { academyFeatures, nameDefinition, values } from '@/data/academy';
 import { coach } from '@/data/coach';
 import { featuredReviews, rating, reviewsFor } from '@/data/reviews';
-import { site, bookOnPage } from '@/data/site';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { aboutPageJsonLd } from '@/lib/structured-data';
 
@@ -49,7 +49,7 @@ const gutterX = 'gap-x-[clamp(1rem,2vw,2rem)]';
     title="A jiu jitsu academy that sweats the details."
     accent="sweats the details."
     deck="Shonen was built on a simple vision: world-class instruction that specializes in jiu jitsu, in a clean, organized academy where everyone is welcome."
-    primary={bookOnPage}
+    primary={site.cta}
     secondary={{ label: 'See class times', href: '/schedule' }}
     facts={facts}
   >
@@ -202,7 +202,7 @@ const gutterX = 'gap-x-[clamp(1rem,2vw,2rem)]';
       sign-up fees at Shonen, and no belt-promotion fees either.
     </p>
     <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-      <Button href="#book" arrow>
+      <Button href={site.cta.href} arrow>
         Book a free class
       </Button>
       <LinkArrow href="/faq" class="text-ink">
@@ -221,5 +221,11 @@ const gutterX = 'gap-x-[clamp(1rem,2vw,2rem)]';
     />
   ) : null}
 
-  <FormBand />
+  <CtaBand
+    heading="Your journey starts here."
+    accent="starts here."
+    body="Every class on the schedule is open to first-timers, and a clean gi is waiting for you."
+    primary={site.cta}
+    secondary={{ label: 'See class times', href: '/schedule' }}
+  />
 </BaseLayout>

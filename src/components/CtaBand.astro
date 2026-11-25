@@ -1,5 +1,6 @@
 ---
 import Button from '@/components/Button.astro';
+import Eyebrow from '@/components/Eyebrow.astro';
 import Heading from '@/components/Heading.astro';
 import Section from '@/components/Section.astro';
 
@@ -9,6 +10,7 @@ interface Cta {
 }
 
 interface Props {
+  eyebrow?: string;
   heading: string;
   accent?: string;
   body?: string;
@@ -17,14 +19,28 @@ interface Props {
   tone?: 'dark' | 'paper';
 }
 
-const { heading, accent, body, primary, secondary, tone = 'dark' } = Astro.props;
+const {
+  eyebrow = 'Your first class is free',
+  heading,
+  accent,
+  body,
+  primary,
+  secondary,
+  tone = 'dark',
+} = Astro.props;
+const isDark = tone === 'dark';
 ---
 
 <Section tone={tone} size="md" class="text-center">
+  {eyebrow ? (
+    <Eyebrow class:list={['mb-4', isDark && 'text-white/55']}>{eyebrow}</Eyebrow>
+  ) : null}
   <Heading text={heading} accent={accent} />
-  {body ? <p class="mx-auto mt-4 max-w-prose text-lg">{body}</p> : null}
-  <div class="mt-7 flex flex-wrap justify-center gap-3">
-    <Button href={primary.href} size="lg" variant="inverse">
+  {body ? (
+    <p class:list={['mx-auto mt-5 max-w-prose text-lede', isDark && 'text-white/72']}>{body}</p>
+  ) : null}
+  <div class="mt-8 flex flex-wrap justify-center gap-3">
+    <Button href={primary.href} size="lg" variant={isDark ? 'inverse' : 'primary'} arrow>
       {primary.label}
     </Button>
     {secondary ? (
