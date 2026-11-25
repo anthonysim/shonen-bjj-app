@@ -4,11 +4,12 @@
 // JSON-LD: BlogPosting.
 import landscape from '@/assets/placeholders/landscape.jpg';
 import Button from '@/components/Button.astro';
-import FormBand from '@/components/FormBand.astro';
+import CtaBand from '@/components/CtaBand.astro';
 import Hero from '@/components/Hero.astro';
 import LinkArrow from '@/components/LinkArrow.astro';
 import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { formatDate, readingMinutes } from '@/lib/blog';
 import { blogPostingJsonLd } from '@/lib/structured-data';
@@ -78,5 +79,11 @@ const posting = blogPostingJsonLd(
     ) : null}
   </Section>
 
-  <FormBand />
+  <CtaBand
+    heading="Ready to step on the mat?"
+    accent="on the mat?"
+    body="Every class on the schedule is open to first-timers, and a clean gi is waiting for you."
+    primary={site.cta}
+    secondary={{ label: 'See class times', href: '/schedule' }}
+  />
 </BaseLayout>

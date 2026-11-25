@@ -1,14 +1,11 @@
 ---
 import landscape from '@/assets/placeholders/landscape.jpg';
-import portrait from '@/assets/placeholders/portrait.jpg';
-import square from '@/assets/placeholders/square.jpg';
 import Button from '@/components/Button.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import FormBand from '@/components/FormBand.astro';
 import Hero from '@/components/Hero.astro';
 import NumberedRows from '@/components/NumberedRows.astro';
 import Photo from '@/components/Photo.astro';
-import ProgramCard from '@/components/ProgramCard.astro';
 import ProgramRow from '@/components/ProgramRow.astro';
 import QuoteSolo from '@/components/QuoteSolo.astro';
 import Section from '@/components/Section.astro';
@@ -18,10 +15,7 @@ import { rating, reviewsById } from '@/data/reviews';
 import { bookOnPage, programCards, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-// Four cards in the grid; birthday parties get the row underneath, like the original
-const classCards = programCards.filter((card) => card.id !== 'birthday-parties');
 const birthday = programCards.find((card) => card.id === 'birthday-parties')!;
-const cardImages = [portrait, square, landscape, portrait];
 const [review] = reviewsById(['general-brent']);
 ---
 
@@ -32,8 +26,8 @@ const [review] = reviewsById(['general-brent']);
 >
   <Hero
     eyebrow={`Jiu Jitsu programs · ${site.address.city}, ${site.address.region}`}
-    title="Training for every stage."
-    accent="every stage."
+    title="Find the right class."
+    accent="right class."
     deck="From four-year-olds learning to tumble to competitors chasing black belt, every student trains with partners their own size, in a class built for them."
     primary={bookOnPage}
     secondary={{ label: 'See class times', href: '/schedule' }}
@@ -53,30 +47,19 @@ const [review] = reviewsById(['general-brent']);
     />
   </Hero>
 
-  <Section tone="surface" id="classes">
+  <Section tone="surface" id="pathway">
     <SectionHead
-      eyebrow="Our programs"
-      heading="Four paths, one standard."
-      accent="one standard."
-      lede="Classes are grouped by age, so every student trains with partners their own size. The first class is always free."
+      eyebrow="The pathway"
+      heading="How the classes fit together."
+      accent="fit together."
+      lede="Each class is built for a stage of the journey. Students move up as they grow, and adults progress from fundamentals to the full game at their own pace."
     />
-    <ul class="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-[clamp(1rem,2vw,2rem)] sm:gap-y-12 xl:grid-cols-4">
-      {classCards.map((card, index) => (
-        <li class="flex">
-          <ProgramCard
-            card={card}
-            index={index}
-            image={cardImages[index % cardImages.length]}
-            class="w-full"
-          />
-        </li>
-      ))}
-    </ul>
+    <NumberedRows items={pathway} />
 
     <div class="mt-[clamp(2.5rem,5vw,4.5rem)] grid items-stretch gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-[clamp(1rem,2vw,2rem)]">
       <ProgramRow
         href={birthday.href}
-        label={`${birthday.ages} · Vol. 05`}
+        label={`${birthday.ages} · Special events`}
         title={`${birthday.name} on the mat`}
         accent="on the mat"
         image={landscape}
@@ -101,17 +84,7 @@ const [review] = reviewsById(['general-brent']);
     </div>
   </Section>
 
-  <Section id="pathway">
-    <SectionHead
-      eyebrow="The pathway"
-      heading="How the classes fit together."
-      accent="fit together."
-      lede="Each class is built for a stage of the journey. Students move up as they grow, and adults progress from fundamentals to the full game at their own pace."
-    />
-    <NumberedRows items={pathway} />
-  </Section>
-
-  {review ? <QuoteSolo review={review} tone="surface" readAll /> : null}
+  {review ? <QuoteSolo review={review} tone="paper" readAll /> : null}
 
   <FormBand />
 </BaseLayout>

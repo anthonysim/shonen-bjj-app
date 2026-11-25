@@ -14,7 +14,6 @@ import Heading from '@/components/Heading.astro';
 import ReviewsBlock from '@/components/ReviewsBlock.astro';
 import Section from '@/components/Section.astro';
 import StepCards from '@/components/StepCards.astro';
-import VisitBlock from '@/components/VisitBlock.astro';
 import { firstClassSteps } from '@/data/academy';
 import { coach } from '@/data/coach';
 import { firstClassFaqs } from '@/data/faqs';
@@ -107,10 +106,8 @@ const faqJsonLd = faqPageJsonLd([
     accent="questions."
   />
 
-  <VisitBlock tone="paper" />
-
-  {/* Slim closing row on the visit section's paper, between hairlines, like the original */}
-  <Section tone="paper" id="ready" class="pt-0!">
+  {/* Slim closing row on paper between hairlines */}
+  <Section tone="paper" id="ready" class="py-[clamp(3rem,2.5rem+3vw,5rem)]!">
     <div class="flex flex-col gap-6 border-y border-line py-8 lg:flex-row lg:items-center lg:justify-between">
       <div>
         <Eyebrow>{`${site.address.city} · ${site.county}`}</Eyebrow>

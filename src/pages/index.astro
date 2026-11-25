@@ -3,30 +3,22 @@ import landscape from '@/assets/placeholders/landscape.jpg';
 import portrait from '@/assets/placeholders/portrait.jpg';
 import square from '@/assets/placeholders/square.jpg';
 import CoachSpotlight from '@/components/CoachSpotlight.astro';
-import Definition from '@/components/Definition.astro';
 import FormBand from '@/components/FormBand.astro';
-import LinkArrow from '@/components/LinkArrow.astro';
-import Heading from '@/components/Heading.astro';
-import Photo from '@/components/Photo.astro';
 import ProgramCard from '@/components/ProgramCard.astro';
+import ProgramRow from '@/components/ProgramRow.astro';
 import ReviewsBlock from '@/components/ReviewsBlock.astro';
 import ScheduleSummary from '@/components/ScheduleSummary.astro';
 import Section from '@/components/Section.astro';
-import StepCards from '@/components/StepCards.astro';
 import SectionHead from '@/components/SectionHead.astro';
-import ProgramRow from '@/components/ProgramRow.astro';
-import NumberedRows from '@/components/NumberedRows.astro';
 import VideoHero from '@/components/VideoHero.astro';
-import VisitBlock from '@/components/VisitBlock.astro';
-import { firstClassSteps, nameDefinition, values } from '@/data/academy';
 import { coach } from '@/data/coach';
 import { featuredReviews, rating } from '@/data/reviews';
-import { programCards, site, bookOnPage } from '@/data/site';
+import { programCards, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 // Placeholder photos, cycled across the cards
 const cardImages = [portrait, square, landscape, portrait];
-// Four cards in the grid; birthday parties get the row underneath, like the original
+// Four cards in the grid; birthday parties get the row underneath
 const mainCards = programCards.filter((card) => !card.href.includes('birthday'));
 const birthdayCard = programCards.find((card) => card.href.includes('birthday'));
 const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} ${rating.source} reviews`;
@@ -43,7 +35,7 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
     meta={`${site.address.city} · ${site.county}`}
     deck={`World-class jiu jitsu for kids and adults, taught by IBJJF black belt ${coach.displayName}. Your first class is free.`}
     primary={site.cta}
-    secondary={{ label: 'Explore programs', href: '/programs' }}
+    secondary={{ label: 'Explore programs', href: '#programs' }}
     poster={landscape}
     videoSources={[{ src: '/videos/placeholder-hero.webm', type: 'video/webm' }]}
   >
@@ -53,32 +45,6 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
       ))}
     </ul>
   </VideoHero>
-
-  {/* The name: the definition on its own row, then the statement below, like the original */}
-  <Section tone="paper">
-    <div data-reveal class="lg:max-w-[58%]">
-      <Definition {...nameDefinition} />
-    </div>
-    <div class="mt-16 grid items-start gap-8 lg:mt-24 lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)]">
-      <div data-reveal class="lg:col-span-5">
-        <Heading
-          text="Superior to your average martial arts academy."
-          accent="martial arts academy."
-        />
-      </div>
-      <div data-reveal style={{ '--i': 1 }} class="lg:col-start-7 lg:col-end-11 lg:pt-2">
-        <p class="text-[0.9375rem] leading-[1.7]">
-          Shonen was built to offer world-class instruction that specializes in jiu jitsu, instead
-          of following the trend of being a sub-par MMA school. Every class is organized, supervised
-          and taught with the same attention to detail, whether it's your first day or your
-          hundredth.
-        </p>
-        <LinkArrow href="/about" class="mt-6 text-ink">
-          Our story
-        </LinkArrow>
-      </div>
-    </div>
-  </Section>
 
   <Section tone="surface" id="programs">
     <SectionHead
@@ -113,44 +79,6 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
 
   <CoachSpotlight tone="paper" />
 
-  <StepCards
-    id="new-here"
-    eyebrow="New here?"
-    heading="Your first class, step by step."
-    accent="step by step."
-    lede="No experience, no fitness requirement and no pressure. Here's exactly what happens."
-    steps={firstClassSteps}
-    images={[portrait, square, landscape]}
-    cta={bookOnPage}
-  />
-
-  <Section tone="paper" id="why">
-    <SectionHead
-      eyebrow="Why Shonen"
-      heading="Details matter."
-      accent="matter."
-      lede="It's the phrase our members use most, and it's the standard behind every class, every mat and every interaction."
-    />
-    <div class="grid items-start gap-12 xl:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] xl:gap-x-[clamp(2.5rem,5vw,6rem)]">
-      <NumberedRows items={values} narrow />
-      <figure class="hidden xl:sticky xl:top-[calc(var(--spacing-header)+3rem)] xl:block">
-        <div class="aspect-4/5 overflow-hidden bg-paper-2">
-          <Photo
-            src={portrait}
-            alt="Placeholder photo of the academy mats"
-            grade="mono"
-            sizes="30vw"
-            widths={[320, 480, 640]}
-            class="h-full object-cover"
-          />
-        </div>
-        <figcaption class="mt-3 text-label font-medium tracking-[0.14em] text-muted uppercase">
-          The academy, {site.address.city}
-        </figcaption>
-      </figure>
-    </div>
-  </Section>
-
   <ReviewsBlock
     reviews={featuredReviews()}
     heading="What our members say."
@@ -159,8 +87,6 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
   />
 
   <ScheduleSummary tone="paper" />
-
-  <VisitBlock tone="surface" />
 
   <FormBand />
 </BaseLayout>

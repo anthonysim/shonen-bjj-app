@@ -4,14 +4,14 @@
 // group. JSON-LD: FAQPage with every question on the page.
 import landscape from '@/assets/placeholders/landscape.jpg';
 import Button from '@/components/Button.astro';
+import CtaBand from '@/components/CtaBand.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import FaqList from '@/components/FaqList.astro';
-import FormBand from '@/components/FormBand.astro';
 import Hero from '@/components/Hero.astro';
 import Photo from '@/components/Photo.astro';
 import Section from '@/components/Section.astro';
 import { faqPageGroups } from '@/data/faqs';
-import { site, bookOnPage } from '@/data/site';
+import { site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { faqPageJsonLd } from '@/lib/structured-data';
 ---
@@ -27,7 +27,7 @@ import { faqPageJsonLd } from '@/lib/structured-data';
     title="Questions, answered."
     accent="answered."
     deck={`Everything new students and parents ask us. Don't see yours? Call ${site.phone.display}.`}
-    primary={bookOnPage}
+    primary={site.cta}
     secondary={{ label: 'See class times', href: '/schedule' }}
   >
     <Photo
@@ -65,7 +65,7 @@ import { faqPageJsonLd } from '@/lib/structured-data';
             Still wondering about something? We’re happy to help, and every class on the schedule is
             open to first-timers.
           </p>
-          <Button href="#book" arrow class="w-full">
+          <Button href={site.cta.href} arrow class="w-full">
             Book a free class
           </Button>
           <Button href={site.phone.href} variant="secondary" class="w-full">
@@ -87,8 +87,11 @@ import { faqPageJsonLd } from '@/lib/structured-data';
     </div>
   </Section>
 
-  <FormBand
+  <CtaBand
     heading="Still have questions? Come see for yourself."
     accent="Come see for yourself."
+    body="Every class on the schedule is open to first-timers, and a clean gi is waiting for you."
+    primary={site.cta}
+    secondary={{ label: `Call ${site.phone.display}`, href: site.phone.href }}
   />
 </BaseLayout>
