@@ -300,15 +300,16 @@
     }
   }
 
-  /* Desktop dropdown panel for nav items with children (e.g. Programs). Click-toggled via
-     [data-open] so hovering or navigating never causes flash/jump. Always dark ink on paper
-     so it stays readable even when the header is in overlay mode over the dark homepage hero. */
+  /* Desktop dropdown panel for nav items with children (e.g. Programs). Opened via mouse hover or
+     click/touch ([data-open]) with a top padding bridge so moving from the trigger into the menu
+     never drops hover. Always dark ink on paper even in overlay mode over the dark homepage hero. */
   .site-nav__dropdown {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: 100%;
     left: -1rem;
     z-index: 70;
     min-width: 17.5rem;
+    padding-top: 0.5rem;
 
     & > ul {
       overflow: hidden;

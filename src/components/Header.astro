@@ -155,16 +155,48 @@ const desktopNav = nav.filter((item) => !item.mobileOnly);
     const panel = group.querySelector<HTMLElement>('[data-nav-panel]');
     if (!trigger || !panel) continue;
 
-    const setOpen = (open: boolean) => {
+    let closeTimer: number | undefined;
+    let openedByHover = false;
+
+    const clearCloseTimer = () => {
+      if (closeTimer !== undefined) {
+        window.clearTimeout(closeTimer);
+        closeTimer = undefined;
+      }
+    };
+
+    const setOpen = (open: boolean, viaHover = false) => {
+      clearCloseTimer();
+      openedByHover = open && viaHover;
       trigger.setAttribute('aria-expanded', String(open));
       group.toggleAttribute('data-open', open);
       panel.hidden = !open;
     };
 
+    // Mouse hover opens smoothly without firing on touch or on initial page load
+    group.addEventListener('pointerenter', (event) => {
+      if (event.pointerType !== 'mouse') return;
+      clearCloseTimer();
+      if (trigger.getAttribute('aria-expanded') !== 'true') {
+        setOpen(true, true);
+      }
+    });
+
+    group.addEventListener('pointerleave', (event) => {
+      if (event.pointerType !== 'mouse') return;
+      clearCloseTimer();
+      closeTimer = window.setTimeout(() => setOpen(false), 150);
+    });
+
     trigger.addEventListener('click', (event) => {
       event.stopPropagation();
-      const next = trigger.getAttribute('aria-expanded') !== 'true';
-      setOpen(next);
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      // If hover already opened it, clicking shouldn't immediately flash it closed
+      if (isOpen && openedByHover) {
+        openedByHover = false;
+        return;
+      }
+      setOpen(!isOpen);
     });
 
     document.addEventListener('click', (event) => {
