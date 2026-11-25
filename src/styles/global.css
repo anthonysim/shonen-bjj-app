@@ -200,6 +200,53 @@
   }
 }
 
+/* Smooth cross-fade between pages on navigation (Chrome, Edge, Safari 18.2+).
+   Keeps standard multi-page scripts intact with zero JS router overhead. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: page-fade-out 180ms ease-out both;
+}
+
+::view-transition-new(root) {
+  animation: page-fade-in 280ms var(--ease-out-expo) both;
+}
+
+@keyframes page-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fallback fade-in for browsers without cross-document view transitions */
+@supports not (view-transition-name: none) {
+  main {
+    animation: page-fade-in 280ms var(--ease-out-expo) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  main {
+    animation: none !important;
+  }
+}
+
 /*
  * Header and mobile menu (Header.astro, MobileMenu.tsx). Kept as CSS rather than utilities because
  * the bar has three states that restyle its children: default (paper bar), overlay (transparent
@@ -210,6 +257,7 @@
     position: sticky;
     top: 0;
     z-index: 60;
+    view-transition-name: site-header;
     height: var(--spacing-header);
     background: rgb(245 242 235 / 0.96);
     backdrop-filter: blur(0.625rem) saturate(1.2);
