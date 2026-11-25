@@ -64,10 +64,13 @@ const gutterX = 'gap-x-[clamp(1rem,2vw,2rem)]';
     />
   </Hero>
 
-  <Section id="the-name">
+  <Section
+    id="the-name"
+    class="scroll-mt-0! flex min-h-[calc(100svh-var(--spacing-header))] items-center"
+  >
     <div class:list={['grid gap-12 lg:grid-cols-12 lg:gap-y-16', gutterX]}>
       <Definition {...nameDefinition} class="lg:col-start-1 lg:col-end-7" />
-      <div class="lg:col-start-8 lg:col-end-13 lg:self-end">
+      <div class="lg:col-start-8 lg:col-end-13 lg:self-center">
         <Heading
           text="At Shonen, you become the hero of your own story."
           accent="your own story."
