@@ -22,9 +22,19 @@ const desktopNav = nav.filter((item) => !item.mobileOnly);
   <div class="page-container grid h-full grid-cols-[1fr_auto] items-center gap-6 lg:grid-cols-[1fr_auto_1fr]">
     <a
       href="/"
-      class="inline-flex items-center justify-self-start py-2 font-display text-2xl font-light whitespace-nowrap italic tracking-tight lg:text-[1.75rem]"
+      aria-label={`${site.name}, home`}
+      class="inline-flex items-center justify-self-start py-2"
     >
-      {site.name}
+      <svg
+        viewBox="0 0 2917 689"
+        width="2917"
+        height="689"
+        aria-hidden="true"
+        focusable="false"
+        class="block aspect-[2917/689] h-6 w-auto overflow-visible lg:h-[1.875rem]"
+      >
+        <use href="/logo.svg#shonen-logo"></use>
+      </svg>
     </a>
 
     <nav aria-label="Main" class="hidden lg:block">
