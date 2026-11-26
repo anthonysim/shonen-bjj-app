@@ -30,7 +30,7 @@ const volume = `Vol. ${String(index + 1).padStart(2, '0')}`;
       grade="mono"
       sizes="(min-width: 1280px) 25vw, 50vw"
       widths={[320, 480, 720, 960]}
-      class="h-full object-cover transition-[filter,transform] duration-[1200ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none group-hover:scale-[1.03] group-hover:[filter:grayscale(0.15)_contrast(1.02)] group-focus-visible:scale-[1.03] motion-reduce:group-hover:scale-100"
+      class="h-full object-cover transition-[filter,scale,transform] duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-[filter,scale] motion-reduce:transition-none group-hover:scale-[1.03] group-hover:[filter:grayscale(0.15)_contrast(1.02)_brightness(1)] group-focus-visible:scale-[1.03] group-focus-visible:[filter:grayscale(0.15)_contrast(1.02)_brightness(1)] motion-reduce:group-hover:scale-100 motion-reduce:group-focus-visible:scale-100"
     />
   </div>
   <div class="flex flex-1 flex-col items-start border-b border-line py-4 sm:py-6">
