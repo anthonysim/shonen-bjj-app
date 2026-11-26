@@ -1,7 +1,7 @@
 ---
 // Contact: split hero, directions and hours (with first-visit and social rows), and the booking
 // band. The service-area towns live in the footer directly below. JSON-LD: ContactPage.
-import landscape from '@/assets/placeholders/landscape.jpg';
+import storefrontPhoto from '@/assets/photos/images-about-section.webp';
 import FormBand from '@/components/FormBand.astro';
 import Hero from '@/components/Hero.astro';
 import Photo from '@/components/Photo.astro';
@@ -33,8 +33,8 @@ const cityLine = `${address.city}, ${address.region} ${address.postalCode}`;
   >
     <Photo
       slot="media"
-      src={landscape}
-      alt="Placeholder photo of the academy"
+      src={storefrontPhoto}
+      alt="The Shonen Jiu Jitsu storefront with its brush-script sign in the Cromwell Field Shopping Center"
       priority
       grade="mono"
       sizes="(min-width: 1024px) 60vw, 100vw"

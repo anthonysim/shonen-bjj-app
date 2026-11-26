@@ -2,9 +2,9 @@
 // Meet the Coach, laid out like the original's profile page: split hero, the story in a narrow
 // column with a drop cap and a pull quote, the competition record beside a sticky photo, lineage,
 // reviews, and the booking form. JSON-LD: a ProfilePage whose main entity is the coach.
-import landscape from '@/assets/placeholders/landscape.jpg';
-import portrait from '@/assets/placeholders/portrait.jpg';
-import square from '@/assets/placeholders/square.jpg';
+import heroPhoto from '@/assets/photos/dscf7913.webp';
+import lineagePhoto from '@/assets/photos/img-3776.webp';
+import competitionPhoto from '@/assets/photos/untitled-1-4.webp';
 import CredentialList from '@/components/CredentialList.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
@@ -30,7 +30,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
 const profile = coachProfileJsonLd(
   pageUrl,
   Astro.site!.origin,
-  new URL(portrait.src, Astro.site).href,
+  new URL(heroPhoto.src, Astro.site).href,
 );
 
 const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
@@ -53,8 +53,8 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
   >
     <Photo
       slot="media"
-      src={portrait}
-      alt={`Placeholder portrait of ${coach.displayName}`}
+      src={heroPhoto}
+      alt="A black belt instructor demonstrating a knee-shield position to a student"
       priority
       grade="mono"
       sizes="(min-width: 1024px) 60vw, 100vw"
@@ -101,8 +101,8 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
       <figure class="md:max-w-[32.5rem] lg:sticky lg:top-[calc(var(--spacing-header)+2rem)] lg:col-start-1 lg:col-end-6 lg:max-w-none">
         <div class="aspect-square overflow-hidden bg-paper-2">
           <Photo
-            src={square}
-            alt="Placeholder photo of a competition match"
+            src={competitionPhoto}
+            alt="A competitor in no-gi attacking a leg entanglement at an IBJJF tournament"
             grade="mono"
             sizes="(min-width: 1024px) 40vw, (min-width: 768px) 520px, 100vw"
             widths={[480, 720, 1000]}
@@ -141,8 +141,8 @@ const label = 'text-label font-medium tracking-[0.14em] text-muted uppercase';
       <figure class="md:max-w-[32.5rem] lg:col-start-1 lg:col-end-6 lg:row-start-1 lg:max-w-none">
         <div class="aspect-4/5 overflow-hidden bg-paper-2">
           <Photo
-            src={landscape}
-            alt="Placeholder photo of black belts in a studio portrait"
+            src={lineagePhoto}
+            alt="Three black belts in white gis standing together in a studio portrait"
             grade="mono"
             sizes="(min-width: 1024px) 40vw, (min-width: 768px) 520px, 100vw"
             widths={[480, 720, 1000]}

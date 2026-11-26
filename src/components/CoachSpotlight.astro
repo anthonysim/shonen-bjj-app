@@ -1,7 +1,7 @@
 ---
 // Coach card, like the original's: photo on the left (5fr) and the bio on the right (7fr) inside one
 // card on the opposite tone. Phones: square photo on top.
-import portrait from '@/assets/placeholders/portrait.jpg';
+import coachPhoto from '@/assets/photos/untitled-1-4.webp';
 import Button from '@/components/Button.astro';
 import CredentialList from '@/components/CredentialList.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
@@ -28,8 +28,8 @@ const cardBg = tone === 'paper' ? 'bg-surface' : 'bg-paper';
   >
     <div class="relative aspect-square overflow-hidden bg-paper-2 md:aspect-auto md:min-h-full">
       <Photo
-        src={portrait}
-        alt={`Placeholder portrait of ${coach.displayName}`}
+        src={coachPhoto}
+        alt="Shonen's head instructor competing in no-gi at an IBJJF tournament"
         grade="mono"
         sizes="(min-width: 768px) 42vw, 100vw"
         widths={[480, 720, 1000]}

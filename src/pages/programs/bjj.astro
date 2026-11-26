@@ -1,7 +1,9 @@
 ---
-import landscape from '@/assets/placeholders/landscape.jpg';
-import portrait from '@/assets/placeholders/portrait.jpg';
-import square from '@/assets/placeholders/square.jpg';
+import womensPhoto from '@/assets/photos/dscf4191.webp';
+import beginnersPhoto from '@/assets/photos/dscf5604.webp';
+import insideClassPhoto from '@/assets/photos/dscf7911.webp';
+import heroPhoto from '@/assets/photos/img-2269.webp';
+import noGiPhoto from '@/assets/photos/img-8085.webp';
 import Eyebrow from '@/components/Eyebrow.astro';
 import FaqSection from '@/components/FaqSection.astro';
 import FormBand from '@/components/FormBand.astro';
@@ -45,8 +47,8 @@ const [womensQuote] = reviewsFor('general', 2).slice(1);
   >
     <Photo
       slot="media"
-      src={landscape}
-      alt="Placeholder photo of adults training"
+      src={heroPhoto}
+      alt="Two adults in gis training spider guard in a bright academy as students watch from a bench"
       priority
       sizes="(min-width: 1024px) 60vw, 100vw"
       widths={[480, 800, 1200, 1600]}
@@ -70,7 +72,7 @@ const [womensQuote] = reviewsFor('general', 2).slice(1);
       label={`${noGiCard.ages} · ${noGiWhen}`}
       title="No-Gi jiu jitsu"
       accent="jiu jitsu"
-      image={square}
+      image={noGiPhoto}
       class="mt-16"
     />
   </Section>
@@ -79,8 +81,8 @@ const [womensQuote] = reviewsFor('general', 2).slice(1);
     <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-x-[clamp(1rem,2vw,2rem)]">
       <div class="aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-1 lg:col-end-6 lg:row-start-1">
         <Photo
-          src={portrait}
-          alt="Placeholder photo of a beginner learning a technique"
+          src={beginnersPhoto}
+          alt="Two training partners in white gis slapping hands before a roll"
           grade="mono"
           sizes="(min-width: 1024px) 40vw, 100vw"
           widths={[480, 720, 1000]}
@@ -136,8 +138,8 @@ const [womensQuote] = reviewsFor('general', 2).slice(1);
       </div>
       <div class="aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-8 lg:col-end-13">
         <Photo
-          src={square}
-          alt="Placeholder photo of a women's class"
+          src={womensPhoto}
+          alt="A smiling woman playing open guard against a training partner in a sunlit academy"
           grade="mono"
           sizes="(min-width: 1024px) 40vw, 100vw"
           widths={[480, 720, 1000]}
@@ -163,8 +165,8 @@ const [womensQuote] = reviewsFor('general', 2).slice(1);
       </div>
       <div class="aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-1 lg:col-end-6 lg:row-start-1">
         <Photo
-          src={landscape}
-          alt="Placeholder photo of an adult class drilling"
+          src={insideClassPhoto}
+          alt="A black belt working from the turtle position while a partner attacks, with students watching"
           grade="mono"
           sizes="(min-width: 1024px) 40vw, 100vw"
           widths={[480, 720, 1000]}

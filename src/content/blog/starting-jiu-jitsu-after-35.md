@@ -6,8 +6,8 @@ crumb: 'Starting after 35'
 pubDate: 2026-10-26
 category: 'Adult jiu jitsu'
 lede: "Plenty of the adults who walk into Shonen for the first time have never grappled, and plenty of them are well past their twenties. Here's what starting later really looks like, and how to make your first few months count."
-image: '../../assets/placeholders/portrait.jpg'
-imageAlt: 'Placeholder photo'
+image: '../../assets/photos/dscf6406.webp'
+imageAlt: 'A student in a white gi working from top position on a training partner in a bright, window-lit academy'
 ctas:
   - label: 'Book a free class'
     href: '#book'

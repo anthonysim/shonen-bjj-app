@@ -2,7 +2,7 @@
 // FAQ, laid out like the original: split hero, then one section with a sticky "Jump to" column
 // (group links, a note, book and call buttons) beside the grouped questions. Etiquette is the last
 // group. JSON-LD: FAQPage with every question on the page.
-import landscape from '@/assets/placeholders/landscape.jpg';
+import heroPhoto from '@/assets/photos/dscf5604.webp';
 import Button from '@/components/Button.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
@@ -32,8 +32,8 @@ import { faqPageJsonLd } from '@/lib/structured-data';
   >
     <Photo
       slot="media"
-      src={landscape}
-      alt="Placeholder photo of two students before a training round"
+      src={heroPhoto}
+      alt="Two adult students slap hands before a training round"
       priority
       grade="mono"
       sizes="(min-width: 1024px) 60vw, 100vw"

@@ -1,7 +1,10 @@
 ---
-import landscape from '@/assets/placeholders/landscape.jpg';
-import portrait from '@/assets/placeholders/portrait.jpg';
-import square from '@/assets/placeholders/square.jpg';
+import birthdayPhoto from '@/assets/photos/programs-birthday-parties-images-4.webp';
+import adultsGiPhoto from '@/assets/photos/img-2269.webp';
+import heroPoster from '@/assets/photos/hero-loop-adults-landscape-bw-1280x720-poster.webp';
+import kidsOlderPhoto from '@/assets/photos/dscf1838.webp';
+import kidsYoungerPhoto from '@/assets/photos/dscf9557.webp';
+import noGiPhoto from '@/assets/photos/dscf4252.webp';
 import CoachSpotlight from '@/components/CoachSpotlight.astro';
 import FormBand from '@/components/FormBand.astro';
 import ProgramCard from '@/components/ProgramCard.astro';
@@ -16,8 +19,7 @@ import { featuredReviews, rating } from '@/data/reviews';
 import { programCards, site } from '@/data/site';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-// Placeholder photos, cycled across the cards
-const cardImages = [portrait, square, landscape, portrait];
+const cardImages = [kidsYoungerPhoto, kidsOlderPhoto, adultsGiPhoto, noGiPhoto];
 // Four cards in the grid; birthday parties get the row underneath
 const mainCards = programCards.filter((card) => !card.href.includes('birthday'));
 const birthdayCard = programCards.find((card) => card.href.includes('birthday'));
@@ -36,7 +38,7 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
     deck={`World-class jiu jitsu for kids and adults, taught by IBJJF black belt ${coach.displayName}. Your first class is free.`}
     primary={site.cta}
     secondary={{ label: 'Explore programs', href: '#programs' }}
-    poster={landscape}
+    poster={heroPoster}
     videoSources={[{ src: '/videos/placeholder-hero.webm', type: 'video/webm' }]}
   >
     <ul class="flex flex-wrap items-center gap-y-2 text-label font-medium tracking-[0.14em] uppercase">
@@ -71,7 +73,7 @@ const reviewSummary = `${rating.score.toFixed(1)} \u2605 \u00b7 ${rating.count} 
         label={birthdayCard.ages}
         title={`${birthdayCard.name} on the mat`}
         accent="on the mat"
-        image={landscape}
+        image={birthdayPhoto}
         class="mt-[clamp(2.5rem,5vw,4.5rem)]"
       />
     ) : null}

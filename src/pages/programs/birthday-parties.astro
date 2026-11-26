@@ -1,6 +1,7 @@
 ---
-import landscape from '@/assets/placeholders/landscape.jpg';
-import portrait from '@/assets/placeholders/portrait.jpg';
+import gamePhoto from '@/assets/photos/dscf9584.webp';
+import heroPhoto from '@/assets/photos/programs-birthday-parties-images-4.webp';
+import groupPhoto from '@/assets/photos/programs-kids-images-5.webp';
 import Button from '@/components/Button.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import FaqSection from '@/components/FaqSection.astro';
@@ -38,8 +39,8 @@ const [review] = reviewsFor('birthday', 1);
   >
     <Photo
       slot="media"
-      src={landscape}
-      alt="Placeholder photo of a birthday party on the mats"
+      src={heroPhoto}
+      alt="Five young students in gis standing in a row, smiling and holding up their belts"
       priority
       sizes="(min-width: 1024px) 60vw, 100vw"
       widths={[480, 800, 1200, 1600]}
@@ -61,8 +62,8 @@ const [review] = reviewsFor('birthday', 1);
     <div class="page-container grid items-end gap-[clamp(1rem,2vw,2rem)] lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
       <div class="aspect-3/2 overflow-hidden bg-paper-2 lg:aspect-auto lg:h-[clamp(22.5rem,40vw,37.5rem)]">
         <Photo
-          src={landscape}
-          alt=""
+          src={groupPhoto}
+          alt="Four young students in different coloured gis posing together and smiling"
           grade="soft"
           sizes="(min-width: 1024px) 58vw, 100vw"
           widths={[640, 960, 1280]}
@@ -71,8 +72,8 @@ const [review] = reviewsFor('birthday', 1);
       </div>
       <div class="aspect-4/5 overflow-hidden bg-paper-2 lg:aspect-auto lg:h-[clamp(26.25rem,46vw,42.5rem)]">
         <Photo
-          src={portrait}
-          alt=""
+          src={gamePhoto}
+          alt="A girl in a blue gi laughing on the mat during a game with another child"
           grade="soft"
           sizes="(min-width: 1024px) 42vw, 100vw"
           widths={[480, 720, 960]}

@@ -1,7 +1,12 @@
 ---
-import landscape from '@/assets/placeholders/landscape.jpg';
-import portrait from '@/assets/placeholders/portrait.jpg';
-import square from '@/assets/placeholders/square.jpg';
+import kidsOlderPhoto from '@/assets/photos/dscf1838.webp';
+import safetyCoachPhoto from '@/assets/photos/dscf1859.webp';
+import safetyLoungePhoto from '@/assets/photos/dscf8100.webp';
+import whyPhoto from '@/assets/photos/dscf8964.webp';
+import insideClassPhoto from '@/assets/photos/dscf9475.webp';
+import kidsYoungerPhoto from '@/assets/photos/dscf9557.webp';
+import heroPhoto from '@/assets/photos/dscf9607.webp';
+import kidsReelPoster from '@/assets/photos/kids-reel-poster.webp';
 import AgeGroupCard from '@/components/AgeGroupCard.astro';
 import Button from '@/components/Button.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
@@ -26,7 +31,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const kids = programs.find((program) => program.slug === 'kids')!;
 const ageGroups = kids.ageGroups ?? [];
-const groupImages = [landscape, square];
+const groupImages = [kidsYoungerPhoto, kidsOlderPhoto];
 // "Tuesday & Thursday 5:00 PM · Saturday 9:00 AM", for the line under the age cards
 const kidsDays = friendlyWhen(
   schedule.filter((cls) => cls.category === 'kids'),
@@ -50,8 +55,8 @@ const kidsDays = friendlyWhen(
   >
     <Photo
       slot="media"
-      src={landscape}
-      alt="Placeholder photo of kids training"
+      src={heroPhoto}
+      alt="A coach kneeling to tie the belt of a young student in a blue gi as other kids wait along the wall"
       priority
       sizes="(min-width: 1024px) 60vw, 100vw"
       widths={[480, 800, 1200, 1600]}
@@ -98,8 +103,8 @@ const kidsDays = friendlyWhen(
       <NumberedRows items={whyJiuJitsu} />
       <div class="max-h-[70svh] overflow-hidden bg-paper-2 min-[1100px]:sticky min-[1100px]:top-[calc(var(--spacing-header)+2rem)] min-[1100px]:max-h-none">
         <Photo
-          src={portrait}
-          alt="Placeholder photo of kids drilling a technique"
+          src={whyPhoto}
+          alt="A coach guiding a young girl in a blue gi through a technique on the mat"
           grade="soft"
           sizes="(min-width: 1100px) 30vw, 100vw"
           widths={[480, 720, 960]}
@@ -122,8 +127,8 @@ const kidsDays = friendlyWhen(
       </div>
       <div class="aspect-4/5 overflow-hidden bg-paper-2 lg:col-start-1 lg:col-end-6 lg:row-start-1">
         <Photo
-          src={square}
-          alt="Placeholder photo of a kids class in progress"
+          src={insideClassPhoto}
+          alt="A coach kneeling to explain a technique to two young students in white gis"
           grade="soft"
           sizes="(min-width: 1024px) 40vw, 100vw"
           widths={[480, 720, 1000]}
@@ -147,13 +152,22 @@ const kidsDays = friendlyWhen(
         </ul>
       </div>
       <div class="grid grid-cols-2 items-start gap-x-[clamp(1rem,2vw,2rem)]">
-        {[portrait, landscape].map((image, index) => (
+        {[
+          {
+            src: safetyCoachPhoto,
+            alt: 'A coach in a blue gi supervising two kids as they practise on the mat',
+          },
+          {
+            src: safetyLoungePhoto,
+            alt: 'A smiling boy in a black gi on the mat, with parents watching from the lounge behind',
+          },
+        ].map((photo, index) => (
           <div
             class:list={['aspect-4/5 overflow-hidden bg-paper-2', index === 1 && 'mt-16 lg:mt-32']}
           >
             <Photo
-              src={image}
-              alt=""
+              src={photo.src}
+              alt={photo.alt}
               grade="soft"
               sizes="(min-width: 1024px) 25vw, 50vw"
               widths={[320, 480, 640]}
@@ -193,7 +207,7 @@ const kidsDays = friendlyWhen(
         />
       </div>
       <VideoBlock
-        poster={landscape}
+        poster={kidsReelPoster}
         sources={[{ src: '/videos/placeholder-hero.webm', type: 'video/webm' }]}
         title="A kids class at the academy (placeholder video)"
         caption="Watch a kids class (0:04)"
