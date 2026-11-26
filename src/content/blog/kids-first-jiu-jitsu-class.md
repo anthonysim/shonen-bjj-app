@@ -6,8 +6,8 @@ crumb: "Your child's first class"
 pubDate: 2026-11-09
 category: 'Kids jiu jitsu'
 lede: "Booking a first martial arts class for your kid brings up a lot of questions. Will they be nervous? Will they get hurt? What do they wear? Here's exactly what happens when your child steps on the mat at Shonen, and how to set them up for a great first day."
-image: '../../assets/placeholders/landscape.jpg'
-imageAlt: 'Placeholder photo'
+image: '../../assets/photos/dscf9475.webp'
+imageAlt: 'A coach kneeling to explain a technique to two young students in white gis'
 ctas:
   - label: 'Book a free kids class'
     href: '#book'

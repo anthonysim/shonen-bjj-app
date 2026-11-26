@@ -1,5 +1,6 @@
 ---
-import landscape from '@/assets/placeholders/landscape.jpg';
+import heroPhoto from '@/assets/photos/dscf6406.webp';
+import birthdayPhoto from '@/assets/photos/programs-birthday-parties-images-4.webp';
 import Button from '@/components/Button.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
 import FormBand from '@/components/FormBand.astro';
@@ -39,8 +40,8 @@ const [review] = reviewsById(['general-brent']);
   >
     <Photo
       slot="media"
-      src={landscape}
-      alt="Placeholder photo of students training"
+      src={heroPhoto}
+      alt="A student in a white gi working from top position on a training partner in a bright, window-lit academy"
       priority
       sizes="(min-width: 1024px) 60vw, 100vw"
       widths={[480, 800, 1200, 1600]}
@@ -62,7 +63,7 @@ const [review] = reviewsById(['general-brent']);
         label={`${birthday.ages} · Special events`}
         title={`${birthday.name} on the mat`}
         accent="on the mat"
-        image={landscape}
+        image={birthdayPhoto}
       />
       <aside
         data-reveal

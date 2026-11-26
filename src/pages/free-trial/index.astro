@@ -2,9 +2,9 @@
 // Free class, laid out like the original: a form-first hero (intro left, form card right, then
 // reassurance points and the rating), what to expect, first-timer reviews, first-class questions,
 // visit, and a short closing call to action. JSON-LD: FAQPage for the questions.
-import landscape from '@/assets/placeholders/landscape.jpg';
-import portrait from '@/assets/placeholders/portrait.jpg';
-import square from '@/assets/placeholders/square.jpg';
+import stepThreePhoto from '@/assets/photos/dscf0255.webp';
+import stepOnePhoto from '@/assets/photos/dscf5604.webp';
+import stepTwoPhoto from '@/assets/photos/dscf9607.webp';
 import BookingForm from '@/components/BookingForm.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import Button from '@/components/Button.astro';
@@ -88,7 +88,7 @@ const faqJsonLd = faqPageJsonLd([
     accent="step by step."
     lede="No experience, no fitness requirement and no pressure. Here's exactly what happens."
     steps={firstClassSteps}
-    images={[portrait, square, landscape]}
+    images={[stepOnePhoto, stepTwoPhoto, stepThreePhoto]}
     cta={{ label: 'Book a free class', href: '#book' }}
   />
 

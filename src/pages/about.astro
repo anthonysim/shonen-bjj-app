@@ -2,9 +2,12 @@
 // About, laid out like the original: split hero, the name's definition beside a statement, our
 // story, what we stand for, the academy (features + gallery), community, the no-fees promise,
 // one review, and the booking form. JSON-LD: an AboutPage whose main entity is the academy.
-import landscape from '@/assets/placeholders/landscape.jpg';
-import portrait from '@/assets/placeholders/portrait.jpg';
-import square from '@/assets/placeholders/square.jpg';
+import heroPhoto from '@/assets/photos/dscf0255.webp';
+import teamPhoto from '@/assets/photos/dscf1994.webp';
+import academyThreePhoto from '@/assets/photos/dscf7729.webp';
+import academyTwoPhoto from '@/assets/photos/dscf8100.webp';
+import academyOnePhoto from '@/assets/photos/dscf9017.webp';
+import lineagePhoto from '@/assets/photos/img-3776.webp';
 import Button from '@/components/Button.astro';
 import CredentialList from '@/components/CredentialList.astro';
 import CtaBand from '@/components/CtaBand.astro';
@@ -55,8 +58,8 @@ const gutterX = 'gap-x-[clamp(1rem,2vw,2rem)]';
   >
     <Photo
       slot="media"
-      src={landscape}
-      alt="Placeholder photo of an evening adult class"
+      src={heroPhoto}
+      alt="An evening adult class: one student passes his partner's guard while teammates watch from the edge of the mat"
       priority
       grade="mono"
       sizes="(min-width: 1024px) 60vw, 100vw"
@@ -111,8 +114,8 @@ const gutterX = 'gap-x-[clamp(1rem,2vw,2rem)]';
       <figure class="md:max-w-[32.5rem] lg:col-start-1 lg:col-end-6 lg:row-start-1 lg:max-w-none">
         <div class="aspect-4/5 overflow-hidden bg-paper-2">
           <Photo
-            src={portrait}
-            alt="Placeholder photo of black belts in a studio portrait"
+            src={lineagePhoto}
+            alt="Three black belts in white gis standing together in a studio portrait"
             grade="mono"
             sizes="(min-width: 1024px) 40vw, (min-width: 768px) 520px, 100vw"
             widths={[480, 720, 1000]}
@@ -152,11 +155,24 @@ const gutterX = 'gap-x-[clamp(1rem,2vw,2rem)]';
     </div>
     {/* Swipeable row on phones; three equal photos side by side from lg */}
     <div class="-mx-(--spacing-gutter) grid snap-x snap-mandatory auto-cols-[78%] grid-flow-col gap-3 overflow-x-auto scroll-px-(--spacing-gutter) px-(--spacing-gutter) pb-3 lg:mx-0 lg:grid-flow-row lg:grid-cols-3 lg:gap-[clamp(1rem,2vw,2rem)] lg:overflow-visible lg:p-0">
-      {[portrait, square, landscape].map((image) => (
+      {[
+        {
+          src: academyOnePhoto,
+          alt: 'A black belt passes the guard of a student in a black Shonen gi, with the leather-sofa lounge behind them',
+        },
+        {
+          src: academyTwoPhoto,
+          alt: 'Two kids in black gis training while parents watch from the lounge',
+        },
+        {
+          src: academyThreePhoto,
+          alt: 'A student in a white gi drives into a partner who inverts to defend',
+        },
+      ].map((photo) => (
         <div class="aspect-4/5 snap-start overflow-hidden bg-paper-2">
           <Photo
-            src={image}
-            alt="Placeholder photo of the academy"
+            src={photo.src}
+            alt={photo.alt}
             grade="mono"
             sizes="(min-width: 1024px) 33vw, 78vw"
             widths={[320, 480, 720]}
@@ -177,8 +193,8 @@ const gutterX = 'gap-x-[clamp(1rem,2vw,2rem)]';
     <figure>
       <div class="aspect-3/2 overflow-hidden bg-paper-2">
         <Photo
-          src={landscape}
-          alt="Placeholder photo of the whole team together"
+          src={teamPhoto}
+          alt="The whole kids program, around forty students in white, blue, pink and black gis, seated and standing together with their coaches"
           grade="mono"
           sizes="(min-width: 1536px) 84vw, (min-width: 1376px) 1280px, 100vw"
           widths={[640, 960, 1280, 1600, 2560]}

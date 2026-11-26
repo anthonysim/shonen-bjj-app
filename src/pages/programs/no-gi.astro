@@ -1,7 +1,8 @@
 ---
-import landscape from '@/assets/placeholders/landscape.jpg';
-import portrait from '@/assets/placeholders/portrait.jpg';
-import square from '@/assets/placeholders/square.jpg';
+import heroPhoto from '@/assets/photos/dscf4252.webp';
+import galleryTwoPhoto from '@/assets/photos/img-0495.webp';
+import galleryOnePhoto from '@/assets/photos/img-8085.webp';
+import competitionPhoto from '@/assets/photos/untitled-1-4.webp';
 import Button from '@/components/Button.astro';
 import CredentialList from '@/components/CredentialList.astro';
 import Eyebrow from '@/components/Eyebrow.astro';
@@ -52,8 +53,8 @@ const [quote] = reviewsFor('no-gi', 1);
   >
     <Photo
       slot="media"
-      src={landscape}
-      alt="Placeholder photo of a no-gi class"
+      src={heroPhoto}
+      alt="Two grapplers in black rash guards locked in a standing tie-up against a white wall"
       priority
       sizes="(min-width: 1024px) 60vw, 100vw"
       widths={[480, 800, 1200, 1600]}
@@ -97,8 +98,8 @@ const [quote] = reviewsFor('no-gi', 1);
     <div class="grid lg:grid-cols-2">
       <div class="aspect-4/3 overflow-hidden lg:aspect-auto lg:min-h-full">
         <Photo
-          src={portrait}
-          alt="Placeholder photo of a no-gi competition match"
+          src={competitionPhoto}
+          alt="A no-gi competitor attacking a leg entanglement at an IBJJF tournament"
           grade="mono"
           sizes="(min-width: 1024px) 50vw, 100vw"
           widths={[640, 960, 1280]}
@@ -132,11 +133,20 @@ const [quote] = reviewsFor('no-gi', 1);
   {/* Two-photo strip, like the original's tight gallery section */}
   <Section tone="surface" class="py-[clamp(2.5rem,2rem+3vw,5rem)]!">
     <div class="grid grid-cols-2 gap-[clamp(0.5rem,2vw,2rem)]">
-      {[square, landscape].map((image) => (
+      {[
+        {
+          src: galleryOnePhoto,
+          alt: 'A grappler in a black rash guard controlling the head and arm of a crouched opponent',
+        },
+        {
+          src: galleryTwoPhoto,
+          alt: 'A close-up of two grapplers fighting for grips from guard',
+        },
+      ].map((photo) => (
         <div class="aspect-4/3 overflow-hidden bg-paper-2">
           <Photo
-            src={image}
-            alt=""
+            src={photo.src}
+            alt={photo.alt}
             grade="mono"
             sizes="(min-width: 1536px) 41vw, (min-width: 1280px) 620px, 50vw"
             widths={[320, 640, 960]}

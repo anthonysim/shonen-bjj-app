@@ -2,7 +2,7 @@
 // One blog post, like the original: split hero (category, title, intro, date and reading time,
 // photo), the article in a 760px column, the post's call-to-action buttons, and the booking band.
 // JSON-LD: BlogPosting.
-import landscape from '@/assets/placeholders/landscape.jpg';
+import defaultPhoto from '@/assets/photos/dscf6406.webp';
 import Button from '@/components/Button.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Hero from '@/components/Hero.astro';
@@ -24,7 +24,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const { data } = post;
 const pageUrl = new URL(`/blog/${post.id}`, Astro.site).href;
-const image = data.image ?? landscape;
+const image = data.image ?? defaultPhoto;
 const meta = `${formatDate(data.pubDate)} · ${readingMinutes(post.body ?? '')} min read`;
 const posting = blogPostingJsonLd(
   {
